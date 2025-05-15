@@ -9,25 +9,39 @@ const User = require('./models/User');
 
 const app = express();
 
+// Ladda miljövariabler från .env
+require('dotenv').config();
+console.log('MONGODB_URI:', process.env.MONGODB_URI); // Ny logg för att felsöka
+
 // Middleware för att tolka JSON i förfrågningar
 app.use(express.json());
 app.use(cors());
 
-// Anslut till MongoDB med felhantering
+// Global variabel för att hålla reda på MongoDB-anslutningsstatus
+let isMongoConnected = false;
+
+// Anslut till MongoDB med felhantering och reconnection
 const connectToMongoDB = async () => {
+    if (isMongoConnected) return; // Om redan ansluten, hoppa över
+
     try {
         await mongoose.connect(process.env.MONGODB_URI, {
-            serverSelectionTimeoutMS: 5000 // Timeout efter 5 sekunder
+            serverSelectionTimeoutMS: 5000, // Timeout efter 5 sekunder
+            maxPoolSize: 10, // Max antal anslutningar
+            minPoolSize: 1, // Min antal anslutningar
+            heartbeatFrequencyMS: 10000, // Hålla anslutningen vid liv
         });
+        isMongoConnected = true;
         console.log('Ansluten till MongoDB');
     } catch (error) {
+        isMongoConnected = false;
         console.error('Fel vid anslutning till MongoDB:', error.message);
-        // Vi returnerar inte ett fel här, utan låter serverless function fortsätta
-        // och hantera felet i varje route
+        // Försök återansluta efter 5 sekunder
+        setTimeout(connectToMongoDB, 5000);
     }
 };
 
-// Kör anslutningen asynkront
+// Kör anslutningen asynkront vid start
 connectToMongoDB();
 
 // Middleware för att verifiera JWT-token
@@ -52,14 +66,20 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-// Endpoint för att registrera en ny användare
-app.post('/api/users/register', async (req, res) => {
-    try {
-        // Kontrollera om MongoDB är anslutet
-        if (mongoose.connection.readyState !== 1) {
-            throw new Error('MongoDB is not connected');
-        }
+// Middleware för att säkerställa MongoDB-anslutning
+const ensureMongoConnected = async (req, res, next) => {
+    if (!isMongoConnected) {
+        await connectToMongoDB();
+    }
+    if (!isMongoConnected) {
+        return res.status(500).json({ error: 'MongoDB is not connected' });
+    }
+    next();
+};
 
+// Endpoint för att registrera en ny användare
+app.post('/api/users/register', ensureMongoConnected, async (req, res) => {
+    try {
         const { email, password } = req.body;
 
         // Kontrollera att e-post och lösenord finns
@@ -93,13 +113,8 @@ app.post('/api/users/register', async (req, res) => {
 });
 
 // Endpoint för att logga in
-app.post('/api/users/login', async (req, res) => {
+app.post('/api/users/login', ensureMongoConnected, async (req, res) => {
     try {
-        // Kontrollera om MongoDB är anslutet
-        if (mongoose.connection.readyState !== 1) {
-            throw new Error('MongoDB is not connected');
-        }
-
         const { email, password } = req.body;
 
         // Kontrollera att e-post och lösenord finns
@@ -134,13 +149,8 @@ app.post('/api/users/login', async (req, res) => {
 });
 
 // Endpoint för att hämta användarens information
-app.get('/api/users/me', async (req, res) => {
+app.get('/api/users/me', ensureMongoConnected, async (req, res) => {
     try {
-        // Kontrollera om MongoDB är anslutet
-        if (mongoose.connection.readyState !== 1) {
-            throw new Error('MongoDB is not connected');
-        }
-
         const user = await User.findOne({ email: 'test@example.com' });
         if (!user) {
             return res.status(404).json({ error: 'Användare hittades inte' });
@@ -153,13 +163,8 @@ app.get('/api/users/me', async (req, res) => {
 });
 
 // Skyddad route för deals.html
-app.get('/deals.html', verifyToken, async (req, res) => {
+app.get('/deals.html', verifyToken, ensureMongoConnected, async (req, res) => {
     try {
-        // Kontrollera om MongoDB är anslutet
-        if (mongoose.connection.readyState !== 1) {
-            throw new Error('MongoDB is not connected');
-        }
-
         const user = await User.findById(req.user.userId);
         if (!user) {
             return res.redirect('/login.html');
