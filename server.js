@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const cors = require('cors'); // Se till att detta finns
+const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const User = require('./models/User');
@@ -11,7 +12,14 @@ const app = express();
 
 // Middleware för att tolka JSON i förfrågningar
 app.use(express.json());
-app.use(cors()); // Se till att detta finns
+app.use(cors({
+    origin: 'http://127.0.0.1:5500',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type']
+}));
+
+// Serva statiska filer från Dealscope VS
+app.use(express.static(path.join(__dirname, 'Dealscope VS')));
 
 // Logga för att kontrollera om dotenv laddas
 console.log('Laddar dotenv...');
@@ -26,6 +34,25 @@ mongoose.connect(process.env.MONGODB_URI)
     console.error('Felmeddelande:', err.message);
     console.error('Felstack:', err.stack);
 });
+
+// Middleware för att verifiera JWT-token
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1]; // Förväntar sig "Bearer <token>"
+
+    if (!token) {
+        // Omdirigera till login.html om ingen token finns
+        return res.redirect('/login.html');
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        req.user = decoded; // Lägg till användarinformation i request-objektet
+        next();
+    } catch (error) {
+        // Omdirigera till login.html om token är ogiltig
+        return res.redirect('/login.html');
+    }
+};
 
 // Endpoint för att registrera en ny användare
 app.post('/api/users/register', async (req, res) => {
@@ -107,6 +134,26 @@ app.get('/api/users/me', async (req, res) => {
         res.json({ email: user.email, hasPaid: user.hasPaid });
     } catch (error) {
         res.status(500).json({ error: 'Fel vid hämtning av användare: ' + error.message });
+    }
+});
+
+// Skyddad route för deals.html
+app.get('/deals.html', verifyToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.userId);
+        if (!user) {
+            return res.redirect('/login.html');
+        }
+
+        // Kontrollera om användaren har betalat
+        if (!user.hasPaid) {
+            return res.redirect('/payment.html'); // Vi skapar payment.html i ett senare steg
+        }
+
+        // Om allt är okej, serva deals.html
+        res.sendFile(path.join(__dirname, 'Dealscope VS', 'deals.html'));
+    } catch (error) {
+        res.status(500).json({ error: 'Fel vid åtkomst av deals-sidan: ' + error.message });
     }
 });
 
