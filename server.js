@@ -18,9 +18,6 @@ app.use(cors({
     allowedHeaders: ['Content-Type']
 }));
 
-// Serva statiska filer från Dealscope VS
-app.use(express.static(path.join(__dirname, 'Dealscope VS')));
-
 // Logga för att kontrollera om dotenv laddas
 console.log('Laddar dotenv...');
 console.log('process.env:', process.env);
@@ -37,19 +34,22 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware för att verifiera JWT-token
 const verifyToken = (req, res, next) => {
+    console.log('Kör verifyToken middleware...');
     const token = req.headers['authorization']?.split(' ')[1]; // Förväntar sig "Bearer <token>"
+    console.log('Token:', token);
 
     if (!token) {
-        // Omdirigera till login.html om ingen token finns
+        console.log('Ingen token hittades, omdirigerar till login.html');
         return res.redirect('/login.html');
     }
 
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
+        console.log('Token verifierad, decoded:', decoded);
         req.user = decoded; // Lägg till användarinformation i request-objektet
         next();
     } catch (error) {
-        // Omdirigera till login.html om token är ogiltig
+        console.log('Token ogiltig, omdirigerar till login.html. Fel:', error.message);
         return res.redirect('/login.html');
     }
 };
@@ -137,7 +137,10 @@ app.get('/api/users/me', async (req, res) => {
     }
 });
 
-// Skyddad route för deals.html
+// Logga för att se om routen matchas
+console.log('Definierar route för /deals.html...');
+
+// Skyddad route för deals.html – Denna route måste definieras innan express.static
 app.get('/deals.html', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId);
@@ -156,6 +159,9 @@ app.get('/deals.html', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Fel vid åtkomst av deals-sidan: ' + error.message });
     }
 });
+
+// Serva statiska filer från Dealscope VS – Detta kommer sist så att rutter som /deals.html hanteras först
+app.use(express.static(path.join(__dirname, 'Dealscope VS')));
 
 // Starta servern på port 3000
 const PORT = 3000;
