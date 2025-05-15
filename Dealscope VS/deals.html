@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dealscope</title>
+    <link rel="icon" href="/assets/FAVICON.png" type="image/x-icon">
+    <link rel="stylesheet" href="deals.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <a href="index.html">
+          <img class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+        </a>
+        <div class="mobile-menu">
+            <button class="menu-btn" aria-label="Open menu"></button>
+            <nav class="mobile-nav" id="mobile-nav">
+                <a href="#Deals">Deals</a>
+                <a href="index.html">Home</a>
+                <a href="plans.html">Plans</a>
+                <a href="FAQ.html">FAQ</a> 
+                <a class="login-btn" href="#login">Log in</a>
+            </nav>
+        </div>
+        <nav class="desktop-nav">
+            <a href="#Deals">Deals</a>
+            <a href="index.html">Home</a>
+            <a href="plans.html">Plans</a>
+            <a href="FAQ.html">FAQ</a> 
+            <a class="login-btn" href="#login">Log in</a>
+        </nav>
+    </header>
+
+    <!-- Deal Section -->
+    <section class="deal-section">
+        
+        <h2 class="deal-section-title fade-in">Deal Dashboard</h2>
+        <div class="status-container fade-in">
+          <div class="live-status-wrapper">
+            <span class="live-status" id="live-status-text"></span>
+          </div>
+        </div>
+        
+        <div class="deal-dashboard-wrapper">
+            <!-- Sökfält, kategori och sort by -->
+                <div class="deal-controls">
+                    <div class="search-container">
+                        <input type="text" id="deal-search" placeholder="Search deals...">
+                        <div id="deal-suggestions" class="suggestions-dropdown"></div>
+                    </div>
+                    <div class="category-container">
+                        <input type="text" id="deal-category" placeholder="Category" readonly autocomplete="off" autocorrect="off" spellcheck="false">
+                        <div id="category-suggestions" class="suggestions-dropdown"></div>
+                    </div>
+                    <div class="sort-by-container">
+                        <input type="text" id="deal-sort" placeholder="Sort by" readonly autocomplete="off" autocorrect="off" spellcheck="false">
+                        <div id="sort-suggestions" class="suggestions-dropdown"></div>
+                    </div>
+                </div>
+            <div class="deals-container fade-in"></div>
+            <div class="deal-details-header fade-in" style="display: none;">
+                <h2>Deal Name</h2>
+                <p>Deal Description</p>
+            </div>
+            <div class="deal-details-container fade-in" style="display: none;">
+                <button class="back-button fade-in">Go back</button>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-logo-section">
+            <img src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
+            <p>© 2025 DealScope. All rights reserved.</p>
+        </div>
+        <div class="footer-links-section">
+            <ul>
+                <li><a href="#tools">Tools</a></li>
+                <li><a href="plans.html">Plans</a></li>
+                <li><a href="FAQ.html">FAQ</a></li>
+                <li><a href="#login">Log in</a></li>
+            </ul>
+        </div>
+        <div class="footer-info-section">
+            <ul>
+                <li><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
+                <li>SE0206198616</li>
+                <li><a href="#privacy-policy">Privacy policy</a></li>
+                <li><a href="#cookies">Cookies</a></li>
+            </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Ladda in script.js först -->
+    <script src="script.js"></script>
+    <!-- Ladda in live-status.js efter script.js -->
+    <script src="live-status.js"></script>
+</body>
+</html>

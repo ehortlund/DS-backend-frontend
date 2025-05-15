@@ -1,0 +1,200 @@
+[
+    {
+      "title": "Sweden-Brazil Defense Deal",
+      "description": "Sweden’s Saab AB has signed a major agreement with Brazil to provide JAS Gripen fighter jets and military transport planes.",
+      "link": "#",
+      "category": "Military",
+      "date": "2024-03-08",
+      "dealValue": "$5 Billion",
+      "industry": "Defense and Aerospace",
+      "buyer": "Brazilian Air Force",
+      "seller": "Saab AB (<span class=\"stock-symbol\">SAAB-B</span>)",
+      "impact": "This strategic partnership focuses on delivering 36 Gripen NG fighter jets to the Brazilian Air Force, transferring advanced technology, and establishing local production to bolster Brazil’s defense sector.",
+      "subcontractors": [
+        "Embraer S.A. (<span class=\"stock-symbol\">NYSE: ERJ</span>): Local assembly, production, and aircraft testing.",
+        "AEL Sistemas (Private): Avionics systems integration and development.",
+        "GE Aviation (General Electric, <span class=\"stock-symbol\">NYSE: GE</span>): Engines (F414-GE-396) for the Gripen NG aircraft.",
+        "Saab Aerostructures (Part of Saab AB, <span class=\"stock-symbol\">SAAB-B</span>): Design and production of structural components.",
+        "Akaer Engenharia (Private): Structural engineering and fuselage components."
+      ]
+    },
+    {
+      "title": "Wallstreet AI Investments",
+      "description": "Wall Street firms are collectively investing trillions in AI-related infrastructure such as data centers, energy grids, and communication networks.",
+      "link": "#",
+      "category": "Finance",
+      "date": "2024-03-09",
+      "dealValue": "$20 Billion",
+      "industry": "Finance and Technology",
+      "buyer": "Various Wall Street Firms",
+      "seller": "Technology Providers, Energy Companies, Telecoms",
+      "impact": "Significant expansion of AI infrastructure, potential for new technological advancements and economic growth.",
+      "subcontractors": []
+    },
+    {
+      "title": "UK Nuclear Power Plant Financing Agreement",
+      "description": "The UK government has agreed to provide financial support for the development of the Sizewell C nuclear power plant, involving EDF and other partners.",
+      "link": "https://www.gov.uk/government/news/sizewell-c-nuclear-project-receives-government-backing",
+      "category": "Energy",
+      "date": "2025-03-27",
+      "dealValue": "£5.5 Billion",
+      "industry": "Nuclear Energy",
+      "buyer": "UK Government",
+      "seller": "EDF Energy (<span class=\"stock-symbol\">EDF.PA</span>)",
+      "impact": "Supports the UK’s transition to low-carbon energy and enhances energy security with clean nuclear power.",
+      "subcontractors": [
+        "Rolls-Royce Holdings plc (<span class=\"stock-symbol\">RR.L</span>): Potential supplier for nuclear components."
+      ]
+    },
+    {
+      "title": "US Navy F/A-18 Block III Super Hornet Upgrade Program",
+      "description": "Boeing has been awarded a contract by the US Navy to upgrade and deliver F/A-18 Block III Super Hornet aircraft.",
+      "link": "https://www.boeing.com/defense/fa-18-super-hornet/",
+      "category": "Military",
+      "date": "2024-09-15",
+      "dealValue": "$1.3 Billion",
+      "industry": "Aerospace and Defense",
+      "buyer": "US Navy",
+      "seller": "The Boeing Company (<span class=\"stock-symbol\">NYSE: BA</span>)",
+      "impact": "Enhances the US Navy's air combat capabilities with upgraded multi-role fighters, improving operational readiness and technological superiority.",
+      "subcontractors": [
+        "Northrop Grumman Corporation (<span class=\"stock-symbol\">NYSE: NOC</span>): Provides advanced radar systems and electronic warfare suites.",
+        "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Supplies avionics and sensor integration."
+      ]
+    },
+    {
+      "title": "Microsoft-Equinix Data Center Expansion Deal",
+      "description": "Microsoft has partnered with Equinix to expand its cloud infrastructure through new data centers to support AI and Azure growth.",
+      "link": "https://www.reuters.com/technology/microsoft-partners-equinix-expand-cloud-infrastructure-2025-02-14",
+      "category": "Technology",
+      "date": "2025-02-14",
+      "dealValue": "$3.5 Billion",
+      "industry": "Cloud Computing and Data Centers",
+      "buyer": "Microsoft Corporation (<span class=\"stock-symbol\">NASDAQ: MSFT</span>)",
+      "seller": "Equinix, Inc. (<span class=\"stock-symbol\">NASDAQ: EQIX</span>)",
+      "impact": "This deal enables Microsoft to scale its Azure cloud services globally, with Equinix providing state-of-the-art data center facilities to support AI workloads and enterprise digital transformation. The partnership strengthens Microsoft’s position in the cloud market and enhances Equinix’s role as a key infrastructure provider.",
+      "subcontractors": [
+        "Schneider Electric SE (<span class=\"stock-symbol\">EPA: SU</span>): Power management and cooling systems for data centers.",
+        "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): Supply of GPUs for AI compute infrastructure.",
+        "Fluor Corporation (<span class=\"stock-symbol\">NYSE: FLR</span>): Engineering, procurement, and construction services for data center builds.",
+        "Ciena Corporation (<span class=\"stock-symbol\">NYSE: CIEN</span>): Optical networking equipment for high-speed data connectivity.",
+        "Vertiv Holdings Co (<span class=\"stock-symbol\">NYSE: VRT</span>): Critical infrastructure solutions, including UPS and thermal management."
+      ]
+    },
+    {
+      "title": "Siemens-Indian Railways Locomotive Contract",
+      "description": "Siemens has secured a contract with Indian Railways to manufacture and maintain 1,200 electric locomotives for freight and passenger services.",
+      "link": "https://www.railway-technology.com/news/siemens-indian-railways-locmotive-deal-2025/",
+      "category": "Transportation",
+      "date": "2025-01-15",
+      "dealValue": "$3.2 Billion",
+      "industry": "Railway and Heavy Engineering",
+      "buyer": "Indian Railways",
+      "seller": "Siemens AG (<span class=\"stock-symbol\">ETR: SIE</span>)",
+      "impact": "This deal strengthens India’s rail infrastructure, enabling faster and more efficient freight and passenger transport. Siemens will establish a manufacturing facility in India, boosting local employment and technology transfer, with maintenance services spanning 35 years.",
+      "subcontractors": [
+        "Alstom SA (<span class=\"stock-symbol\">EPA: ALO</span>): Supply of signaling systems and train control technologies.",
+        "Bharat Heavy Electricals Limited (<span class=\"stock-symbol\">BSE: BHEL</span>): Local production of electrical components and traction motors.",
+        "Knorr-Bremse AG (<span class=\"stock-symbol\">ETR: KBX</span>): Braking systems for locomotives.",
+        "Medha Servo Drives Pvt Ltd (Private): Power electronics and control systems for locomotive operations.",
+        "Tata Steel Limited (<span class=\"stock-symbol\">BSE: TATASTEEL</span>): High-strength steel for locomotive chassis and bodies."
+      ]
+    },
+    {
+      "title": "TotalEnergies-Iraq Solar Power Project",
+      "description": "TotalEnergies has signed an agreement with Iraq’s Ministry of Electricity to develop a 1 GW solar power plant as part of the country’s energy transition strategy.",
+      "link": "https://www.reuters.com/business/energy/totalenergies-iraq-solar-deal-2024-12-10",
+      "category": "Renewable Energy",
+      "date": "2024-12-10",
+      "dealValue": "$2.5 Billion",
+      "industry": "Solar Energy",
+      "buyer": "Iraq Ministry of Electricity",
+      "seller": "TotalEnergies SE (<span class=\"stock-symbol\">EPA: TTE</span>)",
+      "impact": "The project supports Iraq’s goal to diversify its energy mix, reducing reliance on fossil fuels. It includes engineering, procurement, and construction of solar farms, with TotalEnergies leading local capacity building and job creation.",
+      "subcontractors": [
+        "First Solar, Inc. (<span class=\"stock-symbol\">NASDAQ: FSLR</span>): Supply of photovoltaic panels for the solar plant.",
+        "Schneider Electric SE (<span class=\"stock-symbol\">EPA: SU</span>): Electrical infrastructure and grid integration systems.",
+        "Sterling and Wilson Solar Limited (Private): EPC services for solar farm construction.",
+        "ABB Ltd (<span class=\"stock-symbol\">NYSE: ABB</span>): Power conversion and distribution equipment.",
+        "Nexans SA (<span class=\"stock-symbol\">EPA: NEX</span>): High-voltage cables for grid connectivity."
+      ]
+    },
+    {
+      "title": "Boeing-South Korea Fighter Jet Upgrade Program",
+      "description": "Boeing has been awarded a contract by South Korea’s Defense Acquisition Program Administration to upgrade its F-15K fighter jets with advanced radar and avionics systems.",
+      "link": "https://www.defensenews.com/air/2025/02/25/boeing-south-korea-f15k-upgrade/",
+      "category": "Military",
+      "date": "2025-02-25",
+      "dealValue": "$1.9 Billion",
+      "industry": "Defense and Aerospace",
+      "buyer": "South Korea Defense Acquisition Program Administration",
+      "seller": "The Boeing Company (<span class=\"stock-symbol\">NYSE: BA</span>)",
+      "impact": "This deal enhances South Korea’s air defense capabilities, modernizing its F-15K fleet with cutting-edge technology. It includes system integration and testing, strengthening Boeing’s presence in the Asia-Pacific defense market.",
+      "subcontractors": [
+        "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Advanced radar systems (APG-82).",
+        "L3Harris Technologies, Inc. (<span class=\"stock-symbol\">NYSE: LHX</span>): Avionics and communication systems.",
+        "Honeywell International Inc. (<span class=\"stock-symbol\">NASDAQ: HON</span>): Navigation and flight control systems.",
+        "Hanwha Systems Co., Ltd. (<span class=\"stock-symbol\">KRX: 272210</span>): Local integration and testing support.",
+        "Korea Aerospace Industries, Ltd. (<span class=\"stock-symbol\">KRX: 047810</span>): Airframe modifications and maintenance."
+      ]
+    },
+    {
+      "title": "Airbus-Spirit AeroSystems Aerostructures Acquisition",
+      "description": "Airbus has agreed to acquire Spirit AeroSystems’ Europe-focused aerostructures business, including facilities and programs previously spun off by Boeing.",
+      "link": "https://www.reuters.com/business/aerospace-defense/airbus-take-spirit-aerosystems-europe-focused-activities-2025-04-28",
+      "category": "Aerospace",
+      "date": "2025-04-28",
+      "dealValue": "$1.2 Billion",
+      "industry": "Aerospace and Defense",
+      "buyer": "Airbus SE (<span class=\"stock-symbol\">EPA: AIR</span>)",
+      "seller": "Spirit AeroSystems Holdings, Inc. (<span class=\"stock-symbol\">NYSE: SPR</span>)",
+      "impact": "This acquisition strengthens Airbus’s control over its supply chain, integrating Spirit’s European facilities and programs like A350 fuselage production. It supports Airbus’s strategy to enhance operational efficiency and secure critical aerostructures capabilities amid rising global demand for commercial aircraft.",
+      "subcontractors": [
+        "GKN Aerospace (Part of Melrose Industries PLC, <span class=\"stock-symbol\">LSE: MRO</span>): Composite components and wing structures.",
+        "Safran SA (<span class=\"stock-symbol\">EPA: SAF</span>): Landing gear systems and nacelle components.",
+        "Leonardo S.p.A. (<span class=\"stock-symbol\">BIT: LDO</span>): Fuselage sections and tail assemblies.",
+        "MTU Aero Engines AG (<span class=\"stock-symbol\">ETR: MTX</span>): Engine components and maintenance services.",
+        "Premium AEROTEC (Private, Airbus subsidiary): Structural assemblies and machining."
+      ]
+    },
+    {
+      "title": "Vinci-Norway Offshore Wind Farm Construction",
+      "description": "Vinci has been contracted by Norway’s Equinor to construct the foundation and infrastructure for the Hywind Tampen offshore wind farm expansion.",
+      "link": "https://www.offshore-energy.biz/vinci-equinor-hywind-tampen-expansion-2025-03-15",
+      "category": "Renewable Energy",
+      "date": "2025-03-15",
+      "dealValue": "$2.1 Billion",
+      "industry": "Offshore Wind Energy",
+      "buyer": "Equinor ASA (<span class=\"stock-symbol\">OSE: EQNR</span>)",
+      "seller": "Vinci SA (<span class=\"stock-symbol\">EPA: DG</span>)",
+      "impact": "The project expands Norway’s offshore wind capacity, supporting Europe’s renewable energy goals. Vinci’s expertise in marine construction will ensure the delivery of floating wind turbine foundations, boosting local supply chains and green energy production.",
+      "subcontractors": [
+        "Siemens Gamesa Renewable Energy (<span class=\"stock-symbol\">BME: SGRE</span>): Turbine supply and installation.",
+        "Nexans SA (<span class=\"stock-symbol\">EPA: NEX</span>): Subsea cabling and grid connection systems.",
+        "Saipem S.p.A. (<span class=\"stock-symbol\">BIT: SPM</span>): Offshore installation and heavy-lift operations.",
+        "Aker Solutions ASA (<span class=\"stock-symbol\">OSE: AKSO</span>): Subsea infrastructure and mooring systems.",
+        "OHT (Private, Offshore Heavy Transport): Specialized transport for turbine components."
+      ]
+    },
+    {
+      "title": "Lockheed Martin-Australia Missile Defense Program",
+      "description": "Lockheed Martin has been awarded a contract by Australia’s Department of Defence to develop and supply advanced missile defense systems, including Aegis and Patriot systems.",
+      "link": "https://www.defensenews.com/global/asia-pacific/2025/04-10/lockheed-australia-missile-defense",
+      "category": "Military",
+      "date": "2025-04-10",
+      "dealValue": "$2.8 Billion",
+      "industry": "Defense and Aerospace",
+      "buyer": "Australian Department of Defence",
+      "seller": "Lockheed Martin Corporation (<span class=\"stock-symbol\">NYSE: LMT</span>)",
+      "impact": "This deal enhances Australia’s missile defense capabilities, integrating advanced radar and interceptor systems to counter regional threats. It includes technology transfer and local production, strengthening Australia’s defense industry.",
+      "subcontractors": [
+        "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Patriot missile systems and radar integration.",
+        "BAE Systems PLC (<span class=\"stock-symbol\">LSE: BA</span>): Electronic warfare and sensor systems.",
+        "Northrop Grumman Corporation (<span class=\"stock-symbol\">NYSE: NOC</span>): Command and control systems.",
+        "CEA Technologies (Private): Phased-array radar systems for Aegis integration.",
+        "Austal Limited (<span class=\"stock-symbol\">ASX: ASB</span>): Local manufacturing and integration support."
+      ]
+    }
+
+  ]
+  

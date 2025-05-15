@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealscope</title>
+    <link rel="icon" href="/assets/FAVICON.png" type="image/x-icon">
+    <link rel="stylesheet" href="plans.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#121212">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  </head>
+
+<body>
+
+      <!-- Header -->
+      <header class="main-header">
+        <!-- Klickbar Logotyp -->
+        <a href="index.html">
+          <img class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+        </a>
+
+          <!-- Mobilmenyn -->
+          <div class="mobile-menu">
+            <!-- Hamburgarikonen -->
+            <button class="menu-btn" aria-label="Open menu"></button>
+
+            <!-- Själva mobilnavigeringen -->
+            <nav class="mobile-nav" id="mobile-nav">
+                <a href="deals.html">Deals</a>
+                <a href="index.html">Home</a>
+                <a href="plans.html">Plans</a>
+                <a href="FAQ.html">FAQ</a> 
+                <a class="login-btn" href="#login">Log in</a>
+            </nav>
+          </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <a href="deals.html">Deals</a>
+            <a href="index.html">Home</a>
+            <a href="plans.html">Plans</a>
+            <a href="FAQ.html">FAQ</a> 
+            <a class="login-btn" href="#login">Log in</a>
+        </nav>
+
+        
+    </header>
+
+    <section class="plans fade-in show">
+        <h1 class="plans-title">Plans</h1>
+        <p class="plans-subtitle">Choose the right one for you</p>
+        <div class="plan-container">
+
+
+            <div class="plan pro">
+                <div class="badge">Most popular</div>
+                <h2>Pro</h2>
+                <div class="price-container">
+                    <span class="price">14.99</span>
+                    <span class="price-label">$ / month</span>
+                </div>
+                <ul>
+                    <li>14 days free trial</li>
+                    <li>Cancel anytime</li>
+                    <li>100+ deals per month</li>
+                    <li>Live notifications</li>
+                </ul>
+                <button class="select-plan">Start free trial</button>
+            </div>
+            
+
+            <div class="plan yearly">
+                <div class="badge">Two months free</div>
+                <h2>Pro Yearly</h2>
+                <div class="price-container">
+                    <span class="price">149</span>
+                    <span class="price-label">$ / year</span>
+                </div>
+                <ul>
+                    <li>Two months free</li>
+                    <li>Billed anually</li>
+                    <li>100+ deals per month</li>
+                    <li>Live notifications</li>
+                </ul>
+                <button class="select-plan" data-price="24900">Choose</button>
+            </div>
+            
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+          <!-- Vänster sektion -->
+          <div class="footer-logo-section">
+              <img src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
+              <p>© 2025 DealScope. All rights reserved.</p>
+          </div>
+  
+          <!-- Mitten sektion -->
+          <div class="footer-links-section">
+              <ul>
+                  <li><a href="deals.html">Deals</a></li>
+                  <li><a href="index.html">Home</a></li>
+                  <li><a href="plans.html">Plans</a></li>
+                  <li><a href="FAQ.html">FAQ</a></li>
+                  <li><a href="#login">Log in</a></li>
+              </ul>
+          </div>
+  
+          <!-- Höger sektion -->
+          <div class="footer-info-section">
+              <ul>
+                  <li><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
+                  <li>SE0206198616</li>
+                  <li><a href="#privacy-policy">Privacy policy</a></li>
+                  <li><a href="#cookies">Cookies</a></li>
+              </ul>
+          </div>
+        </div>
+      </footer>
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>

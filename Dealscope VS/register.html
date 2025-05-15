@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Register - Dealscope</title>
+    <style>
+
+        /* Färger */
+        :root {
+            --soft-white: #CCCCCC;
+            --medium-white: #E9E9E9;
+            --white: #F4F4F4;
+            --vantablack: #121212;
+            --black: #1c1c1c;
+            --dark-grey: #2B2A2A;
+            --green: #3DA549;
+            --red: #E02F2F;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--vantablack); /* Gör bakgrunden mörkare */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px); /* Rutnätet */
+            background-size: 20px 20px; /* Storlek på rutnät */
+        }
+        .register-container {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .register-container h2 {
+            color: var(--dark-grey);
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 0px;
+            font-size: 32px;
+            font-weight: 550;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .register-container h3 {
+            color: var(--dark-grey);
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 20px;
+            margin-top: 0px;
+            font-size: 16px;
+            font-weight: 500;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .register-container input {
+            font-size: 18px;
+            width: 280px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--dark-grey);
+            border-radius: 15px;
+        }
+
+        .register-container input::placeholder {
+            font-family: 'Poppins', sans-serif;
+            color: gray;
+            font-size: 16px;
+        }
+
+        .register-container input:focus {
+            color: var(--dark-grey);
+        }
+
+        .register-container button {
+            font-size: 24px;
+            width: 100%;
+            padding: 10px;
+            background-color: var(--red);
+            color: var(--medium-white);
+            border: 1px solid var(--red);
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+        }
+        .register-container button:hover {
+            background-color: transparent;
+            border: var(--red) 1px solid;
+            color: var(--red);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .link {
+            margin-top: 10px;
+        }
+
+        .link p {
+            color: var(--dark-grey);
+            font-size: 16px;
+        }
+        .link a {
+            color: var(--red);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        <h3>Welcome to Dealscope!</h3>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="register()">Register</button>
+        <p class="error" id="error"></p>
+        <p class="link">Already have an account? <a href="login.html">Log in</a></p>
+    </div>
+
+    <script>
+        async function register() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('error');
+
+            if (!email || !password) {
+                errorElement.textContent = 'Please enter both email and password';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Vid lyckad registrering, omdirigera till inloggningssidan
+                    alert('Registration successful! Please log in.');
+                    window.location.href = 'login.html';
+                } else {
+                    errorElement.textContent = data.error || 'Registration failed';
+                }
+            } catch (error) {
+                errorElement.textContent = 'Error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
