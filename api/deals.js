@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 const { ensureMongoConnected } = require('./utils/db');
 const User = require('./models/User');
 
-console.log('Startar api/deals.js...'); // Logg för att bekräfta att funktionen körs
+console.log('Startar api/deals.js...');
 
 module.exports = async (req, res) => {
     console.log('Anrop till api/deals.js mottaget...');
@@ -22,7 +22,8 @@ module.exports = async (req, res) => {
 
     if (!token) {
         console.log('Ingen token hittades, omdirigerar till login.html');
-        return res.status(307).set('Location', '/login.html').end();
+        res.setHeader('Location', '/login.html');
+        return res.status(307).end();
     }
 
     try {
@@ -33,7 +34,8 @@ module.exports = async (req, res) => {
             const user = await User.findById(decoded.userId);
             if (!user) {
                 console.log('Användare hittades inte, omdirigerar till login.html');
-                return res.status(307).set('Location', '/login.html').end();
+                res.setHeader('Location', '/login.html');
+                return res.status(307).end();
             }
 
             // Om allt är okej, läs in deals.html och skicka som svar
@@ -42,7 +44,8 @@ module.exports = async (req, res) => {
                 console.log('Läser in deals.html från:', filePath);
                 const fileContent = await fs.readFile(filePath, 'utf-8');
                 console.log('deals.html laddad, skickar som svar...');
-                res.status(200).set('Content-Type', 'text/html').send(fileContent);
+                res.setHeader('Content-Type', 'text/html');
+                res.status(200).send(fileContent);
             } catch (fileError) {
                 console.error('Fel vid läsning av deals.html:', fileError.message);
                 res.status(500).json({ error: 'Kunde inte ladda deals.html: ' + fileError.message });
@@ -50,6 +53,7 @@ module.exports = async (req, res) => {
         });
     } catch (error) {
         console.log('Token ogiltig, omdirigerar till login.html. Fel:', error.message);
-        return res.status(307).set('Location', '/login.html').end();
+        res.setHeader('Location', '/login.html');
+        return res.status(307).end();
     }
 };
