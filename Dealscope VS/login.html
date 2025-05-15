@@ -144,6 +144,7 @@
             }
 
             try {
+                console.log('Skickar inloggningsförfrågan...');
                 const response = await fetch('/api/users/login', {
                     method: 'POST',
                     headers: {
@@ -169,16 +170,23 @@
                 try {
                     data = JSON.parse(text);
                     console.log('Response data:', data);
+                    console.log('data.message:', data.message);
+                    console.log('data.token:', data.token);
                 } catch (parseError) {
                     console.error('Parse error:', parseError);
                     errorElement.textContent = 'Error: Invalid response format';
                     return;
                 }
 
+                console.log('Kontrollerar if-villkor...');
+                console.log('response.ok && data.message === "Inloggning lyckades" && data.token:', response.ok && data.message === 'Inloggning lyckades' && data.token);
+
                 if (response.ok && data.message === 'Inloggning lyckades' && data.token) {
-                    console.log('Inloggning lyckades, sparar token och omdirigerar...');
+                    console.log('Inloggning lyckades, sparar token...');
                     localStorage.setItem('token', data.token);
-                    window.location.href = 'deals.html';
+                    console.log('Token sparad i localStorage:', localStorage.getItem('token'));
+                    console.log('Omdirigerar till deals.html...');
+                    window.location.href = '/deals.html'; // Absolut URL för att säkerställa omdirigering
                 } else {
                     console.log('Inloggning misslyckades, visar felmeddelande...');
                     errorElement.textContent = data.error || 'Login failed: Unexpected response';
