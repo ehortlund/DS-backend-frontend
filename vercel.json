@@ -12,6 +12,10 @@
     ],
     "routes": [
         {
+            "src": "/deals.html",
+            "dest": "/api/server.js"
+        },
+        {
             "src": "/api/(.*)",
             "dest": "/api/server.js"
         },
