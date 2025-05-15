@@ -2,7 +2,19 @@
     "version": 2,
     "builds": [
         {
-            "src": "api/server.js",
+            "src": "api/users/register.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/users/login.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/users/me.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/deals.js",
             "use": "@vercel/node"
         },
         {
@@ -13,11 +25,19 @@
     "routes": [
         {
             "src": "/deals.html",
-            "dest": "/api/server.js"
+            "dest": "/api/deals.js"
         },
         {
-            "src": "/api/(.*)",
-            "dest": "/api/server.js"
+            "src": "/api/users/register",
+            "dest": "/api/users/register.js"
+        },
+        {
+            "src": "/api/users/login",
+            "dest": "/api/users/login.js"
+        },
+        {
+            "src": "/api/users/me",
+            "dest": "/api/users/me.js"
         },
         {
             "src": "/(.*)",
