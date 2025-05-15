@@ -186,14 +186,22 @@
                     localStorage.setItem('token', data.token);
                     console.log('Token sparad i localStorage:', localStorage.getItem('token'));
                     console.log('Omdirigerar till deals.html...');
-                    // Testa olika metoder för omdirigering
                     try {
-                        window.location.replace('/deals.html'); // Försök 1: window.location.replace
+                        // Försök 1: window.location.replace
+                        window.location.replace('/deals.html');
                         console.log('window.location.replace körd');
+                        // Försök 2: window.location.href som fallback
+                        setTimeout(() => {
+                            console.log('Kontrollerar om omdirigering lyckades...');
+                            if (window.location.pathname !== '/deals.html') {
+                                console.log('window.location.replace misslyckades, försöker window.location.href...');
+                                window.location.href = '/deals.html';
+                                console.log('window.location.href körd');
+                            }
+                        }, 500);
                     } catch (redirectError) {
-                        console.error('Redirect error with window.location.replace:', redirectError);
-                        window.location.href = '/deals.html'; // Försök 2: window.location.href
-                        console.log('window.location.href körd');
+                        console.error('Redirect error:', redirectError);
+                        errorElement.textContent = 'Redirect error: ' + redirectError.message;
                     }
                 } else {
                     console.log('Inloggning misslyckades, visar felmeddelande...');
