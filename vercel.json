@@ -41,7 +41,12 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/Dealscope VS/$1"
+            "dest": "/Dealscope VS/$1",
+            "headers": {
+                "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
         }
     ],
     "env": {

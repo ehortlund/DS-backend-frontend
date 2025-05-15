@@ -185,23 +185,27 @@
                     console.log('Inloggning lyckades, sparar token...');
                     localStorage.setItem('token', data.token);
                     console.log('Token sparad i localStorage:', localStorage.getItem('token'));
-                    console.log('Omdirigerar till deals.html...');
-                    try {
-                        // Försök 1: window.location.replace
+    
+                    console.log('Skickar förfrågan till /deals.html med token...');
+                    const dealsResponse = await fetch('/deals.html', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${data.token}`
+                        }
+                    });
+    
+                    console.log('Deals response status:', dealsResponse.status);
+    
+                    if (dealsResponse.status === 200) {
+                        console.log('Åtkomst till deals.html lyckades, omdirigerar...');
                         window.location.replace('/deals.html');
-                        console.log('window.location.replace körd');
-                        // Försök 2: window.location.href som fallback
-                        setTimeout(() => {
-                            console.log('Kontrollerar om omdirigering lyckades...');
-                            if (window.location.pathname !== '/deals.html') {
-                                console.log('window.location.replace misslyckades, försöker window.location.href...');
-                                window.location.href = '/deals.html';
-                                console.log('window.location.href körd');
-                            }
-                        }, 500);
-                    } catch (redirectError) {
-                        console.error('Redirect error:', redirectError);
-                        errorElement.textContent = 'Redirect error: ' + redirectError.message;
+                    } else if (dealsResponse.status === 307) {
+                        console.log('Servern omdirigerar till login.html (307 Temporary Redirect)...');
+                        errorElement.textContent = 'Access to deals.html failed, redirecting to login';
+                        window.location.replace('/login.html');
+                    } else {
+                        console.log('Fel vid åtkomst av deals.html, status:', dealsResponse.status);
+                        errorElement.textContent = 'Access to deals.html failed: ' + dealsResponse.status;
                     }
                 } else {
                     console.log('Inloggning misslyckades, visar felmeddelande...');
