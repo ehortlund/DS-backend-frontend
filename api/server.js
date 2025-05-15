@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const path = require('path');
-require('dotenv').config();
 
 const User = require('./models/User');
 
@@ -12,25 +11,7 @@ const app = express();
 
 // Middleware för att tolka JSON i förfrågningar
 app.use(express.json());
-app.use(cors({
-    origin: 'http://127.0.0.1:5500',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type']
-}));
-
-// Logga för att kontrollera om dotenv laddas
-console.log('Laddar dotenv...');
-console.log('process.env:', process.env);
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-
-// Anslut till MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('Ansluten till MongoDB'))
-.catch(err => {
-    console.error('Fel vid anslutning till MongoDB:');
-    console.error('Felmeddelande:', err.message);
-    console.error('Felstack:', err.stack);
-});
+app.use(cors());
 
 // Middleware för att verifiera JWT-token
 const verifyToken = (req, res, next) => {
@@ -53,6 +34,15 @@ const verifyToken = (req, res, next) => {
         return res.redirect('/login.html');
     }
 };
+
+// Anslut till MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => console.log('Ansluten till MongoDB'))
+.catch(err => {
+    console.error('Fel vid anslutning till MongoDB:');
+    console.error('Felmeddelande:', err.message);
+    console.error('Felstack:', err.stack);
+});
 
 // Endpoint för att registrera en ny användare
 app.post('/api/users/register', async (req, res) => {
@@ -137,10 +127,7 @@ app.get('/api/users/me', async (req, res) => {
     }
 });
 
-// Logga för att se om routen matchas
-console.log('Definierar route för /deals.html...');
-
-// Skyddad route för deals.html – Denna route måste definieras innan express.static
+// Skyddad route för deals.html
 app.get('/deals.html', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId);
@@ -154,17 +141,11 @@ app.get('/deals.html', verifyToken, async (req, res) => {
         }
 
         // Om allt är okej, serva deals.html
-        res.sendFile(path.join(__dirname, 'Dealscope VS', 'deals.html'));
+        res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
         res.status(500).json({ error: 'Fel vid åtkomst av deals-sidan: ' + error.message });
     }
 });
 
-// Serva statiska filer från Dealscope VS – Detta kommer sist så att rutter som /deals.html hanteras först
-app.use(express.static(path.join(__dirname, 'Dealscope VS')));
-
-// Starta servern på port 3000
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servern körs på port ${PORT}`);
-});
+// Exportera appen som en serverless function för Vercel
+module.exports = app;

@@ -1,0 +1,26 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/server.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "Dealscope VS/**/*",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/server.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/Dealscope VS/$1"
+        }
+    ],
+    "env": {
+        "MONGODB_URI": "mongodb+srv://Emil:Pingstafton93@dealscopecluster.vhovrmh.mongodb.net/?retryWrites=true&w=majority&appName=DealscopeCluster"
+    }
+}
