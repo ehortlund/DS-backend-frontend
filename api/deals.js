@@ -27,10 +27,10 @@ module.exports = async (req, res) => {
                 return res.redirect('/login.html');
             }
 
-            // Kontrollera om användaren har betalat
-            if (!user.hasPaid) {
-                return res.redirect('/payment.html'); // Vi skapar payment.html i ett senare steg
-            }
+            // Kontrollera om användaren har betalat (kommentera ut för att testa deals.html)
+            // if (!user.hasPaid) {
+            //     return res.redirect('/payment.html');
+            // }
 
             // Om allt är okej, serva deals.html
             res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
