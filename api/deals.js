@@ -1,11 +1,18 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
-const fs = require('fs').promises; // Använd fs.promises för asynkron filhantering
+const fs = require('fs').promises;
 const { ensureMongoConnected } = require('./utils/db');
 const User = require('./models/User');
 
+console.log('Startar api/deals.js...'); // Logg för att bekräfta att funktionen körs
+
 module.exports = async (req, res) => {
+    console.log('Anrop till api/deals.js mottaget...');
+    console.log('Metod:', req.method);
+    console.log('Headers:', req.headers);
+
     if (req.method !== 'GET') {
+        console.log('Fel metod, returnerar 405...');
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
@@ -32,7 +39,9 @@ module.exports = async (req, res) => {
             // Om allt är okej, läs in deals.html och skicka som svar
             try {
                 const filePath = path.join(__dirname, '..', 'Dealscope VS', 'deals.html');
+                console.log('Läser in deals.html från:', filePath);
                 const fileContent = await fs.readFile(filePath, 'utf-8');
+                console.log('deals.html laddad, skickar som svar...');
                 res.status(200).set('Content-Type', 'text/html').send(fileContent);
             } catch (fileError) {
                 console.error('Fel vid läsning av deals.html:', fileError.message);
