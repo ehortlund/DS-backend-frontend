@@ -49,9 +49,9 @@ module.exports = async (req, res) => {
             await user.save();
 
             console.log('Inloggning lyckades, omdirigerar till deals.html med token...');
-            // Skicka token som en query-parameter och omdirigera till deals.html
+            // Skicka token som en query-parameter och omdirigera till deals.html med 303 See Other
             res.setHeader('Location', `/deals.html?token=${token}`);
-            return res.status(307).end();
+            return res.status(303).end(); // 303 tvingar en GET-förfrågan
         });
     } catch (error) {
         console.error('Fel vid inloggning:', error.message);
