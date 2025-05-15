@@ -13,6 +13,23 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Anslut till MongoDB med felhantering
+const connectToMongoDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI, {
+            serverSelectionTimeoutMS: 5000 // Timeout efter 5 sekunder
+        });
+        console.log('Ansluten till MongoDB');
+    } catch (error) {
+        console.error('Fel vid anslutning till MongoDB:', error.message);
+        // Vi returnerar inte ett fel här, utan låter serverless function fortsätta
+        // och hantera felet i varje route
+    }
+};
+
+// Kör anslutningen asynkront
+connectToMongoDB();
+
 // Middleware för att verifiera JWT-token
 const verifyToken = (req, res, next) => {
     console.log('Kör verifyToken middleware...');
@@ -35,18 +52,14 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-// Anslut till MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log('Ansluten till MongoDB'))
-.catch(err => {
-    console.error('Fel vid anslutning till MongoDB:');
-    console.error('Felmeddelande:', err.message);
-    console.error('Felstack:', err.stack);
-});
-
 // Endpoint för att registrera en ny användare
 app.post('/api/users/register', async (req, res) => {
     try {
+        // Kontrollera om MongoDB är anslutet
+        if (mongoose.connection.readyState !== 1) {
+            throw new Error('MongoDB is not connected');
+        }
+
         const { email, password } = req.body;
 
         // Kontrollera att e-post och lösenord finns
@@ -74,13 +87,19 @@ app.post('/api/users/register', async (req, res) => {
 
         res.status(201).json({ message: 'Användare skapad', user: { email: user.email } });
     } catch (error) {
-        res.status(500).json({ error: 'Fel vid registrering: ' + error.message });
+        console.error('Fel vid registrering:', error.message);
+        res.status(500).json({ error: `Registrering misslyckades: ${error.message}` });
     }
 });
 
 // Endpoint för att logga in
 app.post('/api/users/login', async (req, res) => {
     try {
+        // Kontrollera om MongoDB är anslutet
+        if (mongoose.connection.readyState !== 1) {
+            throw new Error('MongoDB is not connected');
+        }
+
         const { email, password } = req.body;
 
         // Kontrollera att e-post och lösenord finns
@@ -109,27 +128,38 @@ app.post('/api/users/login', async (req, res) => {
 
         res.json({ message: 'Inloggning lyckades', token });
     } catch (error) {
-        res.status(500).json({ error: 'Fel vid inloggning: ' + error.message });
+        console.error('Fel vid inloggning:', error.message);
+        res.status(500).json({ error: `Inloggning misslyckades: ${error.message}` });
     }
 });
 
 // Endpoint för att hämta användarens information
 app.get('/api/users/me', async (req, res) => {
     try {
-        // Detta är en temporär endpoint utan autentisering för att testa
+        // Kontrollera om MongoDB är anslutet
+        if (mongoose.connection.readyState !== 1) {
+            throw new Error('MongoDB is not connected');
+        }
+
         const user = await User.findOne({ email: 'test@example.com' });
         if (!user) {
             return res.status(404).json({ error: 'Användare hittades inte' });
         }
         res.json({ email: user.email, hasPaid: user.hasPaid });
     } catch (error) {
-        res.status(500).json({ error: 'Fel vid hämtning av användare: ' + error.message });
+        console.error('Fel vid hämtning av användare:', error.message);
+        res.status(500).json({ error: `Hämtning av användare misslyckades: ${error.message}` });
     }
 });
 
 // Skyddad route för deals.html
 app.get('/deals.html', verifyToken, async (req, res) => {
     try {
+        // Kontrollera om MongoDB är anslutet
+        if (mongoose.connection.readyState !== 1) {
+            throw new Error('MongoDB is not connected');
+        }
+
         const user = await User.findById(req.user.userId);
         if (!user) {
             return res.redirect('/login.html');
@@ -143,7 +173,8 @@ app.get('/deals.html', verifyToken, async (req, res) => {
         // Om allt är okej, serva deals.html
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
-        res.status(500).json({ error: 'Fel vid åtkomst av deals-sidan: ' + error.message });
+        console.error('Fel vid åtkomst av deals-sidan:', error.message);
+        res.status(500).json({ error: `Fel vid åtkomst av deals-sidan: ${error.message}` });
     }
 });
 
