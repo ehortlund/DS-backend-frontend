@@ -137,12 +137,12 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const errorElement = document.getElementById('error');
-
+    
             if (!email || !password) {
                 errorElement.textContent = 'Please enter both email and password';
                 return;
             }
-
+    
             try {
                 console.log('Skickar inloggningsförfrågan...');
                 const response = await fetch('/api/users/login', {
@@ -152,19 +152,19 @@
                     },
                     body: JSON.stringify({ email, password })
                 });
-
+    
                 console.log('Response status:', response.status);
                 console.log('Response ok:', response.ok);
-
+    
                 // Kontrollera om svaret är tomt
                 const text = await response.text();
                 console.log('Response text:', text);
-
+    
                 if (!text) {
                     errorElement.textContent = 'Error: Empty response from server';
                     return;
                 }
-
+    
                 // Försök parsa svaret som JSON
                 let data;
                 try {
@@ -177,16 +177,24 @@
                     errorElement.textContent = 'Error: Invalid response format';
                     return;
                 }
-
+    
                 console.log('Kontrollerar if-villkor...');
                 console.log('response.ok && data.message === "Inloggning lyckades" && data.token:', response.ok && data.message === 'Inloggning lyckades' && data.token);
-
+    
                 if (response.ok && data.message === 'Inloggning lyckades' && data.token) {
                     console.log('Inloggning lyckades, sparar token...');
                     localStorage.setItem('token', data.token);
                     console.log('Token sparad i localStorage:', localStorage.getItem('token'));
                     console.log('Omdirigerar till deals.html...');
-                    window.location.href = '/deals.html'; // Absolut URL för att säkerställa omdirigering
+                    // Testa olika metoder för omdirigering
+                    try {
+                        window.location.replace('/deals.html'); // Försök 1: window.location.replace
+                        console.log('window.location.replace körd');
+                    } catch (redirectError) {
+                        console.error('Redirect error with window.location.replace:', redirectError);
+                        window.location.href = '/deals.html'; // Försök 2: window.location.href
+                        console.log('window.location.href körd');
+                    }
                 } else {
                     console.log('Inloggning misslyckades, visar felmeddelande...');
                     errorElement.textContent = data.error || 'Login failed: Unexpected response';
