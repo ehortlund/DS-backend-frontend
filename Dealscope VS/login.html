@@ -113,7 +113,7 @@
 
         .link p {
             color: var(--dark-grey);
-            
+
         }
         .link a {
             color: var(--red);
@@ -144,7 +144,7 @@
             }
 
             try {
-                const response = await fetch('/api/users/login', {                    
+                const response = await fetch('/api/users/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -152,17 +152,39 @@
                     body: JSON.stringify({ email, password })
                 });
 
-                const data = await response.json();
+                console.log('Response status:', response.status);
+                console.log('Response ok:', response.ok);
 
-                if (response.ok) {
-                    // Spara JWT-token i localStorage
+                // Kontrollera om svaret är tomt
+                const text = await response.text();
+                console.log('Response text:', text);
+
+                if (!text) {
+                    errorElement.textContent = 'Error: Empty response from server';
+                    return;
+                }
+
+                // Försök parsa svaret som JSON
+                let data;
+                try {
+                    data = JSON.parse(text);
+                    console.log('Response data:', data);
+                } catch (parseError) {
+                    console.error('Parse error:', parseError);
+                    errorElement.textContent = 'Error: Invalid response format';
+                    return;
+                }
+
+                if (response.ok && data.message === 'Inloggning lyckades' && data.token) {
+                    console.log('Inloggning lyckades, sparar token och omdirigerar...');
                     localStorage.setItem('token', data.token);
-                    // Omdirigera till deals-sidan
                     window.location.href = 'deals.html';
                 } else {
-                    errorElement.textContent = data.error || 'Login failed';
+                    console.log('Inloggning misslyckades, visar felmeddelande...');
+                    errorElement.textContent = data.error || 'Login failed: Unexpected response';
                 }
             } catch (error) {
+                console.error('Fetch error:', error);
                 errorElement.textContent = 'Error: ' + error.message;
             }
         }
