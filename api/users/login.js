@@ -48,8 +48,10 @@ module.exports = async (req, res) => {
             user.lastLogin = new Date();
             await user.save();
 
-            console.log('Inloggning lyckades, returnerar token:', token);
-            res.json({ message: 'Inloggning lyckades', token });
+            console.log('Inloggning lyckades, omdirigerar till deals.html med token...');
+            // Skicka token som en query-parameter och omdirigera till deals.html
+            res.setHeader('Location', `/deals.html?token=${token}`);
+            return res.status(307).end();
         });
     } catch (error) {
         console.error('Fel vid inloggning:', error.message);
