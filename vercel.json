@@ -51,5 +51,5 @@
     ],
     "env": {
         "MONGODB_URI": "mongodb+srv://Emil:Pingstafton93@dealscopecluster.vhovrmh.mongodb.net/?retryWrites=true&w=majority&appName=DealscopeCluster"
-    }
+    } 
 }
