@@ -50,6 +50,10 @@
             "dest": "/api/users/me.js"
         },
         {
+            "src": "/",
+            "dest": "/Dealscope VS/index.html"
+        },
+        {
             "src": "/(.*)",
             "dest": "/Dealscope VS/$1",
             "headers": {
