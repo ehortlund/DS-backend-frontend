@@ -129,8 +129,57 @@
     </div>
 
     <script>
-
+        let isRegistering = false;
+    
+        async function register() {
+            if (isRegistering) {
+                console.log('Registrering pågår redan, ignorerar nytt klick...');
+                return;
+            }
+    
+            isRegistering = true;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('error');
+            const registerButton = document.querySelector('button');
+    
+            if (!email || !password) {
+                errorElement.textContent = 'Please enter both email and password';
+                isRegistering = false;
+                return;
+            }
+    
+            registerButton.disabled = true;
+            errorElement.textContent = 'Registering...';
+    
+            try {
+                const response = await fetch('/api/users/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+    
+                const data = await response.json();
+    
+                if (data.error) {
+                    errorElement.textContent = data.error;
+                } else if (data.message === 'Användare skapad') {
+                    errorElement.textContent = 'Registration successful! Redirecting to login...';
+                    setTimeout(() => {
+                        window.location.replace('/login.html');
+                    }, 2000);
+                } else {
+                    errorElement.textContent = 'Unexpected response from server';
+                }
+            } catch (error) {
+                errorElement.textContent = 'Error: ' + error.message;
+            } finally {
+                isRegistering = false;
+                registerButton.disabled = false;
+            }
+        }
     </script>
-
 </body>
 </html>

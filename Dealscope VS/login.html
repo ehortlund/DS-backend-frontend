@@ -133,8 +133,54 @@
     </div>
 
     <script>
-
+        let isLoggingIn = false;
+    
+        async function login() {
+            if (isLoggingIn) {
+                console.log('Inloggning pågår redan, ignorerar nytt klick...');
+                return;
+            }
+    
+            isLoggingIn = true;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('error');
+            const loginButton = document.querySelector('button');
+    
+            if (!email || !password) {
+                errorElement.textContent = 'Please enter both email and password';
+                isLoggingIn = false;
+                return;
+            }
+    
+            loginButton.disabled = true;
+            errorElement.textContent = 'Logging in...';
+    
+            try {
+                const response = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+    
+                const data = await response.json();
+    
+                if (data.error) {
+                    errorElement.textContent = data.error;
+                } else if (data.message === 'Inloggning lyckades') {
+                    window.location.replace('/deals.html');
+                } else {
+                    errorElement.textContent = 'Unexpected response from server';
+                }
+            } catch (error) {
+                errorElement.textContent = 'Error: ' + error.message;
+            } finally {
+                isLoggingIn = false;
+                loginButton.disabled = false;
+            }
+        }
     </script>
-
 </body>
 </html>
