@@ -28,6 +28,7 @@ module.exports = async (req, res) => {
 
     if (!token) {
         console.log('Ingen token hittades, omdirigerar till login.html');
+        res.setHeader('Set-Cookie', 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict');
         res.setHeader('Location', '/login.html');
         return res.status(307).end();
     }
@@ -40,6 +41,7 @@ module.exports = async (req, res) => {
             const user = await User.findById(decoded.userId);
             if (!user) {
                 console.log('Användare hittades inte, omdirigerar till login.html');
+                res.setHeader('Set-Cookie', 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict');
                 res.setHeader('Location', '/login.html');
                 return res.status(307).end();
             }
@@ -59,6 +61,7 @@ module.exports = async (req, res) => {
         });
     } catch (error) {
         console.log('Token ogiltig, omdirigerar till login.html. Fel:', error.message);
+        res.setHeader('Set-Cookie', 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Strict');
         res.setHeader('Location', '/login.html');
         return res.status(307).end();
     }
