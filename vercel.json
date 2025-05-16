@@ -18,21 +18,11 @@
             "use": "@vercel/node"
         },
         {
-            "src": "api/redirect.js",
-            "use": "@vercel/node"
-        },
-        {
             "src": "Dealscope VS/**/*",
             "use": "@vercel/static"
         }
     ],
     "routes": [
-        {
-            "src": "/deals.html",
-            "dest": "/api/redirect.js",
-            "methods": ["GET"],
-            "continue": true
-        },
         {
             "src": "/deals.html",
             "dest": "/api/deals.js"
