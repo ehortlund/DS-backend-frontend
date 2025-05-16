@@ -17,8 +17,14 @@ module.exports = async (req, res) => {
     }
 
     console.log('Kör verifyToken middleware...');
-    const token = req.headers['authorization']?.split(' ')[1]; // Förväntar sig "Bearer <token>"
-    console.log('Token:', token);
+    // Hämta token från cookie
+    const cookies = req.headers.cookie ? req.headers.cookie.split(';').reduce((acc, cookie) => {
+        const [name, value] = cookie.trim().split('=');
+        acc[name] = value;
+        return acc;
+    }, {}) : {};
+    const token = cookies.token;
+    console.log('Token från cookie:', token);
 
     if (!token) {
         console.log('Ingen token hittades, omdirigerar till login.html');

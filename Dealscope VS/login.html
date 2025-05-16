@@ -133,18 +133,33 @@
     </div>
 
     <script>
-        async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorElement = document.getElementById('error');
+        let isLoggingIn = false; // Flagga för att förhindra flera förfrågningar
     
-            if (!email || !password) {
-                errorElement.textContent = 'Please enter both email and password';
+        async function login() {
+            if (isLoggingIn) {
+                console.log('Inloggning pågår redan, ignorerar nytt klick...');
                 return;
             }
     
+            isLoggingIn = true;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorElement = document.getElementById('error');
+            const loginButton = document.querySelector('button');
+    
+            if (!email || !password) {
+                errorElement.textContent = 'Please enter both email and password';
+                isLoggingIn = false;
+                return;
+            }
+    
+            // Inaktivera knappen medan förfrågan pågår
+            loginButton.disabled = true;
+            errorElement.textContent = 'Logging in...';
+    
             try {
                 console.log('Skickar inloggningsförfrågan...');
+                console.log('Metod: POST'); // Bekräfta att vi använder POST
                 const response = await fetch('/api/users/login', {
                     method: 'POST',
                     headers: {
@@ -162,6 +177,8 @@
     
                 if (!text) {
                     errorElement.textContent = 'Error: Empty response from server';
+                    isLoggingIn = false;
+                    loginButton.disabled = false;
                     return;
                 }
     
@@ -175,15 +192,17 @@
                 } catch (parseError) {
                     console.error('Parse error:', parseError);
                     errorElement.textContent = 'Error: Invalid response format';
+                    isLoggingIn = false;
+                    loginButton.disabled = false;
                     return;
                 }
     
                 if (data.error) {
                     console.log('Inloggning misslyckades, visar felmeddelande...');
                     errorElement.textContent = data.error;
-                } else if (response.status === 307) {
+                } else if (response.status === 303) {
                     console.log('Servern omdirigerar till deals.html...');
-                    // Omdirigeringen hanteras av servern, ingen ytterligare kod behövs här
+                    // Omdirigeringen hanteras av servern
                 } else {
                     console.log('Oväntat svar från servern:', response.status);
                     errorElement.textContent = 'Unexpected response from server: ' + response.status;
@@ -191,6 +210,9 @@
             } catch (error) {
                 console.error('Fetch error:', error);
                 errorElement.textContent = 'Error: ' + error.message;
+            } finally {
+                isLoggingIn = false;
+                loginButton.disabled = false;
             }
         }
     </script>

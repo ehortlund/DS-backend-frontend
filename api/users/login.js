@@ -48,10 +48,12 @@ module.exports = async (req, res) => {
             user.lastLogin = new Date();
             await user.save();
 
-            console.log('Inloggning lyckades, omdirigerar till deals.html med token...');
-            // Skicka token som en query-parameter och omdirigera till deals.html med 303 See Other
-            res.setHeader('Location', `/deals.html?token=${token}`);
-            return res.status(303).end(); // 303 tvingar en GET-förfrågan
+            console.log('Inloggning lyckades, sätter token i cookie och omdirigerar till deals.html...');
+            // Sätt token i en cookie
+            res.setHeader('Set-Cookie', `token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=3600`);
+            // Omdirigera till deals.html med 303 See Other
+            res.setHeader('Location', '/deals.html');
+            return res.status(303).end();
         });
     } catch (error) {
         console.error('Fel vid inloggning:', error.message);
