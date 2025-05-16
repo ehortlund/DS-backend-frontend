@@ -159,7 +159,7 @@
     
             try {
                 console.log('Skickar inloggningsförfrågan...');
-                console.log('Metod: POST'); // Bekräfta att vi använder POST
+                console.log('Metod: POST');
                 const response = await fetch('/api/users/login', {
                     method: 'POST',
                     headers: {
@@ -200,9 +200,9 @@
                 if (data.error) {
                     console.log('Inloggning misslyckades, visar felmeddelande...');
                     errorElement.textContent = data.error;
-                } else if (response.status === 303) {
-                    console.log('Servern omdirigerar till deals.html...');
-                    // Omdirigeringen hanteras av servern
+                } else if (data.message === 'Inloggning lyckades') {
+                    console.log('Inloggning lyckades, omdirigerar till deals.html...');
+                    window.location.replace('/deals.html');
                 } else {
                     console.log('Oväntat svar från servern:', response.status);
                     errorElement.textContent = 'Unexpected response from server: ' + response.status;
