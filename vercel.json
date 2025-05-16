@@ -1,0 +1,59 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/users/register.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/users/login.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/users/me.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "api/deals.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "Dealscope VS/**/*",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/deals.html",
+            "dest": "/api/deals.js"
+        },
+        {
+            "src": "/api/users/register",
+            "dest": "/api/users/register.js"
+        },
+        {
+            "src": "/api/users/login",
+            "dest": "/api/users/login.js"
+        },
+        {
+            "src": "/api/users/me",
+            "dest": "/api/users/me.js"
+        },
+        {
+            "src": "/",
+            "dest": "/Dealscope VS/index.html"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/Dealscope VS/$1",
+            "headers": {
+                "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        }
+    ],
+    "env": {
+        "MONGODB_URI": "mongodb+srv://Emil:Pingstafton93@dealscopecluster.vhovrmh.mongodb.net/?retryWrites=true&w=majority&appName=DealscopeCluster"
+    }
+}
