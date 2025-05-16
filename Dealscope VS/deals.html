@@ -104,6 +104,14 @@
     <script src="script.js"></script>
     <!-- Ladda in live-status.js efter script.js -->
     <script src="live-status.js"></script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+    
+            if (!token) {
+                window.location.replace('/login.html');
+            }
+        });
+    </script>
 </body>
 </html>
