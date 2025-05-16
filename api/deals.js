@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const fs = require('fs').promises;
 const mongoose = require('mongoose');
-const User = require('/models/User');
+const User = require('./User');
 
 module.exports = async (req, res) => {
     if (req.method !== 'GET') {

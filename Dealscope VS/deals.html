@@ -105,13 +105,10 @@
     <!-- Ladda in live-status.js efter script.js -->
     <script src="live-status.js"></script>
     <script>
-        // Kontrollera om token finns i localStorage (för klientens skull)
         document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('token');
-            console.log('Token i localStorage:', token);
     
             if (!token) {
-                console.log('Ingen token i localStorage, omdirigerar till login.html...');
                 window.location.replace('/login.html');
             }
         });
