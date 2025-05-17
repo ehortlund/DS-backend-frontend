@@ -34,6 +34,7 @@
             <a href="plans.html">Plans</a>
             <a href="FAQ.html">FAQ</a> 
             <a class="login-btn" href="#login">Log in</a>
+            <button id="logout-btn" class="logout-btn">Log out</button>
         </nav>
     </header>
 
@@ -116,6 +117,28 @@
     
                 if (data.error) {
                     window.location.replace('/login.html');
+                    return;
+                }
+    
+                if (!data.hasPaid) {
+                    window.location.replace('/payment.html');
+                    return;
+                }
+    
+                const logoutButton = document.getElementById('logout-btn');
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', () => {
+                        fetch('/api/users/logout', {
+                            method: 'POST',
+                            credentials: 'include'
+                        })
+                        .then(() => {
+                            window.location.replace('/login.html');
+                        })
+                        .catch(() => {
+                            window.location.replace('/login.html');
+                        });
+                    });
                 }
             } catch (error) {
                 window.location.replace('/login.html');

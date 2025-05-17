@@ -106,11 +106,20 @@ app.get('/deals.html', async (req, res) => {
             return res.redirect('/login.html');
         }
 
+        if (!user.hasPaid) {
+            return res.redirect('/payment.html');
+        }
+
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
         res.clearCookie('token');
         return res.redirect('/login.html');
     }
+});
+
+app.post('/api/users/logout', (req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Utloggning lyckades' });
 });
 
 const PORT = process.env.PORT || 3000;
