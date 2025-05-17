@@ -170,7 +170,7 @@
                 if (data.error) {
                     errorElement.textContent = data.error;
                 } else if (data.message === 'Inloggning lyckades') {
-                    window.location.replace('/deals.html');
+                    window.location.replace('/plans.html'); // Ändrat från /deals.html till /plans.html
                 } else {
                     errorElement.textContent = 'Unexpected response from server';
                 }
