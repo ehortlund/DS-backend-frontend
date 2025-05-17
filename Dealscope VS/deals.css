@@ -129,15 +129,14 @@ body {
 }
 
 .logout-btn {
-    margin-left: 20px;
-    color: var(--red);
-    border: 1px solid var(--red);
+    font-family: 'Poppins', sans-serif;
+    color: var(--medium-white);
     text-decoration: none;
-    text-align: center;
     font-size: 16px;
-    padding: 12px 32px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border: 1px solid transparent;
     border-radius: 15px;
-    background-color: transparent;
     transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -146,9 +145,8 @@ body {
     transition: all 0.3s ease;
 }
 .logout-btn:hover {
-    background-color: transparent;
+    border: 1px solid var(--red);
     color: var(--red);
-    transition: all 0.3s ease;
 }
 
 /* Logo */
