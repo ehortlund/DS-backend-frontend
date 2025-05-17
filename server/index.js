@@ -5,8 +5,11 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const User = require('./User');
+console.log('STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY);
+if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set in environment variables');
+}
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
 const app = express();
 
 app.use(express.json());
