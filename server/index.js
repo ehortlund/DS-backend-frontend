@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const User = require('./User');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
@@ -120,6 +121,78 @@ app.get('/deals.html', async (req, res) => {
 app.post('/api/users/logout', (req, res) => {
     res.clearCookie('token');
     res.status(200).json({ message: 'Utloggning lyckades' });
+});
+
+app.post('/api/create-checkout-session', async (req, res) => {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({ error: 'Ingen token, omdirigerar till login' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Användare hittades inte' });
+        }
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'usd',
+                        product_data: {
+                            name: 'Dealscope Subscription',
+                        },
+                        unit_amount: 1000, // $10.00 i cent
+                    },
+                    quantity: 1,
+                },
+            ],
+            mode: 'payment',
+            success_url: `https://dealscope.io/deals.html`,
+            cancel_url: `https://dealscope.io/payment.html`,
+            metadata: {
+                userId: user._id.toString()
+            }
+        });
+
+        res.json({ id: session.id });
+    } catch (error) {
+        res.status(500).json({ error: `Kunde inte skapa betalning: ${error.message}` });
+    }
+});
+
+app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+        const userId = session.metadata.userId;
+
+        try {
+            const user = await User.findById(userId);
+            if (user) {
+                user.hasPaid = true;
+                await user.save();
+            }
+        } catch (error) {
+            console.error('Error updating user hasPaid:', error);
+        }
+    }
+
+    res.json({ received: true });
 });
 
 const PORT = process.env.PORT || 3000;
