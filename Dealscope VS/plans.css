@@ -42,8 +42,8 @@ body {
     color: var(--medium-white);
     background-color: var(--vantablack); /* Gör bakgrunden mörkare */
     background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px); /* Rutnätet */
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
     background-size: 20px 20px; /* Storlek på rutnät */
     position: relative; /* För att lägga till en sond som ligger under rutnätet */
     text-rendering: optimizeLegibility;
@@ -59,8 +59,8 @@ body {
     z-index: 1000;
     background-color: var(--vantablack);
     background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px); /* Rutnätet */
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
     background-size: 20px 20px; /* Storlek på rutnät */
     display: flex; /* Flexbox för layout */
     justify-content: space-between; /* Håll logotypen till vänster och menyn till höger */
@@ -537,8 +537,8 @@ body {
     .main-header {
         background-color: var(--vantablack); /* Mörk bakgrund */
         background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px); /* Rutnätet */
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
         background-size: 20px 20px; /* Storlek på rutnät */
     }
 
@@ -589,8 +589,8 @@ body {
     .mobile-nav.visible {
         display: flex; /* Visa mobilmenyn */
         background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px); /* Rutnätet */
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
         background-size: 20px 20px; /* Storlek på rutnät */
     }
 
