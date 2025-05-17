@@ -512,6 +512,12 @@ body {
         margin-bottom: 0;
     }
 
+    .plan {
+        width: 275px;
+    }
+
+
+
 }
 
 /* Mobilanpassning */
@@ -522,9 +528,7 @@ body {
         overflow-x: hidden; /* Förhindrar horisontell scroll */
     }
 
-    * {
-        box-sizing: border-box; /* Inkluderar padding och border i elementets totala bredd */
-    }
+    
 
     /* Generella regler för sektioner */
     section {
