@@ -5,15 +5,76 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const User = require('./User');
+
 console.log('STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY);
 if (!process.env.STRIPE_SECRET_KEY) {
     throw new Error('STRIPE_SECRET_KEY is not set in environment variables');
 }
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 const app = express();
 
-app.use(express.json());
+// Middleware för cookie-parser
 app.use(cookieParser());
+
+// Webhook-rutt som ska ta emot rådata
+app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+    console.log('Received Stripe webhook request');
+    console.log('Webhook Secret:', webhookSecret);
+    console.log('Signature:', sig);
+    console.log('Request Body:', req.body);
+
+    if (!webhookSecret) {
+        console.error('Webhook Secret is not set');
+        return res.status(400).send('Webhook Secret is not set');
+    }
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+        console.log('Webhook event constructed:', event.type);
+    } catch (err) {
+        console.error('Webhook Error:', err.message);
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    if (event.type === 'checkout.session.completed') {
+        console.log('Checkout session completed event received');
+        const session = event.data.object;
+        const userId = session.metadata.userId;
+        console.log('Session metadata:', session.metadata);
+
+        if (!userId) {
+            console.error('No userId found in session metadata');
+            return res.status(400).send('No userId found in session metadata');
+        }
+
+        try {
+            const user = await User.findById(userId);
+            if (user) {
+                console.log('User found:', user.email);
+                user.hasPaid = true;
+                await user.save();
+                console.log('Updated user hasPaid to true for user:', user.email);
+            } else {
+                console.error('User not found for userId:', userId);
+            }
+        } catch (error) {
+            console.error('Error updating user hasPaid:', error);
+        }
+    } else {
+        console.log('Unhandled event type:', event.type);
+    }
+
+    res.json({ received: true });
+});
+
+// Middleware för JSON-parsing och statiska filer (efter webhook-rutten)
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 app.post('/api/users/register', async (req, res) => {
@@ -166,61 +227,6 @@ app.post('/api/create-checkout-session', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: `Kunde inte skapa betalning: ${error.message}` });
     }
-});
-
-app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-    console.log('Received Stripe webhook request');
-    console.log('Webhook Secret:', webhookSecret);
-    console.log('Signature:', sig);
-    console.log('Request Body:', req.body);
-
-    if (!webhookSecret) {
-        console.error('Webhook Secret is not set');
-        return res.status(400).send('Webhook Secret is not set');
-    }
-
-    let event;
-
-    try {
-        event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-        console.log('Webhook event constructed:', event.type);
-    } catch (err) {
-        console.error('Webhook Error:', err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
-    }
-
-    if (event.type === 'checkout.session.completed') {
-        console.log('Checkout session completed event received');
-        const session = event.data.object;
-        const userId = session.metadata.userId;
-        console.log('Session metadata:', session.metadata);
-
-        if (!userId) {
-            console.error('No userId found in session metadata');
-            return res.status(400).send('No userId found in session metadata');
-        }
-
-        try {
-            const user = await User.findById(userId);
-            if (user) {
-                console.log('User found:', user.email);
-                user.hasPaid = true;
-                await user.save();
-                console.log('Updated user hasPaid to true for user:', user.email);
-            } else {
-                console.error('User not found for userId:', userId);
-            }
-        } catch (error) {
-            console.error('Error updating user hasPaid:', error);
-        }
-    } else {
-        console.log('Unhandled event type:', event.type);
-    }
-
-    res.json({ received: true });
 });
 
 const PORT = process.env.PORT || 3000;
