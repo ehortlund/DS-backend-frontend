@@ -172,7 +172,7 @@ app.get('/deals.html', async (req, res) => {
         }
 
         if (!user.hasPaid) {
-            return res.redirect('/payment.html');
+            return res.redirect('/plans.html');
         }
 
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
@@ -189,9 +189,14 @@ app.post('/api/users/logout', (req, res) => {
 
 app.post('/api/create-checkout-session', async (req, res) => {
     const token = req.cookies.token;
+    const { amount } = req.body;
 
     if (!token) {
         return res.status(401).json({ error: 'Ingen token, omdirigerar till login' });
+    }
+
+    if (!amount || isNaN(amount)) {
+        return res.status(400).json({ error: 'Ogiltigt belopp' });
     }
 
     try {
@@ -208,16 +213,16 @@ app.post('/api/create-checkout-session', async (req, res) => {
                     price_data: {
                         currency: 'usd',
                         product_data: {
-                            name: 'Dealscope Subscription',
+                            name: amount === 14900 ? 'Dealscope Pro Yearly Plan' : 'Dealscope Pro Monthly Plan',
                         },
-                        unit_amount: 1000, // $10.00 i cent
+                        unit_amount: amount, // Belopp i cent (från frontend)
                     },
                     quantity: 1,
                 },
             ],
             mode: 'payment',
             success_url: `https://dealscope.io/deals.html`,
-            cancel_url: `https://dealscope.io/payment.html`,
+            cancel_url: `https://dealscope.io/plans.html`,
             metadata: {
                 userId: user._id.toString()
             }

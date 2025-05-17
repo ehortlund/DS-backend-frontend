@@ -86,6 +86,7 @@
                 </ul>
                 <button class="select-plan" data-price="24900">Choose</button>
             </div>
+            <div id="error"></div>
             
         </div>
     </section>
@@ -122,5 +123,51 @@
       </footer>
   <!-- Script -->
   <script src="script.js"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const planButtons = document.querySelectorAll('.select-plan');
+            const errorElement = document.getElementById('error');
+
+            planButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const amount = parseInt(button.getAttribute('data-price'));
+                    planButtons.forEach(btn => btn.disabled = true);
+                    errorElement.textContent = 'Initiating payment...';
+
+                    try {
+                        const response = await fetch('/api/create-checkout-session', {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ amount })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.error) {
+                            errorElement.textContent = data.error;
+                            planButtons.forEach(btn => btn.disabled = false);
+                            return;
+                        }
+
+                        const result = await stripe.redirectToCheckout({ sessionId: data.id });
+
+                        if (result.error) {
+                            errorElement.textContent = result.error.message;
+                            planButtons.forEach(btn => btn.disabled = false);
+                        }
+                    } catch (error) {
+                        errorElement.textContent = 'Error: ' + error.message;
+                        planButtons.forEach(btn => btn.disabled = false);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
