@@ -129,13 +129,14 @@ body {
 }
 
 .logout-btn {
+    background-color: transparent;
     font-family: 'Poppins', sans-serif;
     color: var(--medium-white);
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     padding: 5px 10px;
-    border: 1px solid transparent;
+    border: 1px solid var(--red);
     border-radius: 15px;
     transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
