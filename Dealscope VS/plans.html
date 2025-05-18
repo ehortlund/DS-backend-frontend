@@ -88,9 +88,20 @@
         <!-- Modal för betalningsformulär -->
         <div id="payment-modal" class="payment-modal">
             <div class="payment-modal-content">
-                <span id="close-modal" class="close-modal">&times;</span>
+                <span id="close-modal" class="close-modal">×</span>
                 <h2>Complete Your Payment</h2>
-                <div id="card-element"></div>
+                <div class="payment-field">
+                    <label for="card-number-element">Card Number</label>
+                    <div id="card-number-element"></div>
+                </div>
+                <div class="payment-field">
+                    <label for="card-expiry-element">Expiration Date</label>
+                    <div id="card-expiry-element"></div>
+                </div>
+                <div class="payment-field">
+                    <label for="card-cvc-element">CVC</label>
+                    <div id="card-cvc-element"></div>
+                </div>
                 <button id="submit-payment">Pay Now</button>
                 <div id="error"></div>
             </div>
@@ -135,7 +146,7 @@
     let elements;
     let selectedAmount = null;
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
         const planButtons = document.querySelectorAll('.select-plan');
         const modal = document.getElementById('payment-modal');
         const closeModal = document.getElementById('close-modal');
@@ -166,22 +177,27 @@
                     }
 
                     elements = stripe.elements();
-                    const cardElement = elements.create('card', {
-                        style: {
-                            base: {
-                                color: '#E9E9E9',
-                                fontFamily: 'Poppins, sans-serif',
-                                fontSize: '16px',
-                                '::placeholder': {
-                                    color: '#CCCCCC',
-                                },
+                    const elementStyles = {
+                        base: {
+                            color: '#E9E9E9',
+                            fontFamily: 'Poppins, sans-serif',
+                            fontSize: '16px',
+                            '::placeholder': {
+                                color: '#CCCCCC',
                             },
-                            invalid: {
-                                color: '#E02F2F',
-                            },
-                        }
-                    });
-                    cardElement.mount('#card-element');
+                        },
+                        invalid: {
+                            color: '#E02F2F',
+                        },
+                    };
+
+                    const cardNumber = elements.create('cardNumber', { style: elementStyles });
+                    const cardExpiry = elements.create('cardExpiry', { style: elementStyles });
+                    const cardCvc = elements.create('cardCvc', { style: elementStyles });
+
+                    cardNumber.mount('#card-number-element');
+                    cardExpiry.mount('#card-expiry-element');
+                    cardCvc.mount('#card-cvc-element');
 
                     const submitButton = document.getElementById('submit-payment');
                     submitButton.addEventListener('click', async () => {
@@ -191,7 +207,7 @@
                         try {
                             const result = await stripe.confirmCardPayment(data.clientSecret, {
                                 payment_method: {
-                                    card: cardElement,
+                                    card: cardNumber,
                                 },
                             });
 
@@ -225,6 +241,6 @@
             errorElement.textContent = '';
         });
     });
-    </script>
+  </script>
 </body>
 </html>
