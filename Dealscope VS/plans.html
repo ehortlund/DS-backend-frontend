@@ -125,6 +125,7 @@
   <script src="script.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
   <script src="https://js.stripe.com/v3/"></script>
+  <script src="https://js.stripe.com/v3/"></script>
   <script>
       const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
       let elements;
@@ -132,7 +133,6 @@
       document.addEventListener('DOMContentLoaded', async () => {
           const planButtons = document.querySelectorAll('.select-plan');
           const errorElement = document.getElementById('error');
-          let selectedAmount = null;
   
           // Skapa betalningsformulär
           const paymentForm = document.createElement('div');
@@ -142,11 +142,11 @@
               <div id="card-element"></div>
               <button id="submit-payment">Pay Now</button>
           `;
-          document.querySelector('.plans-container').appendChild(paymentForm);
+          document.querySelector('.plan-container').appendChild(paymentForm); // Fixat från .plans-container till .plan-container
   
           planButtons.forEach(button => {
               button.addEventListener('click', async () => {
-                  selectedAmount = parseInt(button.getAttribute('data-price'));
+                  const amount = parseInt(button.getAttribute('data-price'));
                   planButtons.forEach(btn => btn.style.display = 'none');
                   paymentForm.style.display = 'block';
                   errorElement.textContent = 'Enter your payment details...';
@@ -158,7 +158,7 @@
                           headers: {
                               'Content-Type': 'application/json'
                           },
-                          body: JSON.stringify({ amount: selectedAmount })
+                          body: JSON.stringify({ amount: amount })
                       });
   
                       const data = await response.json();
