@@ -124,50 +124,107 @@
   <!-- Script -->
   <script src="script.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
-    <script>
-        const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const planButtons = document.querySelectorAll('.select-plan');
-            const errorElement = document.getElementById('error');
-
-            planButtons.forEach(button => {
-                button.addEventListener('click', async () => {
-                    const amount = parseInt(button.getAttribute('data-price'));
-                    planButtons.forEach(btn => btn.disabled = true);
-                    errorElement.textContent = 'Initiating payment...';
-
-                    try {
-                        const response = await fetch('/api/create-checkout-session', {
-                            method: 'POST',
-                            credentials: 'include',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ amount })
-                        });
-
-                        const data = await response.json();
-
-                        if (data.error) {
-                            errorElement.textContent = data.error;
-                            planButtons.forEach(btn => btn.disabled = false);
-                            return;
-                        }
-
-                        const result = await stripe.redirectToCheckout({ sessionId: data.id });
-
-                        if (result.error) {
-                            errorElement.textContent = result.error.message;
-                            planButtons.forEach(btn => btn.disabled = false);
-                        }
-                    } catch (error) {
-                        errorElement.textContent = 'Error: ' + error.message;
-                        planButtons.forEach(btn => btn.disabled = false);
-                    }
-                });
-            });
-        });
-    </script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+      const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
+      let elements;
+  
+      document.addEventListener('DOMContentLoaded', async () => {
+          const planButtons = document.querySelectorAll('.select-plan');
+          const errorElement = document.getElementById('error');
+          let selectedAmount = null;
+  
+          // Skapa betalningsformulär
+          const paymentForm = document.createElement('div');
+          paymentForm.id = 'payment-form';
+          paymentForm.style.display = 'none';
+          paymentForm.innerHTML = `
+              <div id="card-element"></div>
+              <button id="submit-payment">Pay Now</button>
+          `;
+          document.querySelector('.plans-container').appendChild(paymentForm);
+  
+          planButtons.forEach(button => {
+              button.addEventListener('click', async () => {
+                  selectedAmount = parseInt(button.getAttribute('data-price'));
+                  planButtons.forEach(btn => btn.style.display = 'none');
+                  paymentForm.style.display = 'block';
+                  errorElement.textContent = 'Enter your payment details...';
+  
+                  try {
+                      const response = await fetch('/api/create-payment-intent', {
+                          method: 'POST',
+                          credentials: 'include',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({ amount: selectedAmount })
+                      });
+  
+                      const data = await response.json();
+  
+                      if (data.error) {
+                          errorElement.textContent = data.error;
+                          planButtons.forEach(btn => btn.style.display = 'block');
+                          paymentForm.style.display = 'none';
+                          return;
+                      }
+  
+                      elements = stripe.elements();
+                      const cardElement = elements.create('card', {
+                          style: {
+                              base: {
+                                  color: '#E9E9E9',
+                                  fontFamily: 'Poppins, sans-serif',
+                                  fontSize: '16px',
+                                  '::placeholder': {
+                                      color: '#CCCCCC',
+                                  },
+                              },
+                              invalid: {
+                                  color: '#E02F2F',
+                              },
+                          }
+                      });
+                      cardElement.mount('#card-element');
+  
+                      const submitButton = document.getElementById('submit-payment');
+                      submitButton.addEventListener('click', async () => {
+                          submitButton.disabled = true;
+                          errorElement.textContent = 'Processing payment...';
+  
+                          try {
+                              const result = await stripe.confirmCardPayment(data.clientSecret, {
+                                  payment_method: {
+                                      card: cardElement,
+                                  },
+                              });
+  
+                              if (result.error) {
+                                  errorElement.textContent = result.error.message;
+                                  submitButton.disabled = false;
+                                  return;
+                              }
+  
+                              if (result.paymentIntent.status === 'succeeded') {
+                                  errorElement.textContent = 'Payment successful! Redirecting...';
+                                  setTimeout(() => {
+                                      window.location.replace('/deals.html');
+                                  }, 2000);
+                              }
+                          } catch (error) {
+                              errorElement.textContent = 'Error: ' + error.message;
+                              submitButton.disabled = false;
+                          }
+                      });
+                  } catch (error) {
+                      errorElement.textContent = 'Error: ' + error.message;
+                      planButtons.forEach(btn => btn.style.display = 'block');
+                      paymentForm.style.display = 'none';
+                  }
+              });
+          });
+      });
+  </script>
 </body>
 </html>

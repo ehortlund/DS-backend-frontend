@@ -398,6 +398,38 @@ body {
     color: var(--red); /* Texten blir röd */
 }
 
+/* Betalningsformulär */
+
+#payment-form {
+    margin-top: 20px;
+}
+
+#card-element {
+    background-color: #F4F4F4;
+    padding: 10px;
+    border: 1px solid #2B2A2A;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#submit-payment {
+    background-color: #E02F2F;
+    color: #E9E9E9;
+    border: 1px solid #E02F2F;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#submit-payment:hover {
+    background-color: transparent;
+    color: #E02F2F;
+    transition: cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+
 
 
 /* Footer styling */

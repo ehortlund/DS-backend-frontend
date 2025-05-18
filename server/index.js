@@ -42,15 +42,15 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    if (event.type === 'checkout.session.completed') {
-        console.log('Checkout session completed event received');
-        const session = event.data.object;
-        const userId = session.metadata.userId;
-        console.log('Session metadata:', session.metadata);
+    if (event.type === 'payment_intent.succeeded') {
+        console.log('Payment intent succeeded event received');
+        const paymentIntent = event.data.object;
+        const userId = paymentIntent.metadata.userId;
+        console.log('Payment Intent metadata:', paymentIntent.metadata);
 
         if (!userId) {
-            console.error('No userId found in session metadata');
-            return res.status(400).send('No userId found in session metadata');
+            console.error('No userId found in payment intent metadata');
+            return res.status(400).send('No userId found in payment intent metadata');
         }
 
         try {
@@ -187,7 +187,7 @@ app.post('/api/users/logout', (req, res) => {
     res.status(200).json({ message: 'Utloggning lyckades' });
 });
 
-app.post('/api/create-checkout-session', async (req, res) => {
+app.post('/api/create-payment-intent', async (req, res) => {
     const token = req.cookies.token;
     const { amount } = req.body;
 
@@ -206,29 +206,15 @@ app.post('/api/create-checkout-session', async (req, res) => {
             return res.status(404).json({ error: 'Användare hittades inte' });
         }
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: [
-                {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: amount === 14900 ? 'Dealscope Pro Yearly Plan' : 'Dealscope Pro Monthly Plan',
-                        },
-                        unit_amount: amount, // Belopp i cent (från frontend)
-                    },
-                    quantity: 1,
-                },
-            ],
-            mode: 'payment',
-            success_url: `https://dealscope.io/deals.html`,
-            cancel_url: `https://dealscope.io/plans.html`,
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: amount, // Belopp i cent (från frontend)
+            currency: 'usd',
             metadata: {
                 userId: user._id.toString()
             }
         });
 
-        res.json({ id: session.id });
+        res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
         res.status(500).json({ error: `Kunde inte skapa betalning: ${error.message}` });
     }
