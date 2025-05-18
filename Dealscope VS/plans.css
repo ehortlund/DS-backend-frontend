@@ -400,8 +400,43 @@ body {
 
 /* Betalningsformulär */
 
-#payment-form {
-    margin-top: 20px;
+.payment-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.payment-modal-content {
+    background-color: #F4F4F4;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    position: relative;
+    text-align: center;
+}
+
+.payment-modal-content h2 {
+    color: #2B2A2A;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #2B2A2A;
 }
 
 #card-element {
@@ -409,7 +444,7 @@ body {
     padding: 10px;
     border: 1px solid #2B2A2A;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #submit-payment {
@@ -429,7 +464,6 @@ body {
     color: #E02F2F;
     transition: cubic-bezier(0.215, 0.610, 0.355, 1);
 }
-
 
 
 /* Footer styling */
