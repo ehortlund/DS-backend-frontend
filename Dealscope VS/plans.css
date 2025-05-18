@@ -448,6 +448,7 @@ body {
     color: var(--dark-grey);
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
+    font-weight: 500;
     margin-bottom: 5px;
 }
 
@@ -457,18 +458,19 @@ body {
     background-color: var(--white);
     padding: 10px;
     border: 1px solid var(--dark-grey);
-    border-radius: 5px;
+    border-radius: 15px;
 }
 
 #submit-payment {
     background-color: var(--red);
-    color: #E9E9E9;
+    color: var(--medium-white);
     border: 1px solid var(--red);
     border-radius: 15px;
     padding: 10px 20px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
+    font-weight: 550;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -478,6 +480,15 @@ body {
     transition: cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 
+.elementsApp.inputElement {
+    color: var(--dark-grey);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+#error {
+    color: var(--red);
+}
 
 /* Footer styling */
 .footer {
