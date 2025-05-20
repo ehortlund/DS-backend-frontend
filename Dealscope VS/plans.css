@@ -480,10 +480,10 @@ body {
 }
 
 
-
 .ElementsApp .InputElement.is-invalid {
     font-family: 'Poppins', sans-serif;
-    color: var(--red);}
+    color: var(--red);
+}
 
 #submit-payment {
     font-family: 'Poppins', sans-serif;
@@ -516,6 +516,20 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--red);
     font-weight: 500;
+}
+
+.payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    border-top: 1px solid #2B2A2A; /* Lägger till en övre gräns för att separera ikonerna */
+    padding-top: 10px;
+}
+
+.payment-icons img {
+    height: 20px; /* Justera storleken på ikonerna efter behov */
+    width: auto;
 }
 
 /* Footer styling */
