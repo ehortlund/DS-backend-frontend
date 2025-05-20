@@ -276,7 +276,7 @@ body {
 }
 
 .plan h2 {
-    font-weight: 550;
+    font-weight: 500;
     font-size: 32px;
     margin-bottom: 20px;
     color: var(--dark-grey);
@@ -290,6 +290,7 @@ body {
     font-family: futura;
     font-size: 48px;
     color: var(--red);
+    font-weight: 500;
 }
 
 .plan ul {
@@ -302,6 +303,7 @@ body {
 
 .plan ul li {
     font-size: 16px;
+    font-weight: 500;
     margin: 5px 0;
     color: var(--black);
     position: relative;
@@ -352,13 +354,15 @@ body {
 }
 
 .price-label {
-    font-size: 1.2rem;
+    font-size: 16px;
+    font-weight: 500;
     color: var(--green);
 }
 
 
 .select-plan {
     font-family: 'Poppins', sans-serif;
+    font-weight: 500;
     background:var(--red);
     color: white;
     border: none;
@@ -433,6 +437,7 @@ body {
     color: var(--dark-grey);
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
+    font-weight: 500;
     margin-bottom: 20px;
 }
 
@@ -496,7 +501,7 @@ body {
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    font-weight: 550;
+    font-weight: 500;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -516,6 +521,7 @@ body {
     font-family: 'Poppins', sans-serif;
     color: var(--red);
     font-weight: 500;
+    font-size: 14px;
 }
 
 .payment-icons {
