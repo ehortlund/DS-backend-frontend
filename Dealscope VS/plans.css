@@ -523,13 +523,13 @@ body {
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
-    border-top: 1px solid #2B2A2A; /* Lägger till en övre gräns för att separera ikonerna */
+    border-top: 1px solid grey; /* Lägger till en övre gräns för att separera ikonerna */
     padding-top: 10px;
 }
 
 .payment-icons img {
-    height: 20px; /* Justera storleken på ikonerna efter behov */
-    width: auto;
+    height: 35px; /* Justera storleken på ikonerna efter behov */
+    width: 35px;
 }
 
 /* Footer styling */
