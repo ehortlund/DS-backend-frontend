@@ -155,12 +155,14 @@
         const overlay = document.getElementById('payment-overlay');
         const closeModal = document.getElementById('close-modal');
         const errorElement = document.getElementById('error');
+        const header = document.querySelector('.main-header');
 
         planButtons.forEach(button => {
             button.addEventListener('click', async () => {
                 selectedAmount = parseInt(button.getAttribute('data-price'));
                 modal.style.display = 'flex';
                 overlay.style.display = 'block';
+                header.style.zIndex = '0'; // Sätt z-index till 0 när modalen visas
                 errorElement.textContent = 'Enter your payment details...';
 
                 try {
@@ -179,6 +181,7 @@
                         errorElement.textContent = data.error;
                         modal.style.display = 'none';
                         overlay.style.display = 'none';
+                        header.style.zIndex = '1'; // Återställ z-index
                         return;
                     }
 
@@ -238,6 +241,7 @@
                     errorElement.textContent = 'Error: ' + error.message;
                     modal.style.display = 'none';
                     overlay.style.display = 'none';
+                    header.style.zIndex = '1'; // Återställ z-index
                 }
             });
         });
@@ -245,6 +249,7 @@
         closeModal.addEventListener('click', () => {
             modal.style.display = 'none';
             overlay.style.display = 'none';
+            header.style.zIndex = '1'; // Återställ z-index
             planButtons.forEach(btn => btn.style.display = 'block');
             errorElement.textContent = '';
         });
