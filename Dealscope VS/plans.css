@@ -479,14 +479,11 @@ body {
     border-radius: 15px;
 }
 
-.ElementsApp .InputElement {
-    color: var(--dark-grey);
-    font-family: 'Poppins', sans-serif;
-}
+
 
 .ElementsApp .InputElement.is-invalid {
     font-family: 'Poppins', sans-serif;
-    color: var(--dark-grey);}
+    color: var(--red);}
 
 #submit-payment {
     font-family: 'Poppins', sans-serif;
