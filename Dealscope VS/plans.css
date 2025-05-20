@@ -418,6 +418,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    opacity: 1 !important; /* Säkerställ att modalen inte påverkas av opacitetsändringar */
 }
 
 .payment-modal-content {
@@ -430,6 +431,7 @@ body {
     width: 400px;
     position: relative;
     text-align: center;
+    opacity: 1 !important; /* Säkerställ att innehållet i modalen inte påverkas */
 }
 
 .payment-modal-content h2 {
