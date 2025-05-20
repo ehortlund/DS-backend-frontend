@@ -400,12 +400,7 @@ body {
 
 /* Betalningsformulär */
 
-.payment-modal-active .main-header,
-.payment-modal-active .plans,
-.payment-modal-active .footer {
-    opacity: 0.3;
-    transition: opacity 0.3s ease;
-}
+
 
 .payment-modal {
     display: none;
@@ -418,7 +413,6 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    opacity: 1 !important; /* Säkerställ att modalen inte påverkas av opacitetsändringar */
 }
 
 .payment-modal-content {
@@ -448,6 +442,17 @@ body {
     font-size: 24px;
     cursor: pointer;
     color: var(--dark-grey);
+}
+
+.payment-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999; /* Under modalen, men över resten av innehållet */
 }
 
 .payment-field {
