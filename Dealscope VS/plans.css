@@ -56,7 +56,7 @@ body {
     position: fixed; /* Fixera menyn */
     top: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 998;
     background-color: var(--vantablack);
     background-image: 
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -401,10 +401,6 @@ body {
 /* Betalningsformulär */
 
 
-.payment-modal-active .main-header {
-    opacity: 0.3;
-    transition: opacity 0.3s ease;
-}
 
 
 .payment-modal {
