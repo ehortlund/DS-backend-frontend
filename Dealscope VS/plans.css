@@ -523,7 +523,7 @@ body {
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
-    border-top: 1px solid grey; /* Lägger till en övre gräns för att separera ikonerna */
+    border-top: 1px solid var(--soft-white); /* Lägger till en övre gräns för att separera ikonerna */
     padding-top: 10px;
 }
 
