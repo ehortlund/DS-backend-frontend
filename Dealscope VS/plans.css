@@ -401,6 +401,11 @@ body {
 /* Betalningsformulär */
 
 
+.payment-modal-active .main-header {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
 
 .payment-modal {
     display: none;
