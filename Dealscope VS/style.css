@@ -547,8 +547,8 @@ body {
     color: var(--red);
     margin-top: 20px;
     margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 550;
 }
   
   /* Listor inom deal-kortet */
@@ -562,6 +562,7 @@ body {
   .deal-example-card li {
     color: var(--medium-white);
     margin-bottom: 8px;
+    font-size: 14px;
     line-height: 1.4;
 }
   
@@ -575,21 +576,150 @@ body {
     font-weight: 600;
     font-style: italic; /* Exempel för 'Private' */
 }
-  
-  /* Knappar – återanvänd din befintliga cta-btn */
-.cta-btn {
-    /* Du har redan en cta-btn-styling, men om du vill justera:
-    background-color: var(--red);
-    color: var(--medium-white);
-    border: 1px solid var(--red);
-    border-radius: 32px;
-    padding: 12px 32px;
-    cursor: pointer;
-    font-size: 18px;
-    ...
-    */
+
+.noise-dealscope-header {
+    text-align: center;
+    margin-top: 150px; /* Avstånd från toppen av sidan */
+    background-color: var(--vantablack); /* Gör bakgrunden mörkare */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
+    background-size: 20px 20px; /* Storlek på rutnät */
+    position: relative; /* För att lägga till en sond som ligger under rutnätet */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+.noise-dealscope-heading {
+    font-size: 48px;
+    font-weight: 600;
+    color: #F4F4F4; /* --white */
+    margin-bottom: 10px;
+}
+
+.noise-dealscope-subheading {
+    font-size: 24px;
+    font-weight: 400;
+    color: #E9E9E9; /* --medium-white */
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+@media (max-width: 768px) {
+    .noise-dealscope-heading {
+        font-size: 28px;
+    }
+
+    .noise-dealscope-subheading {
+        font-size: 16px;
+    }
+}
+
+.noise-dealscope-section {
+    padding: 50px 20px;
+    color: #E9E9E9; /* --medium-white */
+    background-color: var(--vantablack); /* Gör bakgrunden mörkare */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
+    background-size: 20px 20px; /* Storlek på rutnät */
+    position: relative; /* För att lägga till en sond som ligger under rutnätet */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;}
+
+.noise-dealscope-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+}
+
+.noise-box, .dealscope-box {
+    flex: 1; /* Delar upp utrymmet lika mellan de två boxarna */
+    min-width: 0; /* Förhindrar att boxarna blir för breda på små skärmar */
+}
+
+.noise-box h2.deal-example-title, .dealscope-box h2.deal-example-title {
+    font-size: 24px;
+    font-weight: 550;
+    color: #F4F4F4; /* --white */
+    margin-bottom: 10px;
+}
+
+.noise-box p.deal-example-subtitle, .dealscope-box p.deal-example-subtitle {
+    font-size: 16px;
+    color: #E9E9E9; /* --medium-white */
+    margin-bottom: 20px;
+}
+
+.articles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.article {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #1c1c1c; /* --black */
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #2B2A2A; /* --dark-grey */
+}
+
+.article-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.article-content h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #F4F4F4; /* --white */
+    margin-bottom: 5px;
+}
+
+.article-content p {
+    font-size: 14px;
+    color: #CCCCCC; /* --soft-white */
+    margin: 0;
+}
+
+/* Centrera CTA-knappen längst ner */
+.noise-dealscope-section .cta-btn {
+    display: block;
+    margin: 30px auto 0;
+}
+
+/* Responsiv design för mindre skärmar */
+@media (max-width: 768px) {
+    .noise-dealscope-container {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .noise-box, .dealscope-box {
+        width: 100%;
+    }
+
+    .noise-dealscope-header {
+        margin-top: 100px; /* Justera avståndet för mindre skärmar */
+    }
+
+    .noise-dealscope-section {
+        padding-bottom: 0;
+    }
 }
   
+
 
 /* trusted sektion */
 .trusted-section {
@@ -1021,7 +1151,6 @@ body {
 
     .insights-section .cta-btn{
         margin-top: 30px;
-        margin-bottom: 100px;
         padding: 10px 20px;
     }
 
@@ -1096,7 +1225,6 @@ body {
         font-weight: 550;
         padding: 12px 25px;
         margin-top: 10px;
-        margin-bottom: 100px;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
