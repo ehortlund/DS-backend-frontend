@@ -248,9 +248,9 @@ body {
 }
 
 .plan:hover {
+    box-shadow: var(--green) 0px 0px 20px;
     transform: translateY(-5px);
     background:var(--white);
-    border:  var(--green) 2px solid;
 }
 
 .plans-title {
