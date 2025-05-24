@@ -1233,7 +1233,7 @@ body {
     .trusted-section {
         padding: 30px 20px; /* Sidopadding för utrymme */
         text-align: center; /* Centrerar innehållet */
-        height: 350px;
+        height: 380px;
         max-width: 100%; /* Förhindrar horisontell scroll */
         margin: 0 auto;
     }
