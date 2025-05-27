@@ -1,8 +1,6 @@
 const dealScope = {
     init: async function () {
         console.log("DealScope JavaScript is running!");
-        this.handleMobileNav();
-
         // Hämtar och renderar deals
         console.log("Hämtar deals.json...");
         try {
@@ -36,17 +34,16 @@ const dealScope = {
         document.addEventListener("click", (event) => {
             if (event.target.classList.contains("deal-recommendation-button")) {
                 const dealTitle = event.target.getAttribute("data-title");
-                console.log(`Klickade på View Deal för: ${dealTitle}`); // Felsökningslogg
+                console.log(`Klickade på View Deal för: ${dealTitle}`);
                 this.showDealDetails(dealTitle);
             }
         });
 
         // Hantera bakåtnavigering med webbläsarens bakåtknapp
         window.onpopstate = (event) => {
-            console.log("Bakåtnavigering detekterad", event.state); // Felsökningslogg
+            console.log("Bakåtnavigering detekterad", event.state);
             const dealDetailsContainer = document.querySelector(".deal-details-container");
             if (dealDetailsContainer.style.display === "block") {
-                // Om detaljvyn är öppen, simulera "Go back"-knappens beteende
                 this.handleGoBack();
             }
         };
@@ -68,9 +65,8 @@ const dealScope = {
         if (dealRecommendations) dealRecommendations.style.display = "none";
         if (dealsContainer) dealsContainer.style.display = "block";
         if (dealSectionTitle) dealSectionTitle.style.display = "block";
-        if (dealControls) dealControls.style.display = "flex"; // Visa deal-controls igen
+        if (dealControls) dealControls.style.display = "flex";
 
-        // Återställ tillståndet till deals-vyn
         history.replaceState({ page: 'deals' }, '', window.location.href);
     },
 
@@ -82,28 +78,24 @@ const dealScope = {
         const sortInput = document.querySelector('#deal-sort');
         const sortSuggestions = document.querySelector('#sort-suggestions');
 
-        // Kontrollera att alla element finns innan vi manipulerar dem
         if (!searchInput || !searchSuggestions || !categoryInput || !categorySuggestions || !sortInput || !sortSuggestions) {
             console.log("Ett eller flera kontroll-element saknas på denna sida.");
             return;
         }
 
-        // Sätt initialt tillstånd för dropdowns (stängda)
         searchSuggestions.style.display = 'none';
         categorySuggestions.style.display = 'none';
         sortSuggestions.style.display = 'none';
 
-        // Kategorier och sorteringsalternativ
         const categories = ['Military', 'Healthcare', 'Finance', 'Energy', 'All'];
         const sortOptions = ['Date ↑', 'Date ↓', 'Deal size ↑', 'Deal size ↓'];
 
-        // Fyll kategoridropdown
         categories.forEach(category => {
             const option = document.createElement('div');
             option.className = 'suggestion-item';
             option.textContent = category;
             option.addEventListener('click', (event) => {
-                console.log(`Vald kategori: ${category}`); // Felsökningslogg
+                console.log(`Vald kategori: ${category}`);
                 categoryInput.value = category;
                 categorySuggestions.style.display = 'none';
                 categoryInput.classList.remove('active');
@@ -112,7 +104,6 @@ const dealScope = {
             categorySuggestions.appendChild(option);
         });
 
-        // Fyll sorteringsdropdown
         sortOptions.forEach(sortOption => {
             const option = document.createElement('div');
             option.className = 'suggestion-item';
@@ -126,14 +117,13 @@ const dealScope = {
             sortSuggestions.appendChild(option);
         });
 
-        // Sökfält: Visa/dölj dropdown vid fokus och input
         searchInput.addEventListener('focus', () => {
-            console.log("Sökfält fokuserat"); // Felsökningslogg
+            console.log("Sökfält fokuserat");
             this.updateSearchSuggestions(searchInput.value);
         });
 
         searchInput.addEventListener('input', () => {
-            console.log(`Sökterm: ${searchInput.value}`); // Felsökningslogg
+            console.log(`Sökterm: ${searchInput.value}`);
             this.updateSearchSuggestions(searchInput.value);
             this.filterDeals(searchInput.value, categoryInput.value.toLowerCase() === 'all' ? '' : categoryInput.value.toLowerCase());
         });
@@ -144,14 +134,13 @@ const dealScope = {
             }, 150);
         });
 
-        // Kategori: Visa/dölj dropdown vid klick
         categoryInput.addEventListener('click', (event) => {
-            console.log("Klickade på category-fältet"); // Felsökningslogg
+            console.log("Klickade på category-fältet");
             const isVisible = categorySuggestions.style.display === 'block';
             categorySuggestions.style.display = isVisible ? 'none' : 'block';
             categoryInput.classList.toggle('active', !isVisible);
             if (isVisible) {
-                categoryInput.blur(); // Ta bort fokus för att förhindra autofyll
+                categoryInput.blur();
             }
         });
 
@@ -162,14 +151,13 @@ const dealScope = {
             }, 150);
         });
 
-        // Sort by: Visa/dölj dropdown vid klick
         sortInput.addEventListener('click', (event) => {
-            console.log("Klickade på sort by-fältet"); // Felsökningslogg
+            console.log("Klickade på sort by-fältet");
             const isVisible = sortSuggestions.style.display === 'block';
             sortSuggestions.style.display = isVisible ? 'none' : 'block';
             sortInput.classList.toggle('active', !isVisible);
             if (isVisible) {
-                sortInput.blur(); // Ta bort fokus för att förhindra autofyll
+                sortInput.blur();
             }
         });
 
@@ -180,7 +168,6 @@ const dealScope = {
             }, 150);
         });
 
-        // Stäng dropdowns vid klick utanför
         document.addEventListener('click', (event) => {
             if (!searchInput.parentElement.contains(event.target)) {
                 searchSuggestions.style.display = 'none';
@@ -235,7 +222,7 @@ const dealScope = {
     },
 
     filterDeals: function (searchTerm, category) {
-        console.log(`Filtrerar deals med searchTerm: ${searchTerm}, category: ${category}`); // Felsökningslogg
+        console.log(`Filtrerar deals med searchTerm: ${searchTerm}, category: ${category}`);
         this.currentDeals = this.allDeals.filter(deal => {
             const matchesSearch = searchTerm === '' || 
                 deal.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -317,15 +304,13 @@ const dealScope = {
     },
 
     addDealCardEventListeners: function (dealsContainer) {
-        // Ta bort tidigare lyssnare för att undvika dubletter
         dealsContainer.removeEventListener("click", this.handleCardClick);
         this.handleCardClick = (event) => {
             const card = event.target.closest(".deal-example-card");
             const readMoreButton = event.target.classList.contains("deal-link-button");
 
-            console.log("Klick på kort registrerat"); // Felsökningslogg
+            console.log("Klick på kort registrerat");
 
-            // Hantera klick på "Read More"-knappen
             if (readMoreButton) {
                 event.preventDefault();
                 const dealTitle = card.querySelector(".deal-section-heading").textContent;
@@ -333,10 +318,9 @@ const dealScope = {
                 return;
             }
 
-            // Hantera klick på kortet för att toggla open/closed
             if (card && !event.target.closest('#category-suggestions')) {
                 const state = card.getAttribute("data-state");
-                console.log(`Togglar kortstate: ${state} -> ${state === "closed" ? "open" : "closed"}`); // Felsökningslogg
+                console.log(`Togglar kortstate: ${state} -> ${state === "closed" ? "open" : "closed"}`);
                 card.setAttribute("data-state", state === "closed" ? "open" : "closed");
             }
         };
@@ -361,7 +345,6 @@ const dealScope = {
                     dealRecommendations.className = "deal-recommendations";
                     dealRecommendations.innerHTML = this.generateDealRecommendations(data, dealTitle);
                     
-                    // Placera deal-recommendations efter deal-details-container
                     if (!dealRecommendations.parentNode) {
                         dealDetailsContainer.parentNode.insertBefore(dealRecommendations, dealDetailsContainer.nextSibling);
                     }
@@ -371,12 +354,10 @@ const dealScope = {
                     dealRecommendations.style.display = "block";
                     dealsContainer.style.display = "none";
                     if (dealSectionTitle) dealSectionTitle.style.display = "none";
-                    if (dealControls) dealControls.style.display = "none"; // Dölj deal-controls
+                    if (dealControls) dealControls.style.display = "none";
 
-                    // Lägg till tillstånd för detaljvyn i historiken
                     history.pushState({ page: 'details' }, '', window.location.href);
 
-                    // Scrolla till toppen av sidan
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             });
@@ -410,7 +391,6 @@ const dealScope = {
     },
 
     generateDealRecommendations: function (deals, currentDealTitle) {
-        // Filtrera bort den aktuella dealen och ta de första tre andra deals
         const otherDeals = deals.filter(deal => deal.title !== currentDealTitle).slice(0, 3);
         return `
             <h3 class="deal-recommendations-title">More deals</h3>
@@ -439,7 +419,6 @@ const dealScope = {
     },
 
     handleFadeInAnimations: function (selector) {
-        console.log("handleFadeInAnimations körs med selector:", selector);
         const fadeIns = document.querySelectorAll(selector);
         console.log("Antal .fade-in-element:", fadeIns.length);
         fadeIns.forEach(fadeIn => {
@@ -447,14 +426,16 @@ const dealScope = {
             fadeIn.classList.add('show');
         });
     },
-
 };
 
-// Kör init vid sidladdning, men bara på /deals.html
+// Kör init och andra funktioner vid sidladdning
 document.addEventListener('DOMContentLoaded', () => {
+    // Kör handleMobileNav på alla sidor
+    dealScope.handleMobileNav();
+    // Kör handleFadeInAnimations på alla sidor
+    dealScope.handleFadeInAnimations('.fade-in');
+    // Kör init bara på /deals.html
     if (window.location.pathname === '/deals.html') {
         dealScope.init();
     }
-    // Kör handleFadeInAnimations på alla sidor
-    dealScope.handleFadeInAnimations('.fade-in');
 });
