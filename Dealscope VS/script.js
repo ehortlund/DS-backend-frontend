@@ -2,7 +2,6 @@ const dealScope = {
     init: async function () {
         console.log("DealScope JavaScript is running!");
         this.handleMobileNav();
-        this.handleFadeInAnimations('.fade-in');
 
         // Hämtar och renderar deals
         console.log("Hämtar deals.json...");
@@ -82,6 +81,12 @@ const dealScope = {
         const categorySuggestions = document.querySelector('#category-suggestions');
         const sortInput = document.querySelector('#deal-sort');
         const sortSuggestions = document.querySelector('#sort-suggestions');
+
+        // Kontrollera att alla element finns innan vi manipulerar dem
+        if (!searchInput || !searchSuggestions || !categoryInput || !categorySuggestions || !sortInput || !sortSuggestions) {
+            console.log("Ett eller flera kontroll-element saknas på denna sida.");
+            return;
+        }
 
         // Sätt initialt tillstånd för dropdowns (stängda)
         searchSuggestions.style.display = 'none';
@@ -452,4 +457,11 @@ const dealScope = {
 
 };
 
-dealScope.init();
+// Kör init vid sidladdning, men bara på /deals.html
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname === '/deals.html') {
+        dealScope.init();
+    }
+    // Kör handleFadeInAnimations på alla sidor
+    dealScope.handleFadeInAnimations('.fade-in');
+});
