@@ -10,13 +10,21 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    hasPaid: {
+        type: Boolean,
+        default: false
+    },
     lastLogin: {
         type: Date,
         default: Date.now
     },
-    hasPaid: {
-        type: Boolean,
-        default: false
+    username: {
+        type: String,
+        required: true,
+        unique: true, // Säkerställer att användarnamn är unikt
+        trim: true, // Tar bort onödiga mellanslag
+        minlength: 3, // Minsta längd för användarnamn
+        maxlength: 15 // Maxlängd för användarnamn
     }
 });
 

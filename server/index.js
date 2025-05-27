@@ -14,10 +14,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
-// Middleware för cookie-parser
 app.use(cookieParser());
 
-// Webhook-rutt som ska ta emot rådata
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -73,33 +71,38 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     res.json({ received: true });
 });
 
-// Middleware för JSON-parsing och statiska filer (efter webhook-rutten)
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 app.post('/api/users/register', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, username, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ error: 'E-post och lösenord krävs' });
+    if (!email || !username || !password) {
+        return res.status(400).json({ error: 'E-post, användarnamn och lösenord krävs' });
     }
 
     try {
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne({ $or: [{ email }, { username }] });
         if (existingUser) {
-            return res.status(400).json({ error: 'E-postadressen används redan' });
+            if (existingUser.email === email) {
+                return res.status(400).json({ error: 'E-postadressen används redan' });
+            }
+            if (existingUser.username === username) {
+                return res.status(400).json({ error: 'Användarnamnet är redan taget' });
+            }
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = new User({
             email,
+            username,
             password: hashedPassword
         });
 
         await user.save();
 
-        res.status(201).json({ message: 'Användare skapad', user: { email: user.email } });
+        res.status(201).json({ message: 'Användare skapad', user: { email: user.email, username: user.username } });
     } catch (error) {
         res.status(500).json({ error: `Registrering misslyckades: ${error.message}` });
     }
@@ -149,7 +152,7 @@ app.get('/api/users/me', async (req, res) => {
             return res.status(404).json({ error: 'Användare hittades inte' });
         }
 
-        res.status(200).json({ email: user.email, hasPaid: user.hasPaid });
+        res.status(200).json({ email: user.email, username: user.username, hasPaid: user.hasPaid });
     } catch (error) {
         res.status(401).json({ error: 'Ogiltig token, omdirigerar till login' });
     }
@@ -207,7 +210,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
         }
 
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount, // Belopp i cent (från frontend)
+            amount: amount,
             currency: 'usd',
             metadata: {
                 userId: user._id.toString()

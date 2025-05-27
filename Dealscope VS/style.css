@@ -903,6 +903,150 @@ body {
 }
 
 
+/* Stilar för profilsidans modal */
+.profile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 998; /* Under modalen, men över resten av innehållet */
+}
+
+.profile-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.profile-modal-content {
+    margin-right: 50px;
+    margin-left: 50px;
+    background-color: #F4F4F4; /* --white */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+    opacity: 1 !important;
+}
+
+.profile-modal-inner {
+    display: flex;
+    gap: 20px;
+}
+
+.profile-sidebar {
+    width: 200px;
+    border-right: 1px solid #2B2A2A; /* --dark-grey */
+    padding-right: 20px;
+}
+
+.profile-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-sidebar li {
+    margin-bottom: 15px;
+}
+
+.profile-sidebar a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #2B2A2A; /* --dark-grey */
+    text-decoration: none;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.profile-sidebar a:hover, .profile-sidebar a.active {
+    color: #E02F2F; /* --red */
+}
+
+.profile-content {
+    flex: 1;
+    text-align: left;
+}
+
+.content-section {
+    display: none;
+}
+
+.content-section.active {
+    display: block;
+}
+
+.content-section h2 {
+    color: #2B2A2A; /* --dark-grey */
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 550;
+    margin-bottom: 20px;
+}
+
+.content-section p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #2B2A2A; /* --dark-grey */
+    margin-bottom: 10px;
+}
+
+.content-section a {
+    color: #E02F2F; /* --red */
+    text-decoration: none;
+}
+
+.content-section a:hover {
+    text-decoration: underline;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #2B2A2A; /* --dark-grey */
+}
+
+@media (max-width: 768px) {
+    .profile-modal-inner {
+        flex-direction: column;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #2B2A2A;
+        padding-right: 0;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .profile-sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .profile-sidebar li {
+        margin-bottom: 0;
+    }
+}
+
 
 /* Responsiv anpassning */
 @media (max-width: 768px) {

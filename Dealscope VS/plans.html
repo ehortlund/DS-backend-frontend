@@ -120,6 +120,52 @@
         </div>
     </section>
 
+        <!-- Overlay för profilsidan -->
+        <div id="profile-overlay" class="profile-overlay"></div>
+
+        <!-- Modal för profilsidan -->
+        <div id="profile-modal" class="profile-modal">
+            <div class="profile-modal-content">
+                <span id="close-profile-modal" class="close-modal">×</span>
+                <div class="profile-modal-inner">
+                    <!-- Sidomeny -->
+                    <nav class="profile-sidebar">
+                        <ul>
+                            <li><a href="#" class="active" data-section="profile">Profile</a></li>
+                            <li><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                            <li><a href="#" data-section="settings">Settings</a></li>
+                            <li><a href="#" data-section="contact">Contact</a></li>
+                            <li><a href="#" id="logout-btn">Log out</a></li>
+                        </ul>
+                    </nav>
+                    <!-- Innehållsdel -->
+                    <div class="profile-content">
+                        <!-- Profilsektion -->
+                        <div id="profile-section" class="content-section active">
+                            <h2>Profile</h2>
+                            <p>Username: <span id="profile-username"></span></p>
+                            <p>Email: <span id="profile-email"></span></p>
+                        </div>
+                        <!-- Betalningsinställningar -->
+                        <div id="payment-settings-section" class="content-section">
+                            <h2>Payment Settings</h2>
+                            <p>Manage your payment methods and subscription details here.</p>
+                        </div>
+                        <!-- Inställningar -->
+                        <div id="settings-section" class="content-section">
+                            <h2>Settings</h2>
+                            <p>Adjust your account settings, notifications, and preferences.</p>
+                        </div>
+                        <!-- Kontakt -->
+                        <div id="contact-section" class="content-section">
+                            <h2>Contact</h2>
+                            <p>Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <footer class="footer">
         <div class="footer-container">
           <!-- Vänster sektion -->
@@ -160,18 +206,130 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
         const planButtons = document.querySelectorAll('.select-plan');
-        const modal = document.getElementById('payment-modal');
-        const overlay = document.getElementById('payment-overlay');
-        const closeModal = document.getElementById('close-modal');
-        const errorElement = document.getElementById('error');
+        const paymentModal = document.getElementById('payment-modal');
+        const paymentOverlay = document.getElementById('payment-overlay');
+        const closePaymentModal = document.getElementById('close-modal');
+        const loginButtons = document.querySelectorAll('.login-btn');
         const header = document.querySelector('.main-header');
+        const profileModal = document.getElementById('profile-modal');
+        const profileOverlay = document.getElementById('profile-overlay');
+        const closeProfileModal = document.getElementById('close-profile-modal');
+        const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
+        const contentSections = document.querySelectorAll('.content-section');
+        const logoutButton = document.getElementById('logout-btn');
+        const profileUsername = document.getElementById('profile-username');
+        const profileEmail = document.getElementById('profile-email');
+        const errorElement = document.getElementById('error');
+
+        // Funktion för att uppdatera login-knapparnas text och länk
+        async function updateLoginButton() {
+            try {
+                const response = await fetch('/api/users/me', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.error || !data.hasPaid) {
+                    // Användaren är inte inloggad eller har inte betalat, omdirigera till login/plans
+                    loginButtons.forEach(button => {
+                        button.textContent = 'Log in';
+                        button.href = '/login.html';
+                        button.removeEventListener('click', openProfileModal);
+                    });
+                    window.location.replace('/login.html');
+                    return;
+                }
+
+                // Användaren är inloggad och har betalat, visa användarnamnet
+                loginButtons.forEach(button => {
+                    button.textContent = data.username;
+                    button.href = '#';
+                    button.addEventListener('click', openProfileModal);
+                });
+
+                // Fyll i profilinformation
+                if (profileUsername && profileEmail) {
+                    profileUsername.textContent = data.username;
+                    profileEmail.textContent = data.email;
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                loginButtons.forEach(button => {
+                    button.textContent = 'Log in';
+                    button.href = '/login.html';
+                    button.removeEventListener('click', openProfileModal);
+                });
+                window.location.replace('/login.html');
+            }
+        }
+
+        // Funktion för att öppna profilsidan
+        function openProfileModal(event) {
+            event.preventDefault();
+            profileModal.style.display = 'flex';
+            profileOverlay.style.display = 'block';
+            header.style.zIndex = '0';
+        }
+
+        // Funktion för att stänga profilsidan
+        function closeProfileModalHandler() {
+            profileModal.style.display = 'none';
+            profileOverlay.style.display = 'none';
+            header.style.zIndex = '1';
+        }
+
+        // Hantera sidomenyn
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const section = link.getAttribute('data-section');
+                if (section) {
+                    // Ta bort "active"-klassen från alla länkar och sektioner
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    contentSections.forEach(s => s.classList.remove('active'));
+
+                    // Lägg till "active"-klassen på den valda länken och sektionen
+                    link.classList.add('active');
+                    document.getElementById(`${section}-section`).classList.add('active');
+                }
+            });
+        });
+
+        // Hantera utloggning
+        if (logoutButton) {
+            logoutButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetch('/api/users/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                })
+                .then(() => {
+                    closeProfileModalHandler();
+                    updateLoginButton();
+                    window.location.replace('/login.html');
+                })
+                .catch(() => {
+                    window.location.replace('/login.html');
+                });
+            });
+        }
+
+        // Stäng profilsidan vid klick på krysset
+        if (closeProfileModal) {
+            closeProfileModal.addEventListener('click', closeProfileModalHandler);
+        }
+
+        // Kör vid sidladdning
+        updateLoginButton();
 
         planButtons.forEach(button => {
             button.addEventListener('click', async () => {
                 selectedAmount = parseInt(button.getAttribute('data-price'));
-                modal.style.display = 'flex';
-                overlay.style.display = 'block';
-                header.style.zIndex = '0'; // Sätt z-index till 0 när modalen visas
+                paymentModal.style.display = 'flex';
+                paymentOverlay.style.display = 'block';
+                header.style.zIndex = '0';
                 errorElement.textContent = 'Enter your payment details...';
 
                 try {
@@ -188,9 +346,9 @@
 
                     if (data.error) {
                         errorElement.textContent = data.error;
-                        modal.style.display = 'none';
-                        overlay.style.display = 'none';
-                        header.style.zIndex = '1'; // Återställ z-index
+                        paymentModal.style.display = 'none';
+                        paymentOverlay.style.display = 'none';
+                        header.style.zIndex = '1';
                         return;
                     }
 
@@ -199,8 +357,7 @@
                         base: {
                             color: '#2B2A2A',
                             fontFamily: 'Poppins, sans-serif',
-                            fontweight: '500',
-                            fontSize: '14px',
+                            fontSize: '16px',
                             '::placeholder': {
                                 color: '#CCCCCC',
                             },
@@ -249,17 +406,17 @@
                     });
                 } catch (error) {
                     errorElement.textContent = 'Error: ' + error.message;
-                    modal.style.display = 'none';
-                    overlay.style.display = 'none';
-                    header.style.zIndex = '1'; // Återställ z-index
+                    paymentModal.style.display = 'none';
+                    paymentOverlay.style.display = 'none';
+                    header.style.zIndex = '1';
                 }
             });
         });
 
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-            overlay.style.display = 'none';
-            header.style.zIndex = '1'; // Återställ z-index
+        closePaymentModal.addEventListener('click', () => {
+            paymentModal.style.display = 'none';
+            paymentOverlay.style.display = 'none';
+            header.style.zIndex = '1';
             planButtons.forEach(btn => btn.style.display = 'block');
             errorElement.textContent = '';
         });
