@@ -109,21 +109,28 @@ app.post('/api/users/register', async (req, res) => {
 });
 
 app.post('/api/users/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { identifier, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ error: 'E-post och lösenord krävs' });
+    if (!identifier || !password) {
+        return res.status(400).json({ error: 'E-post eller användarnamn och lösenord krävs' });
     }
 
     try {
-        const user = await User.findOne({ email });
+        // Sök efter användaren med antingen e-post eller användarnamn
+        const user = await User.findOne({
+            $or: [
+                { email: identifier },
+                { username: identifier }
+            ]
+        });
+
         if (!user) {
-            return res.status(401).json({ error: 'Fel e-post eller lösenord' });
+            return res.status(401).json({ error: 'Fel e-post, användarnamn eller lösenord' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Fel e-post eller lösenord' });
+            return res.status(401).json({ error: 'Fel e-post, användarnamn eller lösenord' });
         }
 
         const token = jwt.sign({ userId: user._id, email: user.email }, 'mysecretkey', { expiresIn: '1h' });
