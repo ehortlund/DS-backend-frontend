@@ -200,7 +200,7 @@
   <script src="script.js"></script>
   <script src="https://js.stripe.com/v3/"></script>
   <script>
-    const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
+    const stripe = Stripe('pk_test_...'); // Ersätt med din Publishable key från Stripe
     let elements;
     let selectedAmount = null;
 
@@ -231,8 +231,8 @@
 
                 const data = await response.json();
 
-                if (data.error || !data.hasPaid) {
-                    // Användaren är inte inloggad eller har inte betalat, omdirigera till login/plans
+                if (data.error) {
+                    // Användaren är inte inloggad, omdirigera till login
                     loginButtons.forEach(button => {
                         button.textContent = 'Log in';
                         button.href = '/login.html';
@@ -242,7 +242,7 @@
                     return;
                 }
 
-                // Användaren är inloggad och har betalat, visa användarnamnet
+                // Användaren är inloggad, visa användarnamnet
                 loginButtons.forEach(button => {
                     button.textContent = data.username;
                     button.href = '#';
