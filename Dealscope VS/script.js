@@ -2,7 +2,6 @@ const dealScope = {
     init: async function () {
         console.log("DealScope JavaScript is running!");
         this.handleMobileNav();
-        this.handleFadeInAnimations('.fade-in');
 
         // Hämtar och renderar deals
         console.log("Hämtar deals.json...");
@@ -452,4 +451,11 @@ const dealScope = {
 
 };
 
-dealScope.init();
+// Kör init vid sidladdning, men bara på /deals.html
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname === '/deals.html') {
+        dealScope.init();
+    }
+    // Kör handleFadeInAnimations på alla sidor
+    dealScope.handleFadeInAnimations('.fade-in');
+});
