@@ -439,17 +439,25 @@ const dealScope = {
     },
 
     handleFadeInAnimations: function (selector) {
+        console.log("handleFadeInAnimations körs med selector:", selector); // Debug-log
         document.addEventListener("DOMContentLoaded", () => {
             const fadeIns = document.querySelectorAll(selector);
+            console.log("Antal .fade-in-element:", fadeIns.length); // Debug-log
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
+                    console.log("IntersectionObserver triggad för:", entry.target); // Debug-log
                     if (entry.isIntersecting) {
+                        console.log("Element är i sikte, lägger till 'show':", entry.target); // Debug-log
                         entry.target.classList.add('show');
                         observer.unobserve(entry.target);
                     }
                 });
+            }, {
+                threshold: 0.1 // Trigga när 10% av elementet är i sikte 
             });
+
             fadeIns.forEach(fadeIn => {
+                console.log("Observerar element:", fadeIn); // Debug-log
                 observer.observe(fadeIn);
             });
         });
