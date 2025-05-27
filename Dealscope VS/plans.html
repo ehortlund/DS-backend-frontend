@@ -202,225 +202,231 @@
   <script>
     const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
     let elements;
-    let selectedAmount = null;
+        let selectedAmount = null;
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const planButtons = document.querySelectorAll('.select-plan');
-        const paymentModal = document.getElementById('payment-modal');
-        const paymentOverlay = document.getElementById('payment-overlay');
-        const closePaymentModal = document.getElementById('close-modal');
-        const loginButtons = document.querySelectorAll('.login-btn');
-        const header = document.querySelector('.main-header');
-        const profileModal = document.getElementById('profile-modal');
-        const profileOverlay = document.getElementById('profile-overlay');
-        const closeProfileModal = document.getElementById('close-profile-modal');
-        const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
-        const contentSections = document.querySelectorAll('.content-section');
-        const logoutButton = document.getElementById('logout-btn');
-        const profileUsername = document.getElementById('profile-username');
-        const profileEmail = document.getElementById('profile-email');
-        const errorElement = document.getElementById('error');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const planButtons = document.querySelectorAll('.select-plan');
+            const paymentModal = document.getElementById('payment-modal');
+            const paymentOverlay = document.getElementById('payment-overlay');
+            const closePaymentModal = document.getElementById('close-modal');
+            const loginButtons = document.querySelectorAll('.login-btn');
+            const header = document.querySelector('.main-header');
+            const profileModal = document.getElementById('profile-modal');
+            const profileOverlay = document.getElementById('profile-overlay');
+            const closeProfileModal = document.getElementById('close-profile-modal');
+            const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
+            const contentSections = document.querySelectorAll('.content-section');
+            const logoutButton = document.getElementById('logout-btn');
+            const profileUsername = document.getElementById('profile-username');
+            const profileEmail = document.getElementById('profile-email');
+            const errorElement = document.getElementById('error');
 
-        // Funktion för att uppdatera login-knapparnas text och länk
-        async function updateLoginButton() {
-            try {
-                const response = await fetch('/api/users/me', {
-                    method: 'GET',
-                    credentials: 'include'
-                });
+            // Funktion för att uppdatera login-knapparnas text och länk
+            async function updateLoginButton() {
+                try {
+                    const response = await fetch('/api/users/me', {
+                        method: 'GET',
+                        credentials: 'include'
+                    });
 
-                const data = await response.json();
+                    const data = await response.json();
 
-                if (data.error || !data.hasPaid) {
-                    // Användaren är inte inloggad eller har inte betalat, omdirigera till login/plans
+                    if (data.error) {
+                        // Användaren är inte inloggad, omdirigera till login
+                        loginButtons.forEach(button => {
+                            button.textContent = 'Log in';
+                            button.href = '/login.html';
+                            button.removeEventListener('click', openProfileModal);
+                        });
+                        window.location.replace('/login.html');
+                        return;
+                    }
+
+                    // Användaren är inloggad, visa användarnamnet
+                    loginButtons.forEach(button => {
+                        button.textContent = data.username;
+                        button.href = '#';
+                        button.addEventListener('click', openProfileModal);
+                    });
+
+                    // Fyll i profilinformation
+                    if (profileUsername && profileEmail) {
+                        profileUsername.textContent = data.username;
+                        profileEmail.textContent = data.email;
+                    }
+
+                    // Om användaren har betalat, omdirigera till deals.html
+                    if (data.hasPaid) {
+                        window.location.replace('/deals.html');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
                     loginButtons.forEach(button => {
                         button.textContent = 'Log in';
                         button.href = '/login.html';
                         button.removeEventListener('click', openProfileModal);
                     });
                     window.location.replace('/login.html');
-                    return;
                 }
-
-                // Användaren är inloggad och har betalat, visa användarnamnet
-                loginButtons.forEach(button => {
-                    button.textContent = data.username;
-                    button.href = '#';
-                    button.addEventListener('click', openProfileModal);
-                });
-
-                // Fyll i profilinformation
-                if (profileUsername && profileEmail) {
-                    profileUsername.textContent = data.username;
-                    profileEmail.textContent = data.email;
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-                loginButtons.forEach(button => {
-                    button.textContent = 'Log in';
-                    button.href = '/login.html';
-                    button.removeEventListener('click', openProfileModal);
-                });
-                window.location.replace('/login.html');
             }
-        }
 
-        // Funktion för att öppna profilsidan
-        function openProfileModal(event) {
-            event.preventDefault();
-            profileModal.style.display = 'flex';
-            profileOverlay.style.display = 'block';
-            header.style.zIndex = '0';
-        }
-
-        // Funktion för att stänga profilsidan
-        function closeProfileModalHandler() {
-            profileModal.style.display = 'none';
-            profileOverlay.style.display = 'none';
-            header.style.zIndex = '1';
-        }
-
-        // Hantera sidomenyn
-        sidebarLinks.forEach(link => {
-            link.addEventListener('click', (event) => {
+            // Funktion för att öppna profilsidan
+            function openProfileModal(event) {
                 event.preventDefault();
-                const section = link.getAttribute('data-section');
-                if (section) {
-                    // Ta bort "active"-klassen från alla länkar och sektioner
-                    sidebarLinks.forEach(l => l.classList.remove('active'));
-                    contentSections.forEach(s => s.classList.remove('active'));
+                profileModal.style.display = 'flex';
+                profileOverlay.style.display = 'block';
+                header.style.zIndex = '0';
+            }
 
-                    // Lägg till "active"-klassen på den valda länken och sektionen
-                    link.classList.add('active');
-                    document.getElementById(`${section}-section`).classList.add('active');
-                }
-            });
-        });
+            // Funktion för att stänga profilsidan
+            function closeProfileModalHandler() {
+                profileModal.style.display = 'none';
+                profileOverlay.style.display = 'none';
+                header.style.zIndex = '1';
+            }
 
-        // Hantera utloggning
-        if (logoutButton) {
-            logoutButton.addEventListener('click', (event) => {
-                event.preventDefault();
-                fetch('/api/users/logout', {
-                    method: 'POST',
-                    credentials: 'include'
-                })
-                .then(() => {
-                    closeProfileModalHandler();
-                    updateLoginButton();
-                    window.location.replace('/login.html');
-                })
-                .catch(() => {
-                    window.location.replace('/login.html');
+            // Hantera sidomenyn
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const section = link.getAttribute('data-section');
+                    if (section) {
+                        // Ta bort "active"-klassen från alla länkar och sektioner
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        contentSections.forEach(s => s.classList.remove('active'));
+
+                        // Lägg till "active"-klassen på den valda länken och sektionen
+                        link.classList.add('active');
+                        document.getElementById(`${section}-section`).classList.add('active');
+                    }
                 });
             });
-        }
 
-        // Stäng profilsidan vid klick på krysset
-        if (closeProfileModal) {
-            closeProfileModal.addEventListener('click', closeProfileModalHandler);
-        }
-
-        // Kör vid sidladdning
-        updateLoginButton();
-
-        planButtons.forEach(button => {
-            button.addEventListener('click', async () => {
-                selectedAmount = parseInt(button.getAttribute('data-price'));
-                paymentModal.style.display = 'flex';
-                paymentOverlay.style.display = 'block';
-                header.style.zIndex = '0';
-                errorElement.textContent = 'Enter your payment details...';
-
-                try {
-                    const response = await fetch('/api/create-payment-intent', {
+            // Hantera utloggning
+            if (logoutButton) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    fetch('/api/users/logout', {
                         method: 'POST',
-                        credentials: 'include',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ amount: selectedAmount })
+                        credentials: 'include'
+                    })
+                    .then(() => {
+                        closeProfileModalHandler();
+                        updateLoginButton();
+                        window.location.replace('/login.html');
+                    })
+                    .catch(() => {
+                        window.location.replace('/login.html');
                     });
+                });
+            }
 
-                    const data = await response.json();
+            // Stäng profilsidan vid klick på krysset
+            if (closeProfileModal) {
+                closeProfileModal.addEventListener('click', closeProfileModalHandler);
+            }
 
-                    if (data.error) {
-                        errorElement.textContent = data.error;
+            // Kör vid sidladdning
+            updateLoginButton();
+
+            planButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    selectedAmount = parseInt(button.getAttribute('data-price'));
+                    paymentModal.style.display = 'flex';
+                    paymentOverlay.style.display = 'block';
+                    header.style.zIndex = '0';
+                    errorElement.textContent = 'Enter your payment details...';
+
+                    try {
+                        const response = await fetch('/api/create-payment-intent', {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ amount: selectedAmount })
+                        });
+
+                        const data = await response.json();
+
+                        if (data.error) {
+                            errorElement.textContent = data.error;
+                            paymentModal.style.display = 'none';
+                            paymentOverlay.style.display = 'none';
+                            header.style.zIndex = '1';
+                            return;
+                        }
+
+                        elements = stripe.elements();
+                        const elementStyles = {
+                            base: {
+                                color: '#2B2A2A',
+                                fontFamily: 'Poppins, sans-serif',
+                                fontSize: '16px',
+                                '::placeholder': {
+                                    color: '#CCCCCC',
+                                },
+                            },
+                            invalid: {
+                                color: '#E02F2F',
+                            },
+                        };
+
+                        const cardNumber = elements.create('cardNumber', { style: elementStyles });
+                        const cardExpiry = elements.create('cardExpiry', { style: elementStyles });
+                        const cardCvc = elements.create('cardCvc', { style: elementStyles });
+
+                        cardNumber.mount('#card-number-element');
+                        cardExpiry.mount('#card-expiry-element');
+                        cardCvc.mount('#card-cvc-element');
+
+                        const submitButton = document.getElementById('submit-payment');
+                        submitButton.addEventListener('click', async () => {
+                            submitButton.disabled = true;
+                            errorElement.textContent = 'Processing payment...';
+
+                            try {
+                                const result = await stripe.confirmCardPayment(data.clientSecret, {
+                                    payment_method: {
+                                        card: cardNumber,
+                                    },
+                                });
+
+                                if (result.error) {
+                                    errorElement.textContent = result.error.message;
+                                    submitButton.disabled = false;
+                                    return;
+                                }
+
+                                if (result.paymentIntent.status === 'succeeded') {
+                                    errorElement.textContent = 'Payment successful! Redirecting...';
+                                    setTimeout(() => {
+                                        window.location.replace('/deals.html');
+                                    }, 2000);
+                                }
+                            } catch (error) {
+                                errorElement.textContent = 'Error: ' + error.message;
+                                submitButton.disabled = false;
+                            }
+                        });
+                    } catch (error) {
+                        errorElement.textContent = 'Error: ' + error.message;
                         paymentModal.style.display = 'none';
                         paymentOverlay.style.display = 'none';
                         header.style.zIndex = '1';
-                        return;
                     }
+                });
+            });
 
-                    elements = stripe.elements();
-                    const elementStyles = {
-                        base: {
-                            color: '#2B2A2A',
-                            fontFamily: 'Poppins, sans-serif',
-                            fontSize: '16px',
-                            '::placeholder': {
-                                color: '#CCCCCC',
-                            },
-                        },
-                        invalid: {
-                            color: '#E02F2F',
-                        },
-                    };
-
-                    const cardNumber = elements.create('cardNumber', { style: elementStyles });
-                    const cardExpiry = elements.create('cardExpiry', { style: elementStyles });
-                    const cardCvc = elements.create('cardCvc', { style: elementStyles });
-
-                    cardNumber.mount('#card-number-element');
-                    cardExpiry.mount('#card-expiry-element');
-                    cardCvc.mount('#card-cvc-element');
-
-                    const submitButton = document.getElementById('submit-payment');
-                    submitButton.addEventListener('click', async () => {
-                        submitButton.disabled = true;
-                        errorElement.textContent = 'Processing payment...';
-
-                        try {
-                            const result = await stripe.confirmCardPayment(data.clientSecret, {
-                                payment_method: {
-                                    card: cardNumber,
-                                },
-                            });
-
-                            if (result.error) {
-                                errorElement.textContent = result.error.message;
-                                submitButton.disabled = false;
-                                return;
-                            }
-
-                            if (result.paymentIntent.status === 'succeeded') {
-                                errorElement.textContent = 'Payment successful! Redirecting...';
-                                setTimeout(() => {
-                                    window.location.replace('/deals.html');
-                                }, 2000);
-                            }
-                        } catch (error) {
-                            errorElement.textContent = 'Error: ' + error.message;
-                            submitButton.disabled = false;
-                        }
-                    });
-                } catch (error) {
-                    errorElement.textContent = 'Error: ' + error.message;
-                    paymentModal.style.display = 'none';
-                    paymentOverlay.style.display = 'none';
-                    header.style.zIndex = '1';
-                }
+            closePaymentModal.addEventListener('click', () => {
+                paymentModal.style.display = 'none';
+                paymentOverlay.style.display = 'none';
+                header.style.zIndex = '1';
+                planButtons.forEach(btn => btn.style.display = 'block');
+                errorElement.textContent = '';
             });
         });
-
-        closePaymentModal.addEventListener('click', () => {
-            paymentModal.style.display = 'none';
-            paymentOverlay.style.display = 'none';
-            header.style.zIndex = '1';
-            planButtons.forEach(btn => btn.style.display = 'block');
-            errorElement.textContent = '';
-        });
-    });
-</script>
+    </script>
 </body>
 </html>
