@@ -790,10 +790,15 @@ body {
     padding-right: 20px;
 }
 
+.profile-sidebar a:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
 .profile-sidebar ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    margin-left: 20px;
 }
 
 .profile-sidebar li {
@@ -850,6 +855,15 @@ body {
 
 .content-section a:hover {
     text-decoration: underline;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #2B2A2A; /* --dark-grey */
 }
 
 @media (max-width: 768px) {
