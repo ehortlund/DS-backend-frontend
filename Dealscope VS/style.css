@@ -947,7 +947,7 @@ body {
 
 .profile-sidebar {
     width: 200px;
-    border-right: 1px solid #2B2A2A; /* --dark-grey */
+    border-right: 1px solid var(--soft-white); /* --dark-grey */
     padding-right: 20px;
 }
 
@@ -978,7 +978,6 @@ body {
 }
 
 .profile-sidebar a:hover {
-    background-color: rgba(255, 0, 0, 0.1);
 }
 
 .profile-content {
