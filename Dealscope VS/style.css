@@ -725,9 +725,71 @@ body {
 .trusted-section {
     position: relative;
     margin-top: 150px;
-    background-color:#5acf68; /* Vit bakgrund */
+    color: #E9E9E9; /* --medium-white */
+    overflow: hidden; /* För att hålla rörliga lager inom sektionen */
+    background-color:var(--green); /* Vit bakgrund */
     width: 100vw; /* Låt bakgrunden sträcka sig över hela skärmbredden */
     padding: 50px 0; /* Vertikal padding för sektionen */
+}
+
+/* Första lagret av grön gradient som rör sig mjukt */
+.trusted-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(61, 165, 73, 0.3), rgba(29, 94, 32, 0.1), transparent); /* Gröna nyanser */
+    filter: blur(50px); /* Mjuk blur-effekt */
+    animation: floatLayer1 4s ease-in-out infinite; /* Långsam animation */
+    z-index: 0; /* Bakom innehållet */
+}
+
+/* Andra lagret av grön gradient som rör sig i motsatt riktning */
+.trusted-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(189, 235, 190, 0.483), rgba(201, 220, 202, 0.567), transparent); /* Ljusare gröna nyanser */
+    filter: blur(50px); /* Mjuk blur-effekt */
+    animation: floatLayer2 4s ease-in-out infinite; /* Långsam animation */
+    z-index: 0; /* Bakom innehållet */
+}
+
+/* Gör så att innehållet i sektionen ligger över lagren */
+.trusted-section .container {
+    position: relative;
+    z-index: 1; /* Över de rörliga lagren */
+}
+
+/* Animation för första lagret */
+@keyframes floatLayer1 {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(-20%, 20%);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/* Animation för andra lagret (motsatt riktning) */
+@keyframes floatLayer2 {
+    0% {
+        transform: translate(-20%, 20%);
+    }
+    50% {
+        transform: translate(20%, -20%);
+    }
+    100% {
+        transform: translate(-20%, 20%);
+    }
 }
 
 /* Behåll allt inom en container */
