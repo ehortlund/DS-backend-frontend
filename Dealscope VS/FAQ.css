@@ -48,6 +48,15 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.close-modal {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #2B2A2A; /* --dark-grey */
+}
+
 /* Header */
 .main-header {
     position: fixed; /* Fixera menyn */

@@ -145,5 +145,119 @@
 
   <!-- Script -->
   <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const loginButtons = document.querySelectorAll('.login-btn');
+        const profileModal = document.getElementById('profile-modal');
+        const profileOverlay = document.getElementById('profile-overlay');
+        const closeProfileModal = document.getElementById('close-profile-modal');
+        const header = document.querySelector('.main-header');
+        const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
+        const contentSections = document.querySelectorAll('.content-section');
+        const logoutButton = document.getElementById('logout-btn');
+        const profileUsername = document.getElementById('profile-username');
+        const profileEmail = document.getElementById('profile-email');
+
+        // Funktion för att uppdatera login-knapparnas text och länk
+        async function updateLoginButton() {
+            try {
+                const response = await fetch('/api/users/me', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    // Användaren är inte inloggad, visa "Log in"
+                    loginButtons.forEach(button => {
+                        button.textContent = 'Log in';
+                        button.href = '/login.html';
+                        button.removeEventListener('click', openProfileModal);
+                    });
+                } else {
+                    // Användaren är inloggad, visa användarnamnet och förbered för att öppna profilsidan
+                    loginButtons.forEach(button => {
+                        button.textContent = data.username;
+                        button.href = '#';
+                        button.addEventListener('click', openProfileModal);
+                    });
+
+                    // Fyll i profilinformation
+                    if (profileUsername && profileEmail) {
+                        profileUsername.textContent = data.username;
+                        profileEmail.textContent = data.email;
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                loginButtons.forEach(button => {
+                    button.textContent = 'Log in';
+                    button.href = '/login.html';
+                    button.removeEventListener('click', openProfileModal);
+                });
+            }
+        }
+
+        // Funktion för att öppna profilsidan
+        function openProfileModal(event) {
+            event.preventDefault();
+            profileModal.style.display = 'flex';
+            profileOverlay.style.display = 'block';
+            header.style.zIndex = '0';
+        }
+
+        // Funktion för att stänga profilsidan
+        function closeProfileModalHandler() {
+            profileModal.style.display = 'none';
+            profileOverlay.style.display = 'none';
+            header.style.zIndex = '1';
+        }
+
+        // Hantera sidomenyn
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault();
+                const section = link.getAttribute('data-section');
+                if (section) {
+                    // Ta bort "active"-klassen från alla länkar och sektioner
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    contentSections.forEach(s => s.classList.remove('active'));
+
+                    // Lägg till "active"-klassen på den valda länken och sektionen
+                    link.classList.add('active');
+                    document.getElementById(`${section}-section`).classList.add('active');
+                }
+            });
+        });
+
+        // Hantera utloggning
+        if (logoutButton) {
+            logoutButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                fetch('/api/users/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                })
+                .then(() => {
+                    closeProfileModalHandler();
+                    updateLoginButton();
+                    window.location.replace('/login.html');
+                })
+                .catch(() => {
+                    window.location.replace('/login.html');
+                });
+            });
+        }
+
+        // Stäng modalen vid klick på krysset
+        if (closeProfileModal) {
+            closeProfileModal.addEventListener('click', closeProfileModalHandler);
+        }
+
+        // Kör vid sidladdning
+        updateLoginButton();
+    });
+</script>
 </body>
 </html>
