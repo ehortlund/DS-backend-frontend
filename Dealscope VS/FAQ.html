@@ -158,6 +158,11 @@
         const profileUsername = document.getElementById('profile-username');
         const profileEmail = document.getElementById('profile-email');
 
+        console.log("FAQ.html: DOMContentLoaded triggad");
+        console.log("Antal loginButtons:", loginButtons.length);
+        console.log("profileModal:", profileModal);
+        console.log("profileOverlay:", profileOverlay);
+
         // Funktion för att uppdatera login-knapparnas text och länk
         async function updateLoginButton() {
             try {
@@ -171,6 +176,7 @@
                 if (data.error) {
                     // Användaren är inte inloggad, visa "Log in"
                     loginButtons.forEach(button => {
+                        console.log("Användare inte inloggad, sätter 'Log in' på knapp:", button);
                         button.textContent = 'Log in';
                         button.href = '/login.html';
                         button.removeEventListener('click', openProfileModal);
@@ -178,9 +184,11 @@
                 } else {
                     // Användaren är inloggad, visa användarnamnet och förbered för att öppna profilsidan
                     loginButtons.forEach(button => {
+                        console.log("Användare inloggad, sätter username:", data.username, "på knapp:", button);
                         button.textContent = data.username;
                         button.href = '#';
                         button.addEventListener('click', openProfileModal);
+                        console.log("Klick-event kopplat till knapp:", button);
                     });
 
                     // Fyll i profilinformation
@@ -202,13 +210,19 @@
         // Funktion för att öppna profilsidan
         function openProfileModal(event) {
             event.preventDefault();
+            console.log("openProfileModal kallad");
+            console.log("profileModal före:", profileModal.style.display);
+            console.log("profileOverlay före:", profileOverlay.style.display);
             profileModal.style.display = 'flex';
             profileOverlay.style.display = 'block';
             header.style.zIndex = '0';
+            console.log("profileModal efter:", profileModal.style.display);
+            console.log("profileOverlay efter:", profileOverlay.style.display);
         }
 
         // Funktion för att stänga profilsidan
         function closeProfileModalHandler() {
+            console.log("closeProfileModalHandler kallad");
             profileModal.style.display = 'none';
             profileOverlay.style.display = 'none';
             header.style.zIndex = '1';
@@ -220,11 +234,8 @@
                 event.preventDefault();
                 const section = link.getAttribute('data-section');
                 if (section) {
-                    // Ta bort "active"-klassen från alla länkar och sektioner
                     sidebarLinks.forEach(l => l.classList.remove('active'));
                     contentSections.forEach(s => s.classList.remove('active'));
-
-                    // Lägg till "active"-klassen på den valda länken och sektionen
                     link.classList.add('active');
                     document.getElementById(`${section}-section`).classList.add('active');
                 }
