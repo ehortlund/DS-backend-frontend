@@ -43,6 +43,51 @@
         </nav>
     </header>
 
+            <!-- Overlay för profilsidan -->
+            <div id="profile-overlay" class="profile-overlay"></div>
+
+            <!-- Modal för profilsidan -->
+            <div id="profile-modal" class="profile-modal">
+                <div class="profile-modal-content">
+                    <span id="close-profile-modal" class="close-modal">×</span>
+                    <div class="profile-modal-inner">
+                        <!-- Sidomeny -->
+                        <nav class="profile-sidebar">
+                            <ul>
+                                <li><a href="#" class="active" data-section="profile">Profile</a></li>
+                                <li><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                                <li><a href="#" data-section="settings">Settings</a></li>
+                                <li><a href="#" data-section="contact">Contact</a></li>
+                                <li><a href="#" id="logout-btn-modal">Log out</a></li>
+                            </ul>
+                        </nav>
+                        <!-- Innehållsdel -->
+                        <div class="profile-content">
+                            <!-- Profilsektion -->
+                            <div id="profile-section" class="content-section active">
+                                <h2>Profile</h2>
+                                <p>Username: <span id="profile-username"></span></p>
+                                <p>Email: <span id="profile-email"></span></p>
+                            </div>
+                            <!-- Betalningsinställningar -->
+                            <div id="payment-settings-section" class="content-section">
+                                <h2>Payment Settings</h2>
+                                <p>Manage your payment methods and subscription details here.</p>
+                            </div>
+                            <!-- Inställningar -->
+                            <div id="settings-section" class="content-section">
+                                <h2>Settings</h2>
+                                <p>Adjust your account settings, notifications, and preferences.</p>
+                            </div>
+                            <!-- Kontakt -->
+                            <div id="contact-section" class="content-section">
+                                <h2>Contact</h2>
+                                <p>Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
     <section class="faq-section fade-in">
         <div class="container">
