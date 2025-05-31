@@ -195,6 +195,120 @@
         "CEA Technologies (Private): Phased-array radar systems for Aegis integration.",
         "Austal Limited (<span class=\"stock-symbol\">ASX: ASB</span>): Local manufacturing and integration support."
       ]
+    },
+    {
+      "title": "Pfizer-3SBio Cancer Drug Licensing Deal",
+      "description": "Pfizer has entered a $6 billion licensing agreement with China’s 3SBio Inc. to develop and manufacture a cancer drug targeting lung, colorectal, and gynecological cancers.",
+      "link": "https://www.disclose.tv/news/pfizer-3sbio-cancer-drug-deal-2025-05-20",
+      "category": "Healthcare",
+      "date": "2025-05-20",
+      "dealValue": "$6 Billion",
+      "industry": "Pharmaceuticals",
+      "buyer": "3SBio Inc. (<span class=\"stock-symbol\">HKEX: 1530</span>)",
+      "seller": "Pfizer Inc. (<span class=\"stock-symbol\">NYSE: PFE</span>)",
+      "impact": "This deal accelerates the development and commercialization of innovative cancer therapies in China, leveraging 3SBio’s local manufacturing capabilities and Pfizer’s R&D expertise. It supports China’s growing demand for advanced oncology treatments and strengthens Pfizer’s presence in the Asian market.",
+      "subcontractors": [
+        "WuXi Biologics (<span class=\"stock-symbol\">HKEX: 2269</span>): Biologics manufacturing and process development.",
+        "Lonza Group AG (<span class=\"stock-symbol\">SIX: LONN</span>): Active pharmaceutical ingredient (API) production.",
+        "Catalent, Inc. (<span class=\"stock-symbol\">NYSE: CTLT</span>): Drug formulation and packaging services.",
+        "Sartorius AG (<span class=\"stock-symbol\">ETR: SRT</span>): Bioprocessing equipment and single-use systems.",
+        "Parexel International (Private): Clinical trial management and regulatory support."
+      ]
+    },
+    {
+      "title": "Ascension-Amsurg Outpatient Centers Acquisition",
+      "description": "Ascension has agreed to acquire Amsurg’s portfolio of outpatient surgery centers for $3.9 billion, expanding its ambulatory care network across the United States.",
+      "link": "https://www.modernhealthcare.com/mergers-acquisitions/ascension-amsurg-outpatient-centers-2025-05-31",
+      "category": "Healthcare",
+      "date": "2025-05-31",
+      "dealValue": "$3.9 Billion",
+      "industry": "Healthcare Services",
+      "buyer": "Ascension Health (Private)",
+      "seller": "Amsurg (Part of Envision Healthcare, Private)",
+      "impact": "This acquisition enhances Ascension’s outpatient care capabilities, aligning with the shift toward cost-effective ambulatory services. It strengthens Ascension’s market position in key states and supports value-based care models, improving patient access to surgical services.",
+      "subcontractors": [
+        "Medtronic plc (<span class=\"stock-symbol\">NYSE: MDT</span>): Surgical devices and equipment supply.",
+        "Stryker Corporation (<span class=\"stock-symbol\">NYSE: SYK</span>): Orthopedic and surgical instruments.",
+        "Cerner Corporation (Part of Oracle, <span class=\"stock-symbol\">NASDAQ: ORCL</span>): Electronic health record (EHR) integration and IT support.",
+        "Sodexo S.A. (<span class=\"stock-symbol\">EPA: SW</span>): Facility management and sterilization services.",
+        "Steris plc (<span class=\"stock-symbol\">NYSE: STE</span>): Infection prevention and sterilization equipment."
+      ]
+    },
+    {
+      "title": "JPMorgan Chase-BlackRock WealthTech Platform Joint Venture",
+      "description": "JPMorgan Chase and BlackRock have formed a joint venture to develop a next-generation wealth management platform, integrating AI-driven analytics and digital payment solutions.",
+      "link": "https://www.bloomberg.com/news/articles/2025-05-15/jpmorgan-blackrock-wealthtech-jv",
+      "category": "Finance",
+      "date": "2025-05-15",
+      "dealValue": "$2.5 Billion",
+      "industry": "Financial Technology",
+      "buyer": "Joint Venture (JPMorgan Chase and BlackRock)",
+      "seller": "JPMorgan Chase & Co. (<span class=\"stock-symbol\">NYSE: JPM</span>), BlackRock, Inc. (<span class=\"stock-symbol\">NYSE: BLK</span>)",
+      "impact": "This joint venture aims to revolutionize wealth management by combining JPMorgan’s banking infrastructure with BlackRock’s investment expertise, offering clients personalized, AI-driven financial solutions. It positions both firms to capture the growing digital wealth market and enhances client engagement through scalable technology.",
+      "subcontractors": [
+        "Salesforce, Inc. (<span class=\"stock-symbol\">NYSE: CRM</span>): Customer relationship management (CRM) and cloud platform services.",
+        "Amazon Web Services (Part of Amazon, <span class=\"stock-symbol\">NASDAQ: AMZN</span>): Cloud infrastructure and AI computing services.",
+        "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): GPU hardware for AI and machine learning workloads.",
+        "Fiserv, Inc. (<span class=\"stock-symbol\">NYSE: FI</span>): Payment processing and digital banking solutions.",
+        "Temenos AG (<span class=\"stock-symbol\">SIX: TEMN</span>): Core banking software and API integration."
+      ]
+    },
+    {
+      "title": "OpenAI-Jony Ive AI Hardware Startup Acquisition",
+      "description": "OpenAI has acquired Jony Ive’s AI device startup, io, for $6.5 billion to develop a new generation of AI-powered hardware products.",
+      "link": "https://www.nytimes.com/2025/05/21/technology/openai-jony-ive-acquisition.html",
+      "category": "Tech",
+      "date": "2025-05-21",
+      "dealValue": "$6.5 Billion",
+      "industry": "Artificial Intelligence and Consumer Electronics",
+      "buyer": "OpenAI (Private)",
+      "seller": "io (Private)",
+      "impact": "This acquisition positions OpenAI to compete with major tech giants in the AI hardware space, leveraging Jony Ive’s design expertise to create consumer-friendly AI devices. It accelerates OpenAI’s shift from software to integrated hardware-software solutions, targeting markets like smart home and personal assistants.",
+      "subcontractors": [
+        "Foxconn Technology Group (<span class=\"stock-symbol\">TPE: 2317</span>): Manufacturing and assembly of AI hardware devices.",
+        "Qualcomm Incorporated (<span class=\"stock-symbol\">NASDAQ: QCOM</span>): Supply of AI-optimized chipsets and modems.",
+        "Synopsys, Inc. (<span class=\"stock-symbol\">NASDAQ: SNPS</span>): Electronic design automation tools for chip development.",
+        "TSMC (<span class=\"stock-symbol\">NYSE: TSM</span>): Semiconductor fabrication for custom AI processors.",
+        "Jabil Inc. (<span class=\"stock-symbol\">NYSE: JBL</span>): Supply chain management and electronics manufacturing services."
+      ]
+    },
+    {
+      "title": "Microsoft-Cohere AI Infrastructure Partnership",
+      "description": "Microsoft has partnered with Cohere to build AI infrastructure for enterprise-grade large language models, integrating Cohere’s technology into Azure’s cloud ecosystem.",
+      "link": "https://www.bloomberg.com/news/articles/2025-05-25/microsoft-cohere-ai-infrastructure-deal",
+      "category": "Tech",
+      "date": "2025-05-25",
+      "dealValue": "$3.8 Billion",
+      "industry": "Cloud Computing and Artificial Intelligence",
+      "buyer": "Microsoft Corporation (<span class=\"stock-symbol\">NASDAQ: MSFT</span>)",
+      "seller": "Cohere (Private)",
+      "impact": "This partnership strengthens Microsoft’s Azure platform as a leader in enterprise AI, enabling businesses to deploy scalable, secure language models. Cohere’s expertise in natural language processing enhances Azure’s AI offerings, driving adoption in industries like finance, healthcare, and retail.",
+      "subcontractors": [
+        "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): GPU supply for AI training and inference.",
+        "Advanced Micro Devices, Inc. (<span class=\"stock-symbol\">NASDAQ: AMD</span>): Server processors and AI accelerators.",
+        "Ciena Corporation (<span class=\"stock-symbol\">NYSE: CIEN</span>): Optical networking for high-speed data center connectivity.",
+        "Schneider Electric SE (<span class=\"stock-symbol\">EPA: SU</span>): Power and cooling systems for AI data centers.",
+        "Red Hat, Inc. (Part of IBM, <span class=\"stock-symbol\">NYSE: IBM</span>): Open-source software for AI workload management."
+      ]
+    },
+    {
+      "title": "Amazon-CoreWeave AI Cloud Expansion Deal",
+      "description": "Amazon Web Services (AWS) has signed a $4.2 billion contract with CoreWeave to expand its AI cloud computing infrastructure, leveraging CoreWeave’s NVIDIA-powered data centers.",
+      "link": "https://www.reuters.com/technology/aws-coreweave-ai-cloud-deal-2025-05-28",
+      "category": "Tech",
+      "date": "2025-05-28",
+      "dealValue": "$4.2 Billion",
+      "industry": "Cloud Computing and Artificial Intelligence",
+      "buyer": "Amazon Web Services (Part of Amazon, <span class=\"stock-symbol\">NASDAQ: AMZN</span>)",
+      "seller": "CoreWeave (Private)",
+      "impact": "This deal boosts AWS’s capacity to support AI-driven workloads, positioning it as a key player in the AI cloud market. CoreWeave’s specialized infrastructure enhances AWS’s ability to serve data-intensive applications, supporting clients in machine learning and generative AI development.",
+      "subcontractors": [
+        "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): High-performance GPUs for AI compute.",
+        "Supermicro (<span class=\"stock-symbol\">NASDAQ: SMCI</span>): Server and rack-scale solutions for data centers.",
+        "Arista Networks, Inc. (<span class=\"stock-symbol\">NYSE: ANET</span>): High-speed networking switches and routers.",
+        "Vertiv Holdings Co (<span class=\"stock-symbol\">NYSE: VRT</span>): Power and thermal management for data centers.",
+        "Equinix, Inc. (<span class=\"stock-symbol\">NASDAQ: EQIX</span>): Data center colocation and interconnection services."
+      ]
     }
 
   ]
