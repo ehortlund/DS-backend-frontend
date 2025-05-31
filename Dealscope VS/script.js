@@ -87,7 +87,7 @@ const dealScope = {
         categorySuggestions.style.display = 'none';
         sortSuggestions.style.display = 'none';
 
-        const categories = ['Military', 'Healthcare', 'Finance', 'Energy', 'All'];
+        const categories = ['Military', 'Finance', 'Tech', 'Energy', 'Healthcare', 'All'];
         const sortOptions = ['Date ↑', 'Date ↓', 'Deal size ↑', 'Deal size ↓'];
 
         categories.forEach(category => {
