@@ -105,11 +105,11 @@ body {
 /* Login-knappen i mobilmenyn */
 .mobile-nav .login-btn {
     font-size: 32px;
-    font-weight: 550;
+    font-weight: 500;
     color: var(--medium-white);
     text-decoration: none;
-    border: none;
-    padding: 12px 25px;
+    border: 1px solid var(--red); /* Röd cirkel */
+    padding: 10px 20px;
     border-radius: 15px;
     margin-top: 20px;
     transition: background-color 0.3s ease, color 0.3s ease;
