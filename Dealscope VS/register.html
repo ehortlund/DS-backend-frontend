@@ -31,19 +31,19 @@
             background-size: 20px 20px; /* Storlek på rutnät */
         }
 
-        /* Lås orientering till porträtt */
-        @media screen and (orientation: landscape) {
-            html {
-                transform: rotate(-90deg);
-                transform-origin: left top;
-                width: 100vh;
-                height: 100vw;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                overflow: hidden;
-            }
-        }
+                /* Lås orientering till porträtt, men bara för mobila enheter */
+                @media screen and (max-width: 768px) and (orientation: landscape) {
+                    html {
+                        transform: rotate(-90deg);
+                        transform-origin: left top;
+                        width: 100vh;
+                        height: 100vw;
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        overflow: hidden;
+                    }
+                }
 
         .register-container {
             background-color: var(--white);
