@@ -255,7 +255,7 @@ body {
     font-weight: 550;
     color: var(--medium-white);
     text-decoration: none;
-    border: none;
+    border: 1px solid var(--red);
     padding: 12px 25px;
     border-radius: 15px;
     margin-top: 20px;
