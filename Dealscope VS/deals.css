@@ -1141,10 +1141,15 @@ body {
     .deal-details-container h3 {
         font-size: 14px;
         font-weight: 500;
+        margin-bottom: 0px;
     }
 
     .deal-details-container li {
         font-size: 14px;
+    }
+
+    .deal-details-container ul {
+        margin-bottom: 10px;
     }
 
     .deal-details-container span {
