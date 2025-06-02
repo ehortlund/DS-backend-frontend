@@ -10,6 +10,20 @@
     --red: #E02F2F;
 }
 
+/* Förhindra layoutändring vid rotation på mobila enheter */
+@media screen and (max-width: 768px) {
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Tillåt skroll om innehållet är för stort */
+    }
+    .register-container {
+        width: 90%; /* Anpassa bredden för porträttläge */
+        max-width: 400px; /* Maxbredd för att undvika att den blir för bred */
+        margin: 0 auto;
+    }
+}
+
 /* Initial tillstånd för elementen */
 .fade-in {
     opacity: 0;
