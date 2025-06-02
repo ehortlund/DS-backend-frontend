@@ -511,5 +511,22 @@
             }
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Kontrollera om vi är på en mobil enhet (max bredd 768px)
+            if (window.innerWidth <= 768) {
+                // Försök låsa orienteringen till porträttläge
+                if (window.screen && window.screen.orientation && typeof window.screen.orientation.lock === 'function') {
+                    window.screen.orientation.lock('portrait').then(() => {
+                        console.log("Orientering låst till porträtt");
+                    }).catch(err => {
+                        console.error("Kunde inte låsa orientering:", err);
+                    });
+                } else {
+                    console.log("Orienteringlås stöds inte i denna webbläsare");
+                }
+            }
+        });
+    </script>
 </body>
 </html>
