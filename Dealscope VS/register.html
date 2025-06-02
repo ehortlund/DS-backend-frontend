@@ -31,24 +31,6 @@
             background-size: 20px 20px; /* Storlek på rutnät */
         }
 
-        @media screen and (max-width: 768px) {
-            html, body {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                overflow-x: hidden; /* Förhindra horisontell skroll */
-                display: flex;
-                flex-direction: column;
-            }
-            .register-container {
-                width: 100%;
-                max-width: none;
-                margin: 0;
-                box-sizing: border-box;
-                padding: 20px;
-            }
-        }
 
         .register-container {
             background-color: var(--white);
@@ -517,23 +499,6 @@
                 registerButton.disabled = false;
             }
         }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Kontrollera om vi är på en mobil enhet (max bredd 768px)
-            if (window.innerWidth <= 768) {
-                // Försök låsa orienteringen till porträttläge
-                if (window.screen && window.screen.orientation && typeof window.screen.orientation.lock === 'function') {
-                    window.screen.orientation.lock('portrait').then(() => {
-                        console.log("Orientering låst till porträtt");
-                    }).catch(err => {
-                        console.error("Kunde inte låsa orientering:", err);
-                    });
-                } else {
-                    console.log("Orienteringlås stöds inte i denna webbläsare");
-                }
-            }
-        });
     </script>
 </body>
 </html>
