@@ -15,12 +15,24 @@
     html, body {
         width: 100%;
         height: 100%;
-        overflow: auto; /* Tillåt skroll om innehållet är för stort */
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
     }
-    .register-container {
-        width: 90%; /* Anpassa bredden för porträttläge */
-        max-width: 400px; /* Maxbredd för att undvika att den blir för bred */
-        margin: 0 auto;
+    .main-header, .deal-section, .deal-dashboard-wrapper, .footer {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        box-sizing: border-box;
+        padding: 10px;
+    }
+    .deal-section, .deal-dashboard-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: auto;
     }
 }
 
