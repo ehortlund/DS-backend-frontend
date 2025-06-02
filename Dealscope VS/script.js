@@ -391,10 +391,18 @@ const dealScope = {
     },
 
     generateDealRecommendations: function (deals, currentDealTitle) {
-        const otherDeals = deals.filter(deal => deal.title !== currentDealTitle).slice(0, 3);
+        // Filtrera bort den aktuella dealen
+        const otherDeals = deals.filter(deal => deal.title !== currentDealTitle);
+        
+        // Slumpa ordningen på de återstående dealsen
+        const shuffledDeals = otherDeals.sort(() => Math.random() - 0.5);
+        
+        // Ta de första tre dealsen från den slumpade listan
+        const recommendedDeals = shuffledDeals.slice(0, 3);
+
         return `
             <h3 class="deal-recommendations-title">More deals</h3>
-            ${otherDeals.map(deal => `
+            ${recommendedDeals.map(deal => `
                 <div class="deal-recommendation">
                     <span class="deal-recommendation-title">${deal.title}</span>
                     <span class="deal-recommendation-value">Value: ${deal.dealValue || 'N/A'}</span>

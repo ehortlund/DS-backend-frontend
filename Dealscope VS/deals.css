@@ -1064,6 +1064,14 @@ body {
         transition: max-height 0.2s linear, padding 0.2s linear, margin-bottom 0.2s linear;
     }
 
+    .deal-example-card[data-state="closed"] .deal-section-heading {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .deal-example-card ul {
         margin-left: 0px;
     }
@@ -1121,7 +1129,9 @@ body {
         font-size: 18px;
         font-weight: 500;
         letter-spacing: 1.3px;
-    }
+        margin-left: 20px;
+        margin-right: 20px;
+    }   
     .deal-details-header p {
         margin-left: 20px;
         margin-right: 20px;

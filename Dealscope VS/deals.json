@@ -73,7 +73,7 @@
       "industry": "Cloud Computing and Data Centers",
       "buyer": "Microsoft Corporation (<span class=\"stock-symbol\">NASDAQ: MSFT</span>)",
       "seller": "Equinix, Inc. (<span class=\"stock-symbol\">NASDAQ: EQIX</span>)",
-      "impact": "This deal enables Microsoft to scale its Azure cloud services globally, with Equinix providing state-of-the-art data center facilities to support AI workloads and enterprise digital transformation. The partnership strengthens Microsoft’s position in the cloud market and enhances Equinix’s role as a key infrastructure provider.",
+      "impact": "This deal enables Microsoft to scale its Azure cloud services globally, with Equinix providing state-of-the-art data center facilities to support AI workloads and enterprise digital transformation.",
       "subcontractors": [
         "Schneider Electric SE (<span class=\"stock-symbol\">EPA: SU</span>): Power management and cooling systems for data centers.",
         "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): Supply of GPUs for AI compute infrastructure.",
@@ -92,7 +92,7 @@
       "industry": "Railway and Heavy Engineering",
       "buyer": "Indian Railways",
       "seller": "Siemens AG (<span class=\"stock-symbol\">ETR: SIE</span>)",
-      "impact": "This deal strengthens India’s rail infrastructure, enabling faster and more efficient freight and passenger transport. Siemens will establish a manufacturing facility in India, boosting local employment and technology transfer, with maintenance services spanning 35 years.",
+      "impact": "This deal strengthens India’s rail infrastructure, enabling faster and more efficient freight and passenger transport. Siemens will establish a manufacturing facility in India, boosting local employment and technology transfer.",
       "subcontractors": [
         "Alstom SA (<span class=\"stock-symbol\">EPA: ALO</span>): Supply of signaling systems and train control technologies.",
         "Bharat Heavy Electricals Limited (<span class=\"stock-symbol\">BSE: BHEL</span>): Local production of electrical components and traction motors.",
@@ -111,7 +111,7 @@
       "industry": "Solar Energy",
       "buyer": "Iraq Ministry of Electricity",
       "seller": "TotalEnergies SE (<span class=\"stock-symbol\">EPA: TTE</span>)",
-      "impact": "The project supports Iraq’s goal to diversify its energy mix, reducing reliance on fossil fuels. It includes engineering, procurement, and construction of solar farms, with TotalEnergies leading local capacity building and job creation.",
+      "impact": "The project supports Iraq’s goal to diversify its energy mix, reducing reliance on fossil fuels. It includes engineering, procurement, and construction of solar farms.",
       "subcontractors": [
         "First Solar, Inc. (<span class=\"stock-symbol\">NASDAQ: FSLR</span>): Supply of photovoltaic panels for the solar plant.",
         "Schneider Electric SE (<span class=\"stock-symbol\">EPA: SU</span>): Electrical infrastructure and grid integration systems.",
@@ -130,7 +130,7 @@
       "industry": "Defense and Aerospace",
       "buyer": "South Korea Defense Acquisition Program Administration",
       "seller": "The Boeing Company (<span class=\"stock-symbol\">NYSE: BA</span>)",
-      "impact": "This deal enhances South Korea’s air defense capabilities, modernizing its F-15K fleet with cutting-edge technology. It includes system integration and testing, strengthening Boeing’s presence in the Asia-Pacific defense market.",
+      "impact": "This deal enhances South Korea’s air defense capabilities, modernizing its F-15K fleet with cutting-edge technology. It includes system integration and testing.",
       "subcontractors": [
         "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Advanced radar systems (APG-82).",
         "L3Harris Technologies, Inc. (<span class=\"stock-symbol\">NYSE: LHX</span>): Avionics and communication systems.",
@@ -149,7 +149,7 @@
       "industry": "Aerospace and Defense",
       "buyer": "Airbus SE (<span class=\"stock-symbol\">EPA: AIR</span>)",
       "seller": "Spirit AeroSystems Holdings, Inc. (<span class=\"stock-symbol\">NYSE: SPR</span>)",
-      "impact": "This acquisition strengthens Airbus’s control over its supply chain, integrating Spirit’s European facilities and programs like A350 fuselage production. It supports Airbus’s strategy to enhance operational efficiency and secure critical aerostructures capabilities amid rising global demand for commercial aircraft.",
+      "impact": "This acquisition strengthens Airbus’s control over its supply chain, integrating Spirit’s European facilities and programs like A350 fuselage production.",
       "subcontractors": [
         "GKN Aerospace (Part of Melrose Industries PLC, <span class=\"stock-symbol\">LSE: MRO</span>): Composite components and wing structures.",
         "Safran SA (<span class=\"stock-symbol\">EPA: SAF</span>): Landing gear systems and nacelle components.",
@@ -168,7 +168,7 @@
       "industry": "Offshore Wind Energy",
       "buyer": "Equinor ASA (<span class=\"stock-symbol\">OSE: EQNR</span>)",
       "seller": "Vinci SA (<span class=\"stock-symbol\">EPA: DG</span>)",
-      "impact": "The project expands Norway’s offshore wind capacity, supporting Europe’s renewable energy goals. Vinci’s expertise in marine construction will ensure the delivery of floating wind turbine foundations, boosting local supply chains and green energy production.",
+      "impact": "The project expands Norway’s offshore wind capacity, supporting Europe’s renewable energy goals. Vinci’s expertise in marine construction will ensure the delivery of floating wind turbine foundations.",
       "subcontractors": [
         "Siemens Gamesa Renewable Energy (<span class=\"stock-symbol\">BME: SGRE</span>): Turbine supply and installation.",
         "Nexans SA (<span class=\"stock-symbol\">EPA: NEX</span>): Subsea cabling and grid connection systems.",
@@ -187,7 +187,7 @@
       "industry": "Defense and Aerospace",
       "buyer": "Australian Department of Defence",
       "seller": "Lockheed Martin Corporation (<span class=\"stock-symbol\">NYSE: LMT</span>)",
-      "impact": "This deal enhances Australia’s missile defense capabilities, integrating advanced radar and interceptor systems to counter regional threats. It includes technology transfer and local production, strengthening Australia’s defense industry.",
+      "impact": "This deal enhances Australia’s missile defense capabilities, integrating advanced radar and interceptor systems to counter regional threats.",
       "subcontractors": [
         "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Patriot missile systems and radar integration.",
         "BAE Systems PLC (<span class=\"stock-symbol\">LSE: BA</span>): Electronic warfare and sensor systems.",
@@ -206,7 +206,7 @@
       "industry": "Pharmaceuticals",
       "buyer": "3SBio Inc. (<span class=\"stock-symbol\">HKEX: 1530</span>)",
       "seller": "Pfizer Inc. (<span class=\"stock-symbol\">NYSE: PFE</span>)",
-      "impact": "This deal accelerates the development and commercialization of innovative cancer therapies in China, leveraging 3SBio’s local manufacturing capabilities and Pfizer’s R&D expertise. It supports China’s growing demand for advanced oncology treatments and strengthens Pfizer’s presence in the Asian market.",
+      "impact": "This deal accelerates the development and commercialization of innovative cancer therapies in China, leveraging 3SBio’s local manufacturing capabilities and Pfizer’s R&D expertise.",
       "subcontractors": [
         "WuXi Biologics (<span class=\"stock-symbol\">HKEX: 2269</span>): Biologics manufacturing and process development.",
         "Lonza Group AG (<span class=\"stock-symbol\">SIX: LONN</span>): Active pharmaceutical ingredient (API) production.",
@@ -225,7 +225,7 @@
       "industry": "Healthcare Services",
       "buyer": "Ascension Health (Private)",
       "seller": "Amsurg (Part of Envision Healthcare, Private)",
-      "impact": "This acquisition enhances Ascension’s outpatient care capabilities, aligning with the shift toward cost-effective ambulatory services. It strengthens Ascension’s market position in key states and supports value-based care models, improving patient access to surgical services.",
+      "impact": "This acquisition enhances Ascension’s outpatient care capabilities, aligning with the shift toward cost-effective ambulatory services.",
       "subcontractors": [
         "Medtronic plc (<span class=\"stock-symbol\">NYSE: MDT</span>): Surgical devices and equipment supply.",
         "Stryker Corporation (<span class=\"stock-symbol\">NYSE: SYK</span>): Orthopedic and surgical instruments.",
@@ -244,7 +244,7 @@
       "industry": "Financial Technology",
       "buyer": "Joint Venture (JPMorgan Chase and BlackRock)",
       "seller": "JPMorgan Chase & Co. (<span class=\"stock-symbol\">NYSE: JPM</span>), BlackRock, Inc. (<span class=\"stock-symbol\">NYSE: BLK</span>)",
-      "impact": "This joint venture aims to revolutionize wealth management by combining JPMorgan’s banking infrastructure with BlackRock’s investment expertise, offering clients personalized, AI-driven financial solutions. It positions both firms to capture the growing digital wealth market and enhances client engagement through scalable technology.",
+      "impact": "This joint venture aims to revolutionize wealth management by combining JPMorgan’s banking infrastructure with BlackRock’s investment expertise, offering clients personalized, AI-driven financial solutions.",
       "subcontractors": [
         "Salesforce, Inc. (<span class=\"stock-symbol\">NYSE: CRM</span>): Customer relationship management (CRM) and cloud platform services.",
         "Amazon Web Services (Part of Amazon, <span class=\"stock-symbol\">NASDAQ: AMZN</span>): Cloud infrastructure and AI computing services.",
