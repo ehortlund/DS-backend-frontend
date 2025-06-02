@@ -1060,7 +1060,7 @@ body {
     .deal-example-card[data-state="open"] {
         background-color: rgba(49, 49, 49, 0.22);
         padding: 20px 20px; /* Justera värden, t.ex. mindre eller större padding */
-        max-height: 350px; /* Justera baserat på öppet kort */
+        max-height: 550px; /* Justera baserat på öppet kort */
         transition: max-height 0.2s linear, padding 0.2s linear, margin-bottom 0.2s linear;
     }
 
