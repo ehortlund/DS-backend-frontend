@@ -613,10 +613,18 @@ body {
 @media (max-width: 768px) {
     .noise-dealscope-heading {
         font-size: 28px;
+        margin-left: 14px;
+        margin-right: 14px;
     }
 
     .noise-dealscope-subheading {
         font-size: 16px;
+        margin-right: 14px;
+        margin-left: 14px;
+    }
+
+    .noise-box h2.deal-example-title, .dealscope-box h2.deal-example-title {
+        font-size: 18px;
     }
 }
 
@@ -647,7 +655,7 @@ body {
 }
 
 .noise-box h2.deal-example-title, .dealscope-box h2.deal-example-title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 550;
     color: #F4F4F4; /* --white */
     margin-bottom: 10px;

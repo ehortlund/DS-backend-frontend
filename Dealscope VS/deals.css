@@ -542,6 +542,22 @@ body {
     padding: 30px 40px;
 }
 
+/* Begränsa beskrivningen till 4 rader när kortet är stängt */
+.deal-example-card[data-state="closed"] .deal-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Begränsa till 4 rader */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Visa hela beskrivningen när kortet är öppet */
+.deal-example-card[data-state="open"] .deal-description {
+    display: block; /* Visa hela texten */
+    overflow: visible;
+    text-overflow: initial;
+}
+
 .deal-link-button {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
