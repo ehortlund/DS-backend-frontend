@@ -706,7 +706,7 @@ body {
 /* Centrera CTA-knappen längst ner */
 .noise-dealscope-section .cta-btn {
     display: block;
-    margin: 30px auto 0;
+    margin: 0px auto 0;
 }
 
 /* Responsiv design för mindre skärmar */
@@ -1521,7 +1521,7 @@ body {
         border: none; /* Ingen kantlinje */
         border-radius: 15px; /* Rundade hörn */
         cursor: pointer; /* Pekare vid hover */
-        margin-top: 20px; /* Avstånd ovanför knappen */
+        margin-top: 0px; /* Avstånd ovanför knappen */
         margin-right: 0;
     }
     

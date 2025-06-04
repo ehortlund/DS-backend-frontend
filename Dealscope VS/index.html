@@ -361,6 +361,12 @@
           const logoutButton = document.getElementById('logout-btn');
           const profileUsername = document.getElementById('profile-username');
           const profileEmail = document.getElementById('profile-email');
+          const registerButtons = document.querySelectorAll('.cta-btn, .register-btn');
+          registerButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = 'register.html';
+            });
+          });
 
           // Funktion för att uppdatera login-knapparnas text och länk
           async function updateLoginButton() {
