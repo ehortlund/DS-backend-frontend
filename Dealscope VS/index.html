@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
   </head>
 
-<body>
+  <body>
     <!-- Header -->
     <header class="main-header">
         <!-- Klickbar Logotyp -->
@@ -20,8 +20,8 @@
           <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
         </a>
 
-          <!-- Mobilmenyn -->
-          <div class="mobile-menu">
+        <!-- Mobilmenyn -->
+        <div class="mobile-menu">
             <!-- Hamburgarikonen -->
             <button class="menu-btn" aria-label="Open menu"></button>
 
@@ -37,7 +37,7 @@
                   <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun red.svg" alt="Sun Icon">
               </button>
             </nav>
-          </div>
+        </div>
 
         <!-- Desktop Navigation -->
         <nav class="desktop-nav">
@@ -51,15 +51,12 @@
               <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun red.svg" alt="Sun Icon">
           </button>
         </nav>
-
-        
     </header>
-    
 
     <!-- Main-innehåll -->
     <main>
       <!-- Hero-sektion -->
-      <section class="hero">
+      <section class="hero fade-in">
         <img id="hero-circle" class="circle-icon fade-in" src="assets/DS CIRCLE.svg" alt="Circle Icon">
         <h1 class="fade-in">
           See the hidden market movers in <span class="highlight">real time.</span>
@@ -70,202 +67,196 @@
     
       <!-- Funktioner-sektion -->
       <section class="features fade-in">
-        <ul class="feature-list">
-          <li class="feature-item">
-            <div class="red-dot"></div>
+        <ul class="feature-list fade-in">
+          <li class="feature-item fade-in">
+            <div class="red-dot fade-in"></div>
             Full transparency in the supply chain
           </li>
-          <li class="feature-item">
-            <div class="red-dot"></div>
+          <li class="feature-item fade-in">
+            <div class="red-dot fade-in"></div>
             Simplifies complex data
           </li>
-          <li class="feature-item">
-            <div class="red-dot"></div>
+          <li class="feature-item fade-in">
+            <div class="red-dot fade-in"></div>
             Maps out which companies may benefit
           </li>
         </ul>
       </section>
     </main>
     
-    
+    <!-- Undersida-sektion -->
+    <section class="insights-section fade-in">
+      <div class="container fade-in">
+        <h2 class="fade-in">
+          Turn Insights into <span class="highlight2">Actionable</span> Opportunities
+        </h2>
+        <p class="subheading fade-in">
+          Uncover hidden market dynamics and act with precision.
+        </p>
 
-<!-- undersida-sektion -->
-<section class="insights-section">
-  <div class="container">
-    <h2 class="fade-in">
-      Turn Insights into <span class="highlight2">Actionable</span> Opportunities
-    </h2>
-    <p class="subheading fade-in">
-      Uncover hidden market dynamics and act with precision.
-    </p>
+        <ul class="benefits-list fade-in">
+          <li class="fade-in">
+            <div class="line left fade-in"></div> <!-- Vänster linje -->
+            <div class="content fade-in">
+              <span class="icon fade-in">
+                <img src="assets/icons/icon-earth.svg" alt="Global Deals Icon">
+              </span>
+              <span class="text fade-in">
+                <strong>Global Deals:</strong> Follow the largest transactions across sectors in real-time.
+              </span>
+            </div>
+            <div class="line right fade-in"></div> <!-- Höger linje -->
+          </li>
+          <li class="fade-in">
+            <div class="line left fade-in"></div> <!-- Vänster linje -->
+            <div class="content fade-in">
+              <span class="icon fade-in">
+                <img src="assets/icons/icon-finger.svg" alt="Simplified Icon">
+              </span>
+              <span class="text fade-in">
+                <strong>Simplified:</strong> See deal insights in its purest form, no emotional fairy tales or long texts.
+              </span>
+            </div>
+            <div class="line right fade-in"></div> <!-- Höger linje -->
+          </li>
+          <li class="fade-in">
+            <div class="line left fade-in"></div> <!-- Vänster linje -->
+            <div class="content fade-in">
+              <span class="icon fade-in">
+                <img src="assets/icons/icon-chain.svg" alt="Full Chain Icon">
+              </span>
+              <span class="text fade-in">
+                <strong>Full Chain:</strong> Big deals involve many players, see both contractors & subcontractors.
+              </span>
+            </div>
+            <div class="line right fade-in"></div> <!-- Höger linje -->
+          </li>
+        </ul>
 
-    <ul class="benefits-list fade-in">
-      <li>
-        <div class="line left"></div> <!-- Vänster linje -->
-        <div class="content">
-          <span class="icon">
-            <img src="assets/icons/icon-earth.svg" alt="Global Deals Icon">
-          </span>
-          <span class="text">
-            <strong>Global Deals:</strong> Follow the largest transactions across sectors in real-time.
-          </span>
-        </div>
-        <div class="line right"></div> <!-- Höger linje -->
-      </li>
-      <li>
-        <div class="line left"></div> <!-- Vänster linje -->
-        <div class="content">
-          <span class="icon">
-            <img src="assets/icons/icon-finger.svg" alt="Simplified Icon">
-          </span>
-          <span class="text">
-            <strong>Simplified:</strong> See deal insights in its purest form, no emotional fairy tales or long texts.
-          </span>
-        </div>
-        <div class="line right"></div> <!-- Höger linje -->
-      </li>
-      <li>
-        <div class="line left"></div> <!-- Vänster linje -->
-        <div class="content">
-          <span class="icon">
-            <img src="assets/icons/icon-chain.svg" alt="Full Chain Icon">
-          </span>
-          <span class="text">
-            <strong>Full Chain:</strong> Big deals involve many players, see both contractors & subcontractors.
-          </span>
-        </div>
-        <div class="line right"></div> <!-- Höger linje -->
-      </li>
-    </ul>
-
-    <button class="cta-btn fade-in">Register</button>
-  </div>
-</section>
-
-
-<!-- Introduktionsrubrik -->
-<header class="noise-dealscope-header">
-  <h1 class="noise-dealscope-heading"><span class="highlight2">Dealscope</span> Cuts the Noise</h1>
-  <p class="noise-dealscope-subheading">No Gurus. No Speculation. Just Clear Insights for Everyday Investors.</p>
-</header>
-
-<!-- Deal Section -->
-<section class="noise-dealscope-section">
-  <div class="container fade-in">
-      <div class="noise-dealscope-container">
-          <!-- Vänster sida: The Noise -->
-          <div class="noise-box">
-              <h2 class="deal-example-title">The Noise</h2>
-              <p class="deal-example-subtitle">
-                  Endless hype, speculation, and noise from forums, newsfeeds, and self-proclaimed gurus.
-              </p>
-              <div class="articles-container">
-                  <div class="article">
-                      <img src="assets/profile1.png" alt="Profile 1" class="article-profile-pic">
-                      <div class="article-content">
-                          <h3>Market Guru Predicts 500% Surge!</h3>
-                          <p>Another speculative post from a self-proclaimed expert floods the forums with hype...</p>
-                      </div>
-                  </div>
-                  <div class="article">
-                      <img src="assets/profile2.png" alt="Profile 2" class="article-profile-pic">
-                      <div class="article-content">
-                          <h3>Top 10 Stocks to Buy Now!</h3>
-                          <p>Endless clickbait articles with no real data – just guesses and noise...</p>
-                      </div>
-                  </div>
-                  <div class="article">
-                      <img src="assets/profile3.png" alt="Profile 3" class="article-profile-pic">
-                      <div class="article-content">
-                          <h3>Insider Tips You Can’t Miss!</h3>
-                          <p>Unverified rumors spread like wildfire, drowning out real opportunities...</p>
-                      </div>
-                  </div>
-                  <div class="article">
-                      <img src="assets/profile4.png" alt="Profile 4" class="article-profile-pic">
-                      <div class="article-content">
-                          <h3>Will This Stock Crash?</h3>
-                          <p>More speculation from newsfeeds – no facts, just fearmongering...</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
-          <!-- Höger sida: Dealscope -->
-          <div class="dealscope-box">
-              <h2 class="deal-example-title">Dealscope</h2>
-              <p class="deal-example-subtitle">
-                Clear Insights Straight From the Source.
-              </p>
-              <!-- Ditt befintliga dealkort -->
-              <div class="deal-example-card">
-                  <h3 class="deal-section-heading">Major Contractors and Partners:</h3>
-                  <ul>
-                      <li>Buyer: <strong>Brazilian Air Force</strong></li>
-                      <li>
-                          Seller: <strong>Saab AB <span class="ticker-green">(SAAB-B)</span></strong>
-                      </li>
-                  </ul>
-
-                  <h3 class="deal-section-heading">Deal overview:</h3>
-                  <ul>
-                      <li>Deal Value: $5 Billion</li>
-                      <li>Industry: Defense and Aerospace</li>
-                  </ul>
-
-                  <h3 class="deal-section-heading">Subcontractors and Partners:</h3>
-                  <ul>
-                      <li>
-                          <strong>Embraer S.A. <span class="ticker-green">(NYSE: ERJ)</span></strong>:
-                          Local assembly, production.
-                      </li>
-                      <li>
-                          <strong>AEL Sistemas <span class="ticker-private">(Private)</span></strong>:
-                          Avionics systems integration and development.
-                      </li>
-                      <li>
-                          <strong>GE Aviation <span class="ticker-green">(General Electric, NYSE: GE)</span></strong>:
-                          Engines (F414-GE-39E) for the Gripen NG aircraft.
-                      </li>
-                      <li>
-                          <strong>Saab Aerostructures (Part of Saab AB, <span class="ticker-green">SAAB-B</span>)</strong>:
-                          Design and production of structural components.
-                      </li>
-                      <li>
-                          <strong>Akaer Engenharia <span class="ticker-private">(Private)</span></strong>:
-                          Structural engineering and fuselage components.
-                      </li>
-                  </ul>
-
-                  <span class="stock-note">Green color: Stock name</span>
-              </div>
-          </div>
+        <button class="cta-btn fade-in">Register</button>
       </div>
-      <!-- CTA-knapp centrerad längst ner -->
-      <button class="cta-btn fade-in">Explore More Deals</button>
-  </div>
-</section>
-    
-  
-  
+    </section>
 
-    <section class="trusted-section">
+    <!-- Introduktionsrubrik -->
+    <header class="noise-dealscope-header fade-in">
+      <h1 class="noise-dealscope-heading fade-in"><span class="highlight2">Dealscope</span> Cuts the Noise</h1>
+      <p class="noise-dealscope-subheading fade-in">No Gurus. No Speculation. Just Clear Insights for Everyday Investors.</p>
+    </header>
+
+    <!-- Deal Section -->
+    <section class="noise-dealscope-section fade-in">
+      <div class="container fade-in">
+          <div class="noise-dealscope-container fade-in">
+              <!-- Vänster sida: The Noise -->
+              <div class="noise-box fade-in">
+                  <h2 class="deal-example-title fade-in">The Noise</h2>
+                  <p class="deal-example-subtitle fade-in">
+                      Endless hype, speculation, and noise from forums, newsfeeds, and self-proclaimed gurus.
+                  </p>
+                  <div class="articles-container fade-in">
+                      <div class="article fade-in">
+                          <img src="assets/profile1.png" alt="Profile 1" class="article-profile-pic fade-in">
+                          <div class="article-content fade-in">
+                              <h3 class="fade-in">Market Guru Predicts 500% Surge!</h3>
+                              <p class="fade-in">Another speculative post from a self-proclaimed expert floods the forums with hype...</p>
+                          </div>
+                      </div>
+                      <div class="article fade-in">
+                          <img src="assets/profile2.png" alt="Profile 2" class="article-profile-pic fade-in">
+                          <div class="article-content fade-in">
+                              <h3 class="fade-in">Top 10 Stocks to Buy Now!</h3>
+                              <p class="fade-in">Endless clickbait articles with no real data – just guesses and noise...</p>
+                          </div>
+                      </div>
+                      <div class="article fade-in">
+                          <img src="assets/profile3.png" alt="Profile 3" class="article-profile-pic fade-in">
+                          <div class="article-content fade-in">
+                              <h3 class="fade-in">Insider Tips You Can’t Miss!</h3>
+                              <p class="fade-in">Unverified rumors spread like wildfire, drowning out real opportunities...</p>
+                          </div>
+                      </div>
+                      <div class="article fade-in">
+                          <img src="assets/profile4.png" alt="Profile 4" class="article-profile-pic fade-in">
+                          <div class="article-content fade-in">
+                              <h3 class="fade-in">Will This Stock Crash?</h3>
+                              <p class="fade-in">More speculation from newsfeeds – no facts, just fearmongering...</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Höger sida: Dealscope -->
+              <div class="dealscope-box fade-in">
+                  <h2 class="deal-example-title fade-in">Dealscope</h2>
+                  <p class="deal-example-subtitle fade-in">
+                    Clear Insights Straight From the Source.
+                  </p>
+                  <!-- Ditt befintliga dealkort -->
+                  <div class="deal-example-card fade-in">
+                      <h3 class="deal-section-heading fade-in">Major Contractors and Partners:</h3>
+                      <ul class="fade-in">
+                          <li class="fade-in">Buyer: <strong>Brazilian Air Force</strong></li>
+                          <li class="fade-in">
+                              Seller: <strong>Saab AB <span class="ticker-green">(SAAB-B)</span></strong>
+                          </li>
+                      </ul>
+
+                      <h3 class="deal-section-heading fade-in">Deal overview:</h3>
+                      <ul class="fade-in">
+                          <li class="fade-in">Deal Value: $5 Billion</li>
+                          <li class="fade-in">Industry: Defense and Aerospace</li>
+                      </ul>
+
+                      <h3 class="deal-section-heading fade-in">Subcontractors and Partners:</h3>
+                      <ul class="fade-in">
+                          <li class="fade-in">
+                              <strong>Embraer S.A. <span class="ticker-green">(NYSE: ERJ)</span></strong>:
+                              Local assembly, production.
+                          </li>
+                          <li class="fade-in">
+                              <strong>AEL Sistemas <span class="ticker-private">(Private)</span></strong>:
+                              Avionics systems integration and development.
+                          </li>
+                          <li class="fade-in">
+                              <strong>GE Aviation <span class="ticker-green">(General Electric, NYSE: GE)</span></strong>:
+                              Engines (F414-GE-39E) for the Gripen NG aircraft.
+                          </li>
+                          <li class="fade-in">
+                              <strong>Saab Aerostructures (Part of Saab AB, <span class="ticker-green">SAAB-B</span>)</strong>:
+                              Design and production of structural components.
+                          </li>
+                          <li class="fade-in">
+                              <strong>Akaer Engenharia <span class="ticker-private">(Private)</span></strong>:
+                              Structural engineering and fuselage components.
+                          </li>
+                      </ul>
+
+                      <span class="stock-note fade-in">Green color: Stock name</span>
+                  </div>
+              </div>
+          </div>
+          <!-- CTA-knapp centrerad längst ner -->
+          <button class="cta-btn fade-in">Explore More Deals</button>
+      </div>
+    </section>
+    
+    <section class="trusted-section fade-in">
       <div class="container fade-in">
         <!-- Flex-container för vänster (text/stats) och höger (knapp) -->
-        <div class="trusted-content">
+        <div class="trusted-content fade-in">
           <!-- Vänstra blocket: Titel + siffror -->
-          <div class="trusted-stats-block">
-            <h2 class="trusted-title">Trusted by</h2>
+          <div class="trusted-stats-block fade-in">
+            <h2 class="trusted-title fade-in">Trusted by</h2>
             <!-- Dina siffror -->
-            <div class="trusted-stats">
-              <div class="stat">
-                <span class="number">400+</span>
-                <span class="text">Users</span>
+            <div class="trusted-stats fade-in">
+              <div class="stat fade-in">
+                <span class="number fade-in">400+</span>
+                <span class="text fade-in">Users</span>
               </div>
-              <h2 class="trusted-title">Used over</h2>
-              <div class="stat">
-                <span class="number">20 000+</span>
-                <span class="text">Hours</span>
+              <h2 class="trusted-title fade-in">Used over</h2>
+              <div class="stat fade-in">
+                <span class="number fade-in">20 000+</span>
+                <span class="text fade-in">Hours</span>
               </div>
             </div>
           </div>
@@ -275,84 +266,82 @@
       </div>
     </section>
     
-  
-
-    <footer class="footer">
-      <div class="footer-container">
+    <footer class="footer fade-in">
+      <div class="footer-container fade-in">
         <!-- Vänster sektion -->
-        <div class="footer-logo-section">
-          <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
-            <p>© 2025 DealScope. All rights reserved.</p>
+        <div class="footer-logo-section fade-in">
+          <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo fade-in">
+            <p class="fade-in">© 2025 DealScope. All rights reserved.</p>
         </div>
 
         <!-- Mitten sektion -->
-        <div class="footer-links-section">
-            <ul>
-                <li><a href="deals.html">Deals</a></li>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="plans.html">Plans</a></li>
-                <li><a href="FAQ.html">Faq</a></li>
-                <li><a href="login.html">Log in</a></li>
+        <div class="footer-links-section fade-in">
+            <ul class="fade-in">
+                <li class="fade-in"><a href="deals.html">Deals</a></li>
+                <li class="fade-in"><a href="index.html">Home</a></li>
+                <li class="fade-in"><a href="plans.html">Plans</a></li>
+                <li class="fade-in"><a href="FAQ.html">Faq</a></li>
+                <li class="fade-in"><a href="login.html">Log in</a></li>
             </ul>
         </div>
 
         <!-- Höger sektion -->
-        <div class="footer-info-section">
-            <ul>
-                <li><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
-                <li>SE0206198616</li>
-                <li><a href="#privacy-policy">Privacy policy</a></li>
-                <li><a href="#cookies">Cookies</a></li>
+        <div class="footer-info-section fade-in">
+            <ul class="fade-in">
+                <li class="fade-in"><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
+                <li class="fade-in">SE0206198616</li>
+                <li class="fade-in"><a href="#privacy-policy">Privacy policy</a></li>
+                <li class="fade-in"><a href="#cookies">Cookies</a></li>
             </ul>
         </div>
       </div>
     </footer>
 
-       <!-- Overlay för profilsidan -->
-       <div id="profile-overlay" class="profile-overlay"></div>
+    <!-- Overlay för profilsidan -->
+    <div id="profile-overlay" class="profile-overlay fade-in"></div>
 
-       <!-- Modal för profilsidan -->
-       <div id="profile-modal" class="profile-modal">
-           <div class="profile-modal-content">
-               <span id="close-profile-modal" class="close-modal">×</span>
-               <div class="profile-modal-inner">
-                   <!-- Sidomeny -->
-                   <nav class="profile-sidebar">
-                       <ul>
-                           <li><a href="#" class="active" data-section="profile">Profile</a></li>
-                           <li><a href="#" data-section="payment-settings">Payment Settings</a></li>
-                           <li><a href="#" data-section="settings">Settings</a></li>
-                           <li><a href="#" data-section="contact">Contact</a></li>
-                           <li><a href="#" id="logout-btn">Log out</a></li>
-                       </ul>
-                   </nav>
-                   <!-- Innehållsdel -->
-                   <div class="profile-content">
-                       <!-- Profilsektion -->
-                       <div id="profile-section" class="content-section active">
-                           <h2>Profile</h2>
-                           <p>Username: <span id="profile-username"></span></p>
-                           <p>Email: <span id="profile-email"></span></p>
-                       </div>
-                       <!-- Betalningsinställningar -->
-                       <div id="payment-settings-section" class="content-section">
-                           <h2>Payment Settings</h2>
-                           <p>Manage your payment methods and subscription details here.</p>
-                       </div>
-                       <!-- Inställningar -->
-                       <div id="settings-section" class="content-section">
-                           <h2>Settings</h2>
-                           <p>Adjust your account settings, notifications, and preferences.</p>
-                       </div>
-                       <!-- Kontakt -->
-                       <div id="contact-section" class="content-section">
-                           <h2>Contact</h2>
-                           <p>Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
+    <!-- Modal för profilsidan -->
+    <div id="profile-modal" class="profile-modal fade-in">
+        <div class="profile-modal-content fade-in">
+            <span id="close-profile-modal" class="close-modal fade-in">×</span>
+            <div class="profile-modal-inner fade-in">
+                <!-- Sidomeny -->
+                <nav class="profile-sidebar fade-in">
+                    <ul class="fade-in">
+                        <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
+                        <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                        <li class="fade-in"><a href="#" data-section="settings">Settings</a></li>
+                        <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
+                        <li class="fade-in"><a href="#" id="logout-btn">Log out</a></li>
+                    </ul>
+                </nav>
+                <!-- Innehållsdel -->
+                <div class="profile-content fade-in">
+                    <!-- Profilsektion -->
+                    <div id="profile-section" class="content-section active fade-in">
+                        <h2 class="fade-in">Profile</h2>
+                        <p class="fade-in">Username: <span id="profile-username"></span></p>
+                        <p class="fade-in">Email: <span id="profile-email"></span></p>
+                    </div>
+                    <!-- Betalningsinställningar -->
+                    <div id="payment-settings-section" class="content-section fade-in">
+                        <h2 class="fade-in">Payment Settings</h2>
+                        <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    </div>
+                    <!-- Inställningar -->
+                    <div id="settings-section" class="content-section fade-in">
+                        <h2 class="fade-in">Settings</h2>
+                        <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
+                    </div>
+                    <!-- Kontakt -->
+                    <div id="contact-section" class="content-section fade-in">
+                        <h2 class="fade-in">Contact</h2>
+                        <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
 
   <!-- Script -->
@@ -377,6 +366,27 @@
           const desktopSunIcon = document.getElementById('desktop-sun-icon');
           const mobileMoonIcon = document.getElementById('mobile-moon-icon');
           const mobileSunIcon = document.getElementById('mobile-sun-icon');
+  
+          // Intersection Observer för att trigga fade-in-animationer vid skroll
+          const fadeInElements = document.querySelectorAll('.fade-in');
+          const observerOptions = {
+              root: null, // Använd viewport som root
+              rootMargin: '0px',
+              threshold: 0.1 // Trigg animationen när 10% av elementet är synligt
+          };
+  
+          const observer = new IntersectionObserver((entries, observer) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add('show');
+                      observer.unobserve(entry.target); // Sluta observera efter att animationen triggats
+                  }
+              });
+          }, observerOptions);
+  
+          fadeInElements.forEach(element => {
+              observer.observe(element);
+          });
   
           // Funktion för att uppdatera SVG:er baserat på tema
           function updateSVGs(theme) {

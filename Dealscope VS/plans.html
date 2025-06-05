@@ -10,19 +10,18 @@
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#121212">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  </head>
+</head>
 
 <body>
-
-      <!-- Header -->
-      <header class="main-header">
+    <!-- Header -->
+    <header class="main-header">
         <!-- Klickbar Logotyp -->
         <a href="index.html">
-          <img class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+            <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
         </a>
 
-          <!-- Mobilmenyn -->
-          <div class="mobile-menu">
+        <!-- Mobilmenyn -->
+        <div class="mobile-menu">
             <!-- Hamburgarikonen -->
             <button class="menu-btn" aria-label="Open menu"></button>
 
@@ -33,8 +32,12 @@
                 <a href="plans.html">Plans</a>
                 <a href="FAQ.html">FAQ</a> 
                 <a class="login-btn" href="login.html">Log in</a>
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <img id="mobile-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                    <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+                </button>
             </nav>
-          </div>
+        </div>
 
         <!-- Desktop Navigation -->
         <nav class="desktop-nav">
@@ -43,165 +46,167 @@
             <a href="plans.html">Plans</a>
             <a href="FAQ.html">FAQ</a> 
             <a class="login-btn" href="#login">Log in</a>
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                <img id="desktop-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+            </button>
         </nav>
-
-        
     </header>
 
-    <section class="plans fade-in show">
-        <h1 class="plans-title">Plans</h1>
-        <p class="plans-subtitle">Choose the right one for you</p>
-        <div class="plan-container">
-            <div class="plan pro">
-                <div class="badge">Most popular</div>
-                <h2>Pro</h2>
-                <div class="price-container">
-                    <span class="price">14.99</span>
-                    <span class="price-label">$ / month</span>
+    <section class="plans fade-in">
+        <h1 class="plans-title fade-in">Plans</h1>
+        <p class="plans-subtitle fade-in">Choose the right one for you</p>
+        <div class="plan-container fade-in">
+            <div class="plan pro fade-in">
+                <div class="badge fade-in">Most popular</div>
+                <h2 class="fade-in">Pro</h2>
+                <div class="price-container fade-in">
+                    <span class="price fade-in">14.99</span>
+                    <span class="price-label fade-in">$ / month</span>
                 </div>
-                <ul>
-                    <li>14 days free trial</li>
-                    <li>Cancel anytime</li>
-                    <li>100+ deals per month</li>
-                    <li>Live notifications</li>
+                <ul class="fade-in">
+                    <li class="fade-in">14 days free trial</li>
+                    <li class="fade-in">Cancel anytime</li>
+                    <li class="fade-in">100+ deals per month</li>
+                    <li class="fade-in">Live notifications</li>
                 </ul>
-                <button class="select-plan" data-price="1499">Start free trial</button>
+                <button class="select-plan fade-in" data-price="1499">Start free trial</button>
             </div>
             
-            <div class="plan yearly">
-                <div class="badge">Two months free</div>
-                <h2>Pro Yearly</h2>
-                <div class="price-container">
-                    <span class="price">149</span>
-                    <span class="price-label">$ / year</span>
+            <div class="plan yearly fade-in">
+                <div class="badge fade-in">Two months free</div>
+                <h2 class="fade-in">Pro Yearly</h2>
+                <div class="price-container fade-in">
+                    <span class="price fade-in">149</span>
+                    <span class="price-label fade-in">$ / year</span>
                 </div>
-                <ul>
-                    <li>Two months free</li>
-                    <li>Billed anually</li>
-                    <li>100+ deals per month</li>
-                    <li>Live notifications</li>
+                <ul class="fade-in">
+                    <li class="fade-in">Two months free</li>
+                    <li class="fade-in">Billed anually</li>
+                    <li class="fade-in">100+ deals per month</li>
+                    <li class="fade-in">Live notifications</li>
                 </ul>
-                <button class="select-plan" data-price="14900">Choose</button>
+                <button class="select-plan fade-in" data-price="14900">Choose</button>
             </div>
         </div>
         
         <!-- Overlay för att tona ner bakgrunden -->
-        <div id="payment-overlay" class="payment-overlay"></div>
+        <div id="payment-overlay" class="payment-overlay fade-in"></div>
 
         <!-- Modal för betalningsformulär -->
-        <div id="payment-modal" class="payment-modal">
-            <div class="payment-modal-content">
-                <span id="close-modal" class="close-modal">×</span>
-                <h2>Complete Your Payment</h2>
-                <div class="payment-field">
-                    <label for="card-number-element">Card Number</label>
-                    <div id="card-number-element"></div>
+        <div id="payment-modal" class="payment-modal fade-in">
+            <div class="payment-modal-content fade-in">
+                <span id="close-modal" class="close-modal fade-in">×</span>
+                <h2 class="fade-in">Complete Your Payment</h2>
+                <div class="payment-field fade-in">
+                    <label for="card-number-element" class="fade-in">Card Number</label>
+                    <div id="card-number-element" class="fade-in"></div>
                 </div>
-                <div class="payment-field">
-                    <label for="card-expiry-element">Expiration Date</label>
-                    <div id="card-expiry-element"></div>
+                <div class="payment-field fade-in">
+                    <label for="card-expiry-element" class="fade-in">Expiration Date</label>
+                    <div id="card-expiry-element" class="fade-in"></div>
                 </div>
-                <div class="payment-field">
-                    <label for="card-cvc-element">CVC</label>
-                    <div id="card-cvc-element"></div>
+                <div class="payment-field fade-in">
+                    <label for="card-cvc-element" class="fade-in">CVC</label>
+                    <div id="card-cvc-element" class="fade-in"></div>
                 </div>
-                <button id="submit-payment">Pay Now</button>
-                <div id="error"></div>
+                <button id="submit-payment" class="fade-in">Pay Now</button>
+                <div id="error" class="fade-in"></div>
 
-                <div class="payment-icons">
-                    <img src="assets/paymenticons/klarna.svg" alt="Klarna">
-                    <img src="assets/paymenticons/google-pay.svg" alt="Google Pay">
-                    <img src="assets/paymenticons/visa.svg" alt="Visa">
-                    <img src="assets/paymenticons/mastercard.svg" alt="Mastercard">
-                    <img src="assets/paymenticons/apple-pay.svg" alt="Apple Pay">
+                <div class="payment-icons fade-in">
+                    <img src="assets/paymenticons/klarna.svg" alt="Klarna" class="fade-in">
+                    <img src="assets/paymenticons/google-pay.svg" alt="Google Pay" class="fade-in">
+                    <img src="assets/paymenticons/visa.svg" alt="Visa" class="fade-in">
+                    <img src="assets/paymenticons/mastercard.svg" alt="Mastercard" class="fade-in">
+                    <img src="assets/paymenticons/apple-pay.svg" alt="Apple Pay" class="fade-in">
                 </div>
-
             </div>
         </div>
     </section>
 
-        <!-- Overlay för profilsidan -->
-        <div id="profile-overlay" class="profile-overlay"></div>
+    <!-- Overlay för profilsidan -->
+    <div id="profile-overlay" class="profile-overlay fade-in"></div>
 
-        <!-- Modal för profilsidan -->
-        <div id="profile-modal" class="profile-modal">
-            <div class="profile-modal-content">
-                <span id="close-profile-modal" class="close-modal">×</span>
-                <div class="profile-modal-inner">
-                    <!-- Sidomeny -->
-                    <nav class="profile-sidebar">
-                        <ul>
-                            <li><a href="#" class="active" data-section="profile">Profile</a></li>
-                            <li><a href="#" data-section="payment-settings">Payment Settings</a></li>
-                            <li><a href="#" data-section="settings">Settings</a></li>
-                            <li><a href="#" data-section="contact">Contact</a></li>
-                            <li><a href="#" id="logout-btn">Log out</a></li>
-                        </ul>
-                    </nav>
-                    <!-- Innehållsdel -->
-                    <div class="profile-content">
-                        <!-- Profilsektion -->
-                        <div id="profile-section" class="content-section active">
-                            <h2>Profile</h2>
-                            <p>Username: <span id="profile-username"></span></p>
-                            <p>Email: <span id="profile-email"></span></p>
-                        </div>
-                        <!-- Betalningsinställningar -->
-                        <div id="payment-settings-section" class="content-section">
-                            <h2>Payment Settings</h2>
-                            <p>Manage your payment methods and subscription details here.</p>
-                        </div>
-                        <!-- Inställningar -->
-                        <div id="settings-section" class="content-section">
-                            <h2>Settings</h2>
-                            <p>Adjust your account settings, notifications, and preferences.</p>
-                        </div>
-                        <!-- Kontakt -->
-                        <div id="contact-section" class="content-section">
-                            <h2>Contact</h2>
-                            <p>Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
-                        </div>
+    <!-- Modal för profilsidan -->
+    <div id="profile-modal" class="profile-modal fade-in">
+        <div class="profile-modal-content fade-in">
+            <span id="close-profile-modal" class="close-modal fade-in">×</span>
+            <div class="profile-modal-inner fade-in">
+                <!-- Sidomeny -->
+                <nav class="profile-sidebar fade-in">
+                    <ul class="fade-in">
+                        <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
+                        <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                        <li class="fade-in"><a href="#" data-section="settings">Settings</a></li>
+                        <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
+                        <li class="fade-in"><a href="#" id="logout-btn">Log out</a></li>
+                    </ul>
+                </nav>
+                <!-- Innehållsdel -->
+                <div class="profile-content fade-in">
+                    <!-- Profilsektion -->
+                    <div id="profile-section" class="content-section active fade-in">
+                        <h2 class="fade-in">Profile</h2>
+                        <p class="fade-in">Username: <span id="profile-username"></span></p>
+                        <p class="fade-in">Email: <span id="profile-email"></span></p>
+                    </div>
+                    <!-- Betalningsinställningar -->
+                    <div id="payment-settings-section" class="content-section fade-in">
+                        <h2 class="fade-in">Payment Settings</h2>
+                        <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    </div>
+                    <!-- Inställningar -->
+                    <div id="settings-section" class="content-section fade-in">
+                        <h2 class="fade-in">Settings</h2>
+                        <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
+                    </div>
+                    <!-- Kontakt -->
+                    <div id="contact-section" class="content-section fade-in">
+                        <h2 class="fade-in">Contact</h2>
+                        <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-          <!-- Vänster sektion -->
-          <div class="footer-logo-section">
-              <img src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
-              <p>© 2025 DealScope. All rights reserved.</p>
-          </div>
-  
-          <!-- Mitten sektion -->
-          <div class="footer-links-section">
-              <ul>
-                  <li><a href="deals.html">Deals</a></li>
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="plans.html">Plans</a></li>
-                  <li><a href="FAQ.html">FAQ</a></li>
-                  <li><a href="login.html">Log in</a></li>
-              </ul>
-          </div>
-  
-          <!-- Höger sektion -->
-          <div class="footer-info-section">
-              <ul>
-                  <li><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
-                  <li>SE0206198616</li>
-                  <li><a href="#privacy-policy">Privacy policy</a></li>
-                  <li><a href="#cookies">Cookies</a></li>
-              </ul>
-          </div>
+    <footer class="footer fade-in">
+        <div class="footer-container fade-in">
+            <!-- Vänster sektion -->
+            <div class="footer-logo-section fade-in">
+                <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo fade-in">
+                <p class="fade-in">© 2025 DealScope. All rights reserved.</p>
+            </div>
+
+            <!-- Mitten sektion -->
+            <div class="footer-links-section fade-in">
+                <ul class="fade-in">
+                    <li class="fade-in"><a href="deals.html">Deals</a></li>
+                    <li class="fade-in"><a href="index.html">Home</a></li>
+                    <li class="fade-in"><a href="plans.html">Plans</a></li>
+                    <li class="fade-in"><a href="FAQ.html">FAQ</a></li>
+                    <li class="fade-in"><a href="login.html">Log in</a></li>
+                </ul>
+            </div>
+
+            <!-- Höger sektion -->
+            <div class="footer-info-section fade-in">
+                <ul class="fade-in">
+                    <li class="fade-in"><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
+                    <li class="fade-in">SE0206198616</li>
+                    <li class="fade-in"><a href="#privacy-policy">Privacy policy</a></li>
+                    <li class="fade-in"><a href="#cookies">Cookies</a></li>
+                </ul>
+            </div>
         </div>
-      </footer>
-  <!-- Script -->
-  <script src="script.js"></script>
-  <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable key från Stripe
-    let elements;
+    </footer>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
+        let elements;
         let selectedAmount = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
@@ -220,6 +225,78 @@
             const profileUsername = document.getElementById('profile-username');
             const profileEmail = document.getElementById('profile-email');
             const errorElement = document.getElementById('error');
+            const headerLogo = document.getElementById('header-logo');
+            const footerLogo = document.getElementById('footer-logo');
+            const desktopMoonIcon = document.getElementById('desktop-moon-icon');
+            const desktopSunIcon = document.getElementById('desktop-sun-icon');
+            const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+            const mobileSunIcon = document.getElementById('mobile-sun-icon');
+
+            // Intersection Observer för att trigga fade-in-animationer vid skroll
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            fadeInElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Funktion för att uppdatera SVG:er baserat på tema
+            function updateSVGs(theme) {
+                if (theme === 'bright') {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon grey.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
+                } else {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon red.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
+                }
+            }
+
+            // Hämta tema från localStorage och tillämpa det vid sidladdning
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'bright') {
+                document.documentElement.classList.add('bright-mode');
+                updateSVGs('bright');
+            } else {
+                updateSVGs('dark');
+            }
+
+            // Lägg till klick-event för temaväxlingsknapparna
+            const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+            themeToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const htmlElement = document.documentElement;
+                    if (htmlElement.classList.contains('bright-mode')) {
+                        htmlElement.classList.remove('bright-mode');
+                        localStorage.setItem('theme', 'dark');
+                        updateSVGs('dark');
+                    } else {
+                        htmlElement.classList.add('bright-mode');
+                        localStorage.setItem('theme', 'bright');
+                        updateSVGs('bright');
+                    }
+                });
+            });
 
             // Funktion för att uppdatera login-knapparnas text och länk
             async function updateLoginButton() {
@@ -232,30 +309,25 @@
                     const data = await response.json();
 
                     if (data.error) {
-                        // Användaren är inte inloggad, omdirigera till login
                         loginButtons.forEach(button => {
                             button.textContent = 'Log in';
                             button.href = '/login.html';
                             button.removeEventListener('click', openProfileModal);
                         });
-                        window.location.replace('/login.html');
                         return;
                     }
 
-                    // Användaren är inloggad, visa användarnamnet
                     loginButtons.forEach(button => {
                         button.textContent = data.username;
                         button.href = '#';
                         button.addEventListener('click', openProfileModal);
                     });
 
-                    // Fyll i profilinformation
                     if (profileUsername && profileEmail) {
                         profileUsername.textContent = data.username;
                         profileEmail.textContent = data.email;
                     }
 
-                    // Om användaren har betalat, omdirigera till deals.html
                     if (data.hasPaid) {
                         window.location.replace('/deals.html');
                         return;
@@ -267,7 +339,6 @@
                         button.href = '/login.html';
                         button.removeEventListener('click', openProfileModal);
                     });
-                    window.location.replace('/login.html');
                 }
             }
 
@@ -292,11 +363,8 @@
                     event.preventDefault();
                     const section = link.getAttribute('data-section');
                     if (section) {
-                        // Ta bort "active"-klassen från alla länkar och sektioner
                         sidebarLinks.forEach(l => l.classList.remove('active'));
                         contentSections.forEach(s => s.classList.remove('active'));
-
-                        // Lägg till "active"-klassen på den valda länken och sektionen
                         link.classList.add('active');
                         document.getElementById(`${section}-section`).classList.add('active');
                     }
@@ -427,6 +495,6 @@
                 errorElement.textContent = '';
             });
         });
-  </script>
+    </script>
 </body>
 </html>

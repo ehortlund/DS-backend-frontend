@@ -26,7 +26,7 @@
 /* Ljust tema */
 .bright-mode {
     /* Ljusare färger */
-    --background-color: #F4F4F4;
+    --background-color: #F9F9F9;
     --text-color: #2B2A2A;
     --secondary-text-color: #555555;
     --container-bg: #FFFFFF;
@@ -92,7 +92,9 @@
 }
 
 .bright-mode .deal-example-card {
-    background-color: var(--medium-white);
+    background-color: var(--background-color);
+    box-shadow: var(--red ) 0px 0px 10px;
+    border: none;
 }
 
 /* Anpassa för bright mode (valfritt, för bättre kontrast) */
