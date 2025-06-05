@@ -56,6 +56,7 @@
     background-color: none;
 }
 
+
 .bright-mode body {
     overflow-x: hidden;
     font-family: 'Poppins', sans-serif;
@@ -98,6 +99,7 @@
 .bright-mode .profile-sidebar a, .bright-mode .content-section h2, .bright-mode .content-section p, .bright-mode .close-modal {
     color: var(--dark-grey); /* En något ljusare grå för bright mode */
 }
+
 
 /* Stil för temaväxlingsknappen */
 .theme-toggle-btn {
@@ -846,6 +848,30 @@ body {
     .noise-dealscope-section {
         padding-bottom: 0;
     }
+
+    .main-header {
+        background-color: var(--header-bg);
+        background-image: 
+            linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
+
+    /* Bright mode-anpassning för header i mobil */
+    .bright-mode .main-header {
+        background-image: 
+            linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
+
+    .bright-mode body {
+        background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
+
 }
 
 /* Trusted sektion */
@@ -1259,6 +1285,10 @@ body {
         background-color: var(--background-color);
         margin: 0;
         overflow-x: hidden;
+        background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 10px 10px;
     }
 
     * {
@@ -1276,7 +1306,7 @@ body {
         background-image: 
             linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 20px 20px;
+        background-size: 10px 10px;
     }
 
     .logo {
@@ -1317,12 +1347,16 @@ body {
         color: var(--text-color);
     }
 
+    .bright-mode .mobile-nav.visible {
+        background-size: 10px 10px;
+    }
+
     .mobile-nav.visible {
         display: flex;
         background-image: 
             linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 20px 20px;
+        background-size: 10px 10px;
     }
 
 

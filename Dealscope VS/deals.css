@@ -26,7 +26,7 @@
 /* Ljust tema */
 .bright-mode {
     /* Ljusare färger */
-    --background-color: #F4F4F4;
+    --background-color: #F9F9F9;
     --text-color: #2B2A2A;
     --secondary-text-color: #555555;
     --container-bg: #FFFFFF;
@@ -109,7 +109,9 @@ body {
     background-image: 
         linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
         linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
-}
+    
+    background-color: #F9F9F9;
+    }
 
 /* Hamburgarikonen */
 .menu-btn {
@@ -589,8 +591,10 @@ body {
 
 /* Bright mode-anpassning för deal-example-card */
 .bright-mode .deal-example-card {
-    background-color: var(--medium-white);
+    background-color: #fafafaa8;
 }
+
+
 
 .stock-note {
     position: absolute;
@@ -663,7 +667,7 @@ body {
 
 /* Bright mode-anpassning för deal-example-card i öppet tillstånd */
 .bright-mode .deal-example-card[data-state="open"] {
-    background-color: var(--medium-white);
+    background-color: #fafafaa8;
 }
 
 /* Begränsa beskrivningen till 4 rader när kortet är stängt */
@@ -1442,7 +1446,7 @@ body {
         background-image: 
             linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-        background-size: 20px 20px;
+        background-size: 10px 10px;
     }
 
     /* Bright mode-anpassning för header i mobil */
@@ -1450,6 +1454,14 @@ body {
         background-image: 
             linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
             linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
+
+    .bright-mode body {
+        background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        background-size: 10px 10px;
     }
 
     .logo {
@@ -1495,14 +1507,16 @@ body {
         background-image: 
             linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-        background-size: 20px 20px;
-    }
+        background-size: 10px 10px;
+        }
 
     /* Bright mode-anpassning för mobilmenyn i mobil */
     .bright-mode .mobile-nav.visible {
         background-image: 
             linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
             linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        background-size: 10px 10px;
+
     }
 
     section {
