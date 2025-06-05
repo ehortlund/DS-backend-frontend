@@ -1,5 +1,6 @@
-/* Färger */
+/* Färger – Flyttar till variabler och lägger till bright mode */
 :root {
+    /* Mörkt tema (standard) */
     --soft-white: #CCCCCC;
     --medium-white: #E9E9E9;
     --white: #F4F4F4;
@@ -8,9 +9,34 @@
     --dark-grey: #2B2A2A;
     --green: #3DA549;
     --red: #E02F2F;
+
+    /* Variabler för temat */
+    --background-color: var(--vantablack);
+    --text-color: var(--medium-white);
+    --secondary-text-color: var(--soft-white);
+    --container-bg: var(--black);
+    --container-border: var(--dark-grey);
+    --highlight-color: var(--red);
+    --button-bg: var(--green);
+    --button-text: var(--white);
+    --header-bg: var(--vantablack);
+    --card-bg: rgba(32, 32, 32, 0.22);
 }
 
-
+/* Ljust tema */
+.bright-mode {
+    /* Ljusare färger */
+    --background-color: #F4F4F4;
+    --text-color: #2B2A2A;
+    --secondary-text-color: #555555;
+    --container-bg: #FFFFFF;
+    --container-border: #CCCCCC;
+    --highlight-color: #E02F2F;
+    --button-bg: #3DA549;
+    --button-text: #FFFFFF;
+    --header-bg: #FFFFFF;
+    --card-bg: rgba(200, 200, 200, 0.434);
+}
 
 /* Fade-in animationer */
 .fade-in {
@@ -38,8 +64,8 @@ body {
     font-weight: 400;
     margin: 0;
     padding: 0;
-    color: var(--medium-white);
-    background-color: var(--vantablack);
+    color: var(--text-color);
+    background-color: var(--background-color);
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
@@ -53,13 +79,20 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Bright mode-anpassning för body */
+.bright-mode body {
+    background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+}
+
 /* Header */
 .main-header {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: var(--vantablack);
+    background-color: var(--header-bg);
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
@@ -69,6 +102,13 @@ body {
     align-items: center;
     margin-right: 20px;
     padding: 30px 0px;
+}
+
+/* Bright mode-anpassning för header */
+.bright-mode .main-header {
+    background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
 }
 
 /* Hamburgarikonen */
@@ -85,17 +125,24 @@ body {
     right: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--vantablack);
+    background-color: var(--background-color);
     justify-content: center;
     align-items: center;
     z-index: 1000;
     transition: opacity 0.3s ease;
 }
 
+/* Bright mode-anpassning för mobilmeny */
+.bright-mode .mobile-nav {
+    background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+}
+
 .mobile-nav a {
     font-size: 32px;
     font-weight: 500;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
     margin: 15px 0;
     transition: color 0.3s ease;
@@ -108,9 +155,9 @@ body {
 .mobile-nav .login-btn {
     font-size: 32px;
     font-weight: 500;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
-    border: 1px solid var(--red);
+    border: 1px solid var(--highlight-color);
     padding: 10px 20px;
     border-radius: 15px;
     margin-top: 20px;
@@ -122,35 +169,35 @@ body {
 }
 
 .mobile-nav a:hover {
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 .mobile-nav .login-btn:hover {
-    background-color: var(--red);
-    color: var(--medium-white);
+    background-color: var(--highlight-color);
+    color: var(--text-color);
 }
 
 .logout-btn {
     background-color: transparent;
     font-family: 'Poppins', sans-serif;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     padding: 5px 10px;
-    border: 1px solid var(--red);
+    border: 1px solid var(--highlight-color);
     border-radius: 15px;
     transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 1.3px;
-    transition: all 0.3s ease;
     cursor: pointer;
 }
+
 .logout-btn:hover {
-    border: 1px solid var(--red);
-    color: var(--red);
+    border: 1px solid var(--highlight-color);
+    color: var(--highlight-color);
 }
 
 /* Logo */
@@ -181,7 +228,7 @@ body {
 .desktop-nav a {
     margin-left: 20px;
     margin-right: 30px;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
@@ -196,14 +243,14 @@ body {
 }
 
 .desktop-nav a:hover {
-    border: 1px solid var(--red);
-    color: var(--red);
+    border: 1px solid var(--highlight-color);
+    color: var(--highlight-color);
 }
 
 .login-btn {
     margin-left: 20px;
-    color: var(--red);
-    border: 1px solid var(--red);
+    color: var(--highlight-color);
+    border: 1px solid var(--highlight-color);
     text-decoration: none;
     text-align: center;
     font-size: 16px;
@@ -219,11 +266,87 @@ body {
 
 .login-btn:hover {
     background-color: transparent;
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 .desktop-nav .login-btn {
-    border: 1px solid var(--red);
+    border: 1px solid var(--highlight-color);
+}
+
+/* Stil för temaväxlingsknappen */
+.theme-toggle-btn {
+    color: var(--highlight-color);
+    border: 1px solid var(--highlight-color);
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    padding: 6px 11px;
+    border-radius: 15px;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Hover-effekt för temaväxlingsknappen */
+.theme-toggle-btn:hover {
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* Stil för ikonerna */
+.theme-icon {
+    width: 22px;
+    height: 22px;
+    transition: opacity 0.3s ease;
+}
+
+/* Ikonerna i mörkt tema */
+.moon-icon {
+    opacity: 1;
+    width: 18px;
+    height: 18px;
+}
+.sun-icon {
+    opacity: 0.5;
+}
+
+/* Ikonerna i bright mode */
+.bright-mode .moon-icon {
+    opacity: 0.5;
+    width: 18px;
+    height: 18px;
+}
+.bright-mode .sun-icon {
+    opacity: 1;
+}
+
+/* Anpassning för mobilmenyn */
+.mobile-nav .theme-toggle-btn {
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    border: 1px solid var(--highlight-color);
+    padding: 10px 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+}
+
+.mobile-nav .theme-toggle-btn:hover {
+    background-color: var(--highlight-color);
+    color: var(--text-color);
 }
 
 /* Deal-sektion */
@@ -240,18 +363,17 @@ body {
 #deal-category:-webkit-autofill,
 #deal-sort:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
-    -webkit-text-fill-color: var(--medium-white) !important;
+    -webkit-text-fill-color: var(--text-color) !important;
 }
-
 
 .deal-controls {
     margin-left: 45px;
     gap: 25px;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap; /* Förhindrar radbrytning */
-    overflow-x: auto; /* Horisontell scroll */
-    padding: 10px 40px 10px 10px; /* Extra utrymme för scroll */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 10px 40px 10px 10px;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -263,7 +385,7 @@ body {
     font-weight: 500;
     padding: 8px 16px;
     border-radius: 15px;
-    border: var(--red ) 1px solid;
+    border: var(--highlight-color) 1px solid;
     background-color: transparent;
     color: gray;
     text-rendering: optimizeLegibility;
@@ -273,11 +395,10 @@ body {
     cursor: pointer;
 }
 
-
 /* Dölj horisontell scrollbar för deal-controls */
 .deal-controls {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer och äldre Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 /* För Webkit-webbläsare (Chrome, Safari, Edge) */
@@ -286,7 +407,7 @@ body {
 }
 
 #deal-search {
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     cursor: text;
 }
 
@@ -311,14 +432,14 @@ body {
 .deal-section-title-wrapper {
     display: flex;
     align-items: center;
-    gap: 20px; /* Avstånd mellan titel och status */
+    gap: 20px;
 }
 
 .deal-section-title {
     margin-top: 150px;
     font-weight: 600;
     font-size: 36px;
-    color: var(--medium-white);
+    color: var(--text-color);
     margin-bottom: 16px;
     margin-left: 55px;
     text-rendering: optimizeLegibility;
@@ -333,21 +454,20 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border: 0.7px solid var(--green);
+    border: 0.7px solid var(--button-bg);
     padding: 5px 10px;
     border-radius: 15px;
-    margin-left: 55px; /* Samma marginal som titeln för att aligna dem */
-    margin-bottom: 16px; /* Avstånd till deal-controls */
+    margin-left: 55px;
+    margin-bottom: 16px;
     max-width: 250px;
 }
 
-
 /* Behållare för rullande text */
 .live-status-wrapper {
-    width: 250px; /* Fast bredd för att säkerställa att texten rullar korrekt */
+    width: 250px;
     overflow: hidden;
     white-space: nowrap;
-    display: block; /* Säkerställ att wrappern är ett blockelement */
+    display: block;
     position: relative;
 }
 
@@ -357,19 +477,14 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 350;
-    color: var(--green);
+    color: var(--button-bg);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 1.3px;
-    animation: scrollLeft 5s linear forwards; /* Använd forwards för att animationen ska slutföra */
-    padding-right: 40px; /* Lägg till padding för att skapa utrymme mellan upprepningar */
-
+    animation: scrollLeft 5s linear forwards;
+    padding-right: 40px;
 }
-
-
-
-
 
 /* Animation för att få texten att rulla horisontellt */
 @keyframes scrollLeft {
@@ -385,11 +500,11 @@ body {
     margin-left: 55px;
 }
 
-/* styling för dropdowns */
+/* Styling för dropdowns */
 .search-container,
 .category-container,
 .sort-by-container {
-    position: relative; /* För att dropdowns positioneras korrekt */
+    position: relative;
 }
 
 #deal-suggestions,
@@ -397,35 +512,35 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--vantablack);
-    border: 1px solid var(--red);
+    background-color: var(--background-color);
+    border: 1px solid var(--highlight-color);
     border-top: none;
     border-radius: 0 0 15px 15px;
     display: none;
-    z-index: 2000; /* Högt för att säkerställa att de syns */
-    margin-top: -15px; /* Drar upp ramen så den omsluter fältet */
-    padding-top: 15px; /* Kompenserar för margin-top så innehållet inte klipps */
+    z-index: 2000;
+    margin-top: -15px;
+    padding-top: 15px;
 }
 
 #category-suggestions {
     top: 100%;
     left: 0;
     right: 0;
-    background-color: var(--vantablack);
-    border: 1px solid var(--red);
+    background-color: var(--background-color);
+    border: 1px solid var(--highlight-color);
     border-top: none;
     border-radius: 0 0 15px 15px;
     display: none;
-    z-index: 2000; /* Högt för att säkerställa att de syns */
-    margin-top: -15px; /* Drar upp ramen så den omsluter fältet */
-    padding-top: 15px; /* Kompenserar för margin-top så innehållet inte klipps */
+    z-index: 2000;
+    margin-top: -15px;
+    padding-top: 15px;
 }
 
 #deal-suggestions .suggestion-item,
 #category-suggestions .suggestion-item,
 #sort-suggestions .suggestion-item {
     padding: 8px 15px;
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -438,33 +553,32 @@ body {
 }
 
 #deal-suggestions .suggestion-item {
-    white-space: nowrap; /* Förhindra radbrytning */
-    overflow: hidden; /* Klipp text som är för lång */
-    text-overflow: ellipsis; /* Lägg till tre prickar */
-    max-width: 15ch; /* Max 10 tecken */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15ch;
 }
 
 #deal-suggestions .suggestion-item:hover,
 #category-suggestions .suggestion-item:hover,
 #sort-suggestions .suggestion-item:hover {
     background-color: rgba(255, 0, 0, 0.1);
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 #deal-category.active::placeholder,
 #deal-sort.active::placeholder {
-    color: var(--soft-white); /* Ljusare färg när dropdown är aktiv */
-    z-index: 2000; /* För att säkerställa att den är överst */
-    background-color: var(--vantablack);
+    color: var(--secondary-text-color);
+    z-index: 2000;
+    background-color: var(--background-color);
 }
-
 
 /* Deals-kort */
 .deal-example-card {
     transition: height 0.2s ease-in-out, padding 0.3s ease-in-out, margin-bottom 0.3s ease-in-out;
     position: relative;
-    background-color: rgb(32 32 32 / 22%);
-    border: 1px solid var(--red);
+    background-color: var(--card-bg);
+    border: 1px solid var(--highlight-color);
     padding: 20px 30px;
     border-radius: 20px;
     margin-bottom: 20px;
@@ -473,17 +587,22 @@ body {
     z-index: auto;
 }
 
+/* Bright mode-anpassning för deal-example-card */
+.bright-mode .deal-example-card {
+    background-color: var(--medium-white);
+}
+
 .stock-note {
     position: absolute;
     top: 20px;
     right: 20px;
-    color: var(--green);
+    color: var(--button-bg);
     font-size: 16px;
     font-weight: 600;
 }
 
 .deal-section-heading {
-    color: var(--medium-white);
+    color: var(--text-color);
     margin-top: 20px;
     margin-bottom: 10px;
     font-size: 20px;
@@ -502,13 +621,13 @@ body {
 }
 
 .deal-example-card li {
-    color: var(--medium-white);
+    color: var(--text-color);
     margin-bottom: 8px;
     line-height: 1.4;
 }
 
 .deal-example-card a.deal-link {
-    color: var(--red);
+    color: var(--highlight-color);
     text-decoration: line;
     font-weight: 400;
     text-underline-offset: 4px;
@@ -520,7 +639,7 @@ body {
 }
 
 .deal-example-card a.deal-link:hover {
-    color: var(--red);
+    color: var(--highlight-color);
     font-weight: 500;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -529,7 +648,7 @@ body {
 }
 
 .deal-example-card li::marker {
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 .deal-example-card[data-state="closed"] .deal-details,
@@ -542,10 +661,15 @@ body {
     padding: 30px 40px;
 }
 
+/* Bright mode-anpassning för deal-example-card i öppet tillstånd */
+.bright-mode .deal-example-card[data-state="open"] {
+    background-color: var(--medium-white);
+}
+
 /* Begränsa beskrivningen till 4 rader när kortet är stängt */
 .deal-example-card[data-state="closed"] .deal-description {
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* Begränsa till 4 rader */
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -553,7 +677,7 @@ body {
 
 /* Visa hela beskrivningen när kortet är öppet */
 .deal-example-card[data-state="open"] .deal-description {
-    display: block; /* Visa hela texten */
+    display: block;
     overflow: visible;
     text-overflow: initial;
 }
@@ -562,10 +686,10 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 450;
-    background-color: var(--red);
-    color: white;
+    background-color: var(--highlight-color);
+    color: var(--button-text);
     padding: 8px 16px;
-    border: 1px solid var(--red);
+    border: 1px solid var(--highlight-color);
     cursor: pointer;
     border-radius: 15px;
     text-decoration: none;
@@ -578,11 +702,8 @@ body {
 
 .deal-link-button:hover {
     background-color: transparent;
-    color: var(--red);
+    color: var(--highlight-color);
 }
-
-
-
 
 /* Detaljsida */
 .deal-details-header {
@@ -592,7 +713,7 @@ body {
 }
 
 .deal-details-header h2 {
-    color: var(--red);
+    color: var(--highlight-color);
     font-size: 26px;
     font-weight: 550;
     margin-bottom: 10px;
@@ -600,7 +721,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 1.3px;
-
 }
 
 .deal-details-header p {
@@ -609,7 +729,7 @@ body {
     margin-bottom: 15px;
     margin-left: 300px;
     margin-right: 300px;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -623,15 +743,20 @@ body {
     margin-bottom: 100px;
     max-width: 800px;
     border-radius: 20px;
-    border: var(--red) 1px solid;
-    color: var(--medium-white);
+    border: var(--highlight-color) 1px solid;
+    color: var(--text-color);
+}
+
+/* Bright mode-anpassning för deal-details-container */
+.bright-mode .deal-details-container {
+    background-color: var(--medium-white);
 }
 
 .deal-details-container h3 {
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 20px;
-    color: var(--red);
+    color: var(--highlight-color);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -647,10 +772,10 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 450;
-    background-color: var(--red);
-    color: white;
+    background-color: var(--highlight-color);
+    color: var(--button-text);
     padding: 8px 16px;
-    border: 1px solid var(--red);
+    border: 1px solid var(--highlight-color);
     cursor: pointer;
     border-radius: 15px;
     text-decoration: none;
@@ -663,11 +788,11 @@ body {
 
 .back-button:hover {
     background-color: transparent;
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 .stock-symbol {
-    color: var(--green);
+    color: var(--button-bg);
     font-weight: bolder;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -676,7 +801,6 @@ body {
 }
 
 /* Rekommendationer under deal-details */
-
 .deal-recommendations {
     margin-bottom: 100px;
 }
@@ -685,7 +809,7 @@ body {
     text-align: center;
     font-size: 16px;
     font-weight: 500;
-    color: var(--medium-white);
+    color: var(--text-color);
     margin-bottom: 15px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -695,46 +819,50 @@ body {
 
 .deal-recommendation {
     background-color: rgba(49, 49, 49, 0.22);
-    border: 1px solid var(--red);
+    border: 1px solid var(--highlight-color);
     border-radius: 15px;
     padding: 10px 15px;
     margin-bottom: 10px;
-    margin-left: auto; /* Centrera horisontellt */
-    margin-right: auto; /* Centrera horisontellt */
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     max-width: 800px;
-    
+}
+
+/* Bright mode-anpassning för deal-recommendation */
+.bright-mode .deal-recommendation {
+    background-color: var(--medium-white);
 }
 
 .deal-recommendation-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 1.1px;
-    max-width: 30%; /* Begränsa titelns bredd */
-    white-space: nowrap; /* Förhindra radbrytning */
-    overflow: hidden; /* Klipp text som är för lång */
-    text-overflow: ellipsis; /* Lägg till tre prickar */
+    max-width: 30%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .deal-recommendation-value {
     font-size: 16px;
     font-weight: 600;
-    color: var(--green);
+    color: var(--button-bg);
     margin-left: 0px;
     margin-right: 0px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    position: absolute; /* Absolut positionering */
-    left: 50%; /* Centrera horisontellt */
-    transform: translateX(-50%); /* Justera för att centrera exakt */
-    text-align: center; /* Säkerställ att texten är centrerad */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
 }
 
 .deal-recommendation-button {
@@ -742,8 +870,8 @@ body {
     font-size: 16px;
     font-weight: 450;
     background-color: transparent;
-    border: 1px solid var(--red);
-    color: var(--medium-white);
+    border: 1px solid var(--highlight-color);
+    color: var(--text-color);
     padding: 8px 16px;
     border-radius: 12px;
     cursor: pointer;
@@ -757,7 +885,7 @@ body {
 
 .deal-recommendation-button:hover {
     background-color: transparent;
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 /* Stilar för profilsidans modal */
@@ -787,7 +915,7 @@ body {
 .profile-modal-content {
     margin-right: 50px;
     margin-left: 50px;
-    background-color: #F4F4F4; /* --white */
+    background-color: var(--white);
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -804,7 +932,7 @@ body {
 
 .profile-sidebar {
     width: 200px;
-    border-right: 1px solid var(--soft-white);
+    border-right: 1px solid var(--secondary-text-color);
     padding-right: 20px;
 }
 
@@ -826,7 +954,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    color: #2B2A2A;
+    color: var(--container-border);
     text-decoration: none;
     display: block;
     padding: 5px 0;
@@ -834,7 +962,7 @@ body {
 }
 
 .profile-sidebar a:hover, .profile-sidebar a.active {
-    color: #E02F2F;
+    color: var(--highlight-color);
 }
 
 .profile-content {
@@ -851,7 +979,7 @@ body {
 }
 
 .content-section h2 {
-    color: #2B2A2A;
+    color: var(--container-border);
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 550;
@@ -861,12 +989,12 @@ body {
 .content-section p {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    color: #2B2A2A;
+    color: var(--container-border);
     margin-bottom: 10px;
 }
 
 .content-section a {
-    color: #E02F2F;
+    color: var(--highlight-color);
     text-decoration: none;
 }
 
@@ -880,7 +1008,15 @@ body {
     left: 10px;
     font-size: 26px;
     cursor: pointer;
-    color: #2B2A2A; /* --dark-grey */
+    color: var(--container-border);
+}
+
+/* Bright mode-anpassning för profile-modal */
+.bright-mode .profile-sidebar a,
+.bright-mode .content-section h2,
+.bright-mode .content-section p,
+.bright-mode .close-modal {
+    color: var(--dark-grey);
 }
 
 @media (max-width: 768px) {
@@ -891,7 +1027,7 @@ body {
     .profile-sidebar {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid #2B2A2A;
+        border-bottom: 1px solid var(--container-border);
         padding-right: 0;
         padding-bottom: 20px;
         margin-bottom: 20px;
@@ -914,7 +1050,7 @@ body {
     margin-right: 15%;
     background-color: transparent;
     padding: 0px 20px;
-    color: #ffffff;
+    color: var(--text-color);
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
     text-align: center;
@@ -944,7 +1080,7 @@ body {
 
 .footer-logo-section p {
     margin: 0;
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     font-size: 12px;
 }
 
@@ -963,7 +1099,7 @@ body {
 
 .footer-links-section a,
 .footer-info-section a {
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     padding: 5px 10px;
     border: 1px solid transparent;
     border-radius: 20px;
@@ -977,8 +1113,8 @@ body {
 
 .footer-links-section a:hover,
 .footer-info-section a:hover {
-    color: var(--medium-white);
-    border: 1px solid var(--medium-white);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
     padding: 5px 10px;
     border-radius: 20px;
     transition: all 0.1s ease;
@@ -988,14 +1124,13 @@ body {
 }
 
 .footer-info-section {
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     flex: 1;
     text-align: right;
 }
 
 /* Deal section anpassning */
 @media (max-width: 768px) {
-
     .deal-section {
         padding: 0px;
     }
@@ -1006,17 +1141,17 @@ body {
     }
 
     .deal-dashboard-wrapper {
-        display: block !important; /* Isolera från flex-flöde */
+        display: block !important;
     }
 
     .deal-controls {
         margin-left: 0px;
-        gap:10px;
+        gap: 10px;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap; /* Förhindrar radbrytning */
-        overflow-x: auto; /* Horisontell scroll */
-        padding: 10px 10px 10px 10px; /* Extra utrymme för scroll */
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 10px 10px 10px 10px;
         -webkit-overflow-scrolling: touch;
     }
 
@@ -1027,41 +1162,44 @@ body {
         font-size: 14px;
         padding: 6px 12px;
         border-radius: 15px;
-        border: var(--red ) 1px solid;
+        border: var(--highlight-color) 1px solid;
         background-color: transparent;
-        width: 150px; /* Fast bredd i pixlar, matchar fältet */    
-        touch-action: manipulation; /* Förhindrar zoom vid interaktion */
+        width: 150px;
+        touch-action: manipulation;
     }
 
-    #deal-suggestions
-    #category-suggestions
+    #deal-suggestions,
+    #category-suggestions,
     #sort-suggestions {
-        width: 150px; /* Fast bredd i pixlar, matchar fältet */
+        width: 150px;
     }
 
-     
-    
     .search-container,
     .category-container,
     .sort-by-container {
-        flex: 0 0 auto; /* Förhindra krympning */
-        margin-right: 10px; /* Avstånd mellan element */
+        flex: 0 0 auto;
+        margin-right: 10px;
     }
-    
+
     .deal-example-card {
         margin-left: 25px;
         margin-right: 25px;
         padding: 20px 20px;
-        max-height: 250px; /* Justera baserat på stängt kort */
+        max-height: 250px;
         overflow: hidden !important;
         transition: max-height 0.2s linear, padding 0.2s linear, margin-bottom 0.2s linear;
-    }    
+    }
 
     .deal-example-card[data-state="open"] {
         background-color: rgba(49, 49, 49, 0.22);
-        padding: 20px 20px; /* Justera värden, t.ex. mindre eller större padding */
-        max-height: 550px; /* Justera baserat på öppet kort */
+        padding: 20px 20px;
+        max-height: 550px;
         transition: max-height 0.2s linear, padding 0.2s linear, margin-bottom 0.2s linear;
+    }
+
+    /* Bright mode-anpassning för deal-example-card i öppet tillstånd i mobil */
+    .bright-mode .deal-example-card[data-state="open"] {
+        background-color: var(--medium-white);
     }
 
     .deal-example-card[data-state="closed"] .deal-section-heading {
@@ -1085,10 +1223,11 @@ body {
     }
 
     .deal-section-title-wrapper {
-        flex-direction: column; /* Stapla titel och status vertikalt på mobil */
+        flex-direction: column;
         align-items: center;
         gap: 5px;
     }
+
     .deal-section-title {
         margin-left: 0;
         margin-right: 0;
@@ -1096,6 +1235,7 @@ body {
         font-size: 28px;
         text-align: center;
     }
+
     .status-online {
         font-size: 14px;
         animation: gradientShift 4s linear infinite;
@@ -1120,18 +1260,24 @@ body {
         margin-bottom: 50px;
     }
 
+    /* Bright mode-anpassning för deal-details-container i mobil */
+    .bright-mode .deal-details-container {
+        background-color: var(--medium-white);
+    }
+
     .deal-details-header {
         margin-top: 50px;
     }
-    
+
     .deal-details-header h2 {
-        color: var(--red);
+        color: var(--highlight-color);
         font-size: 18px;
         font-weight: 500;
         letter-spacing: 1.3px;
         margin-left: 20px;
         margin-right: 20px;
-    }   
+    }
+
     .deal-details-header p {
         margin-left: 20px;
         margin-right: 20px;
@@ -1158,21 +1304,23 @@ body {
     }
 
     .deal-details {
-        display:block;
-        justify-content: center; /* Centrera listan horisontellt */
-        margin-left: 0; /* Ta bort vänstermarginal */
-        padding-left: 80px; /* Behåll utrymme för markörer */
+        display: block;
+        justify-content: center;
+        margin-left: 0;
+        padding-left: 80px;
     }
+
     .deal-details li {
         font-size: 16px;
         font-weight: 500;
         position: relative;
-        padding-left: 0px; /* Avstånd mellan markör och text */
-        text-align: left; /* Säkerställ textjustering */
+        padding-left: 0px;
+        text-align: left;
     }
+
     .deal-details li::marker {
-        color: var(--red);
-        font-size: 14px; /* Markörstorlek */
+        color: var(--highlight-color);
+        font-size: 14px;
     }
 
     .deal-details-container span.stock-symbol {
@@ -1181,7 +1329,7 @@ body {
     }
 
     ::marker {
-        color: var(--red);
+        color: var(--highlight-color);
     }
 
     .deal-link-button {
@@ -1212,18 +1360,26 @@ body {
         font-size: 14px;
     }
 
-    .deal-recommendation-title{
+    .deal-recommendation-title {
         max-width: 30%;
     }
+
     .deal-recommendation {
         padding: 8px 10px;
         margin-left: 30px;
         margin-right: 30px;
     }
+
+    /* Bright mode-anpassning för deal-recommendation i mobil */
+    .bright-mode .deal-recommendation {
+        background-color: var(--medium-white);
+    }
+
     .deal-recommendation-title,
     .deal-recommendation-value {
         font-size: 12px;
     }
+
     .deal-recommendation-button {
         font-size: 12px;
         padding: 5px 10px;
@@ -1231,8 +1387,9 @@ body {
     }
 
     .status-online {
-    font-size: 12px;
+        font-size: 12px;
     }
+
     .live-status {
         font-size: 12px;
         animation: scrollLeft 5s linear forwards;
@@ -1240,13 +1397,12 @@ body {
 
     .status-container {
         align-items: center;
-        margin-left: auto; /* Centrera genom att sätta auto-marginaler */
+        margin-left: auto;
         margin-right: auto;
         padding: 2px 8px;
         max-width: 240px;
     }
 }
-
 
 /* Responsiv anpassning */
 @media (max-width: 768px) {
@@ -1282,11 +1438,18 @@ body {
     }
 
     .main-header {
-        background-color: var(--vantablack);
+        background-color: var(--header-bg);
         background-image: 
             linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
         background-size: 20px 20px;
+    }
+
+    /* Bright mode-anpassning för header i mobil */
+    .bright-mode .main-header {
+        background-image: 
+            linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
     }
 
     .logo {
@@ -1306,7 +1469,7 @@ body {
         font-size: 24px;
         background: none;
         border: none;
-        color: var(--medium-white);
+        color: var(--text-color);
         cursor: pointer;
         z-index: 2000;
         position: absolute;
@@ -1318,13 +1481,13 @@ body {
     .menu-btn::before {
         content: "\2630";
         font-size: 26px;
-        color: var(--medium-white);
+        color: var(--text-color);
     }
 
     .menu-btn.active::before {
         content: "\2715";
         font-size: 22px;
-        color: var(--medium-white);
+        color: var(--text-color);
     }
 
     .mobile-nav.visible {
@@ -1333,6 +1496,13 @@ body {
             linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
         background-size: 20px 20px;
+    }
+
+    /* Bright mode-anpassning för mobilmenyn i mobil */
+    .bright-mode .mobile-nav.visible {
+        background-image: 
+            linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
     }
 
     section {
@@ -1360,7 +1530,7 @@ body {
     }
 
     .hero h1 {
-        color: var(--medium-white);
+        color: var(--text-color);
         font-size: 32px;
         font-weight: 550;
         line-height: 1.2;
@@ -1390,6 +1560,15 @@ body {
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         margin-bottom: 20px;
+    }
+
+    /* Bright mode-anpassning för cta-btn i mobil */
+    .bright-mode .hero .cta-btn {
+        color: var(--button-text);
+    }
+
+    .bright-mode .hero .cta-btn:hover {
+        color: var(--highlight-color);
     }
 
     .footer {
@@ -1424,7 +1603,7 @@ body {
     .footer-logo-section p {
         font-size: 6px;
         margin: 0;
-        color: var(--soft-white);
+        color: var(--secondary-text-color);
         align-items: center;
     }
 
@@ -1448,7 +1627,7 @@ body {
 
     .footer-links-section a {
         font-size: 10px;
-        color: var(--soft-white);
+        color: var(--secondary-text-color);
         text-decoration: none;
     }
 
@@ -1471,7 +1650,7 @@ body {
 
     .footer-info-section a {
         font-size: 10px;
-        color: var(--soft-white);
+        color: var(--secondary-text-color);
         text-decoration: none;
     }
 }
@@ -1556,13 +1735,11 @@ body {
     }
 }
 
-
 @media only screen and (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) and (orientation: portrait) {
-   
     .deal-controls {
         padding-left: 0px;
         margin-left: 100px;
-    }   
+    }
 
     .deal-section-title {
         text-align: center;

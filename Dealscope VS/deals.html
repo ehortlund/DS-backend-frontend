@@ -16,7 +16,7 @@
     <!-- Header -->
     <header class="main-header">
         <a href="index.html">
-          <img class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+          <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
         </a>
         <div class="mobile-menu">
             <button class="menu-btn" aria-label="Open menu"></button>
@@ -26,6 +26,10 @@
                 <a href="plans.html">Plans</a>
                 <a href="FAQ.html">FAQ</a> 
                 <a class="login-btn" href="login.html">Log in</a>
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <img id="mobile-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                    <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+                </button>
             </nav>
         </div>
         <nav class="desktop-nav">
@@ -35,6 +39,10 @@
             <a href="FAQ.html">FAQ</a> 
             <a class="login-btn" href="login.html">Log in</a>
             <button id="logout-btn" class="logout-btn">Log out</button>
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                <img id="desktop-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+            </button>
         </nav>
     </header>
 
@@ -125,7 +133,7 @@
     <footer class="footer">
       <div class="footer-container">
         <div class="footer-logo-section">
-            <img src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
+            <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
             <p>© 2025 DealScope. All rights reserved.</p>
         </div>
         <div class="footer-links-section">
@@ -164,6 +172,57 @@
             const logoutButtonModal = document.getElementById('logout-btn-modal');
             const profileUsername = document.getElementById('profile-username');
             const profileEmail = document.getElementById('profile-email');
+            const headerLogo = document.getElementById('header-logo');
+            const footerLogo = document.getElementById('footer-logo');
+            const desktopMoonIcon = document.getElementById('desktop-moon-icon');
+            const desktopSunIcon = document.getElementById('desktop-sun-icon');
+            const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+            const mobileSunIcon = document.getElementById('mobile-sun-icon');
+
+            // Funktion för att uppdatera SVG:er baserat på tema
+            function updateSVGs(theme) {
+                if (theme === 'bright') {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon grey.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
+                } else {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon red.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
+                }
+            }
+
+            // Hämta tema från localStorage och tillämpa det vid sidladdning
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'bright') {
+                document.documentElement.classList.add('bright-mode');
+                updateSVGs('bright');
+            } else {
+                updateSVGs('dark');
+            }
+
+            // Lägg till klick-event för temaväxlingsknapparna
+            const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+            themeToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const htmlElement = document.documentElement;
+                    if (htmlElement.classList.contains('bright-mode')) {
+                        htmlElement.classList.remove('bright-mode');
+                        localStorage.setItem('theme', 'dark');
+                        updateSVGs('dark');
+                    } else {
+                        htmlElement.classList.add('bright-mode');
+                        localStorage.setItem('theme', 'bright');
+                        updateSVGs('bright');
+                    }
+                });
+            });
 
             // Funktion för att uppdatera login-knapparnas text och länk
             async function updateLoginButton() {
