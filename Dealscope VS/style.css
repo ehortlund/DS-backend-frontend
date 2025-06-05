@@ -95,7 +95,7 @@
 }
 
 /* Anpassa för bright mode (valfritt, för bättre kontrast) */
-.bright-mode .profile-modal, .bright-mode .close-modal {
+.bright-mode .profile-sidebar a, .bright-mode .content-section h2, .bright-mode .content-section p, .bright-mode .close-modal {
     color: var(--dark-grey); /* En något ljusare grå för bright mode */
 }
 
