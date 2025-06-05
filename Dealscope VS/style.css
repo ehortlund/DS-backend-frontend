@@ -94,6 +94,11 @@
     background-color: var(--medium-white);
 }
 
+/* Anpassa för bright mode (valfritt, för bättre kontrast) */
+.bright-mode .profile-modal, .bright-mode .close-modal {
+    color: var(--dark-grey); /* En något ljusare grå för bright mode */
+}
+
 /* Stil för temaväxlingsknappen */
 .theme-toggle-btn {
     color: var(--highlight-color); /* Röd text/kant */
