@@ -17,7 +17,7 @@
     <header class="main-header">
         <!-- Klickbar Logotyp -->
         <a href="index.html">
-          <img class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+          <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
         </a>
 
           <!-- Mobilmenyn -->
@@ -32,6 +32,10 @@
                 <a href="plans.html">Plans</a>
                 <a href="FAQ.html">FAQ</a> 
                 <a class="login-btn" href="login.html">Log in</a>
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                  <img id="mobile-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                  <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun red.svg" alt="Sun Icon">
+              </button>
             </nav>
           </div>
 
@@ -42,6 +46,10 @@
             <a href="plans.html">Plans</a>
             <a href="FAQ.html">FAQ</a> 
             <a class="login-btn" href="login.html">Log in</a>
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+              <img id="desktop-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+              <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun red.svg" alt="Sun Icon">
+          </button>
         </nav>
 
         
@@ -52,7 +60,7 @@
     <main>
       <!-- Hero-sektion -->
       <section class="hero">
-        <img src="assets/DS CIRCLE.svg" alt="Hero Circle" class="circle-icon fade-in">
+        <img id="hero-circle" class="circle-icon fade-in" src="assets/DS CIRCLE.svg" alt="Circle Icon">
         <h1 class="fade-in">
           See the hidden market movers in <span class="highlight">real time.</span>
         </h1>
@@ -273,7 +281,7 @@
       <div class="footer-container">
         <!-- Vänster sektion -->
         <div class="footer-logo-section">
-            <img src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
+          <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo">
             <p>© 2025 DealScope. All rights reserved.</p>
         </div>
 
@@ -362,12 +370,92 @@
           const profileUsername = document.getElementById('profile-username');
           const profileEmail = document.getElementById('profile-email');
           const registerButtons = document.querySelectorAll('.cta-btn, .register-btn');
+          const headerLogo = document.getElementById('header-logo');
+          const footerLogo = document.getElementById('footer-logo');
+          const heroCircle = document.getElementById('hero-circle');
+          const desktopMoonIcon = document.getElementById('desktop-moon-icon');
+          const desktopSunIcon = document.getElementById('desktop-sun-icon');
+          const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+          const mobileSunIcon = document.getElementById('mobile-sun-icon');
+  
+          // Funktion för att uppdatera SVG:er baserat på tema
+          function updateSVGs(theme) {
+              if (theme === 'bright') {
+                  if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
+                  if (footerLogo) footerLogo.src = 'assets/DS LOGO laying bright.svg';
+                  if (heroCircle) heroCircle.src = 'assets/DS CIRCLE bright.svg';
+                  if (desktopMoonIcon) {
+                      console.log("Desktop Moon Icon: Setting to Moon grey.svg");
+                      desktopMoonIcon.src = 'assets/Moon grey.svg';
+                  }
+                  if (desktopSunIcon) {
+                      console.log("Desktop Sun Icon: Setting to Sun red.svg");
+                      desktopSunIcon.src = 'assets/Sun red.svg';
+                  }
+                  if (mobileMoonIcon) {
+                      console.log("Mobile Moon Icon: Setting to Moon grey.svg");
+                      mobileMoonIcon.src = 'assets/Moon grey.svg';
+                  }
+                  if (mobileSunIcon) {
+                      console.log("Mobile Sun Icon: Setting to Sun red.svg");
+                      mobileSunIcon.src = 'assets/Sun red.svg';
+                  }
+              } else {
+                  if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
+                  if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
+                  if (heroCircle) heroCircle.src = 'assets/DS CIRCLE.svg';
+                  if (desktopMoonIcon) {
+                      console.log("Desktop Moon Icon: Setting to Moon red.svg");
+                      desktopMoonIcon.src = 'assets/Moon red.svg';
+                  }
+                  if (desktopSunIcon) {
+                      console.log("Desktop Sun Icon: Setting to Sun grey.svg");
+                      desktopSunIcon.src = 'assets/Sun grey.svg';
+                  }
+                  if (mobileMoonIcon) {
+                      console.log("Mobile Moon Icon: Setting to Moon red.svg");
+                      mobileMoonIcon.src = 'assets/Moon red.svg';
+                  }
+                  if (mobileSunIcon) {
+                      console.log("Mobile Sun Icon: Setting to Sun grey.svg");
+                      mobileSunIcon.src = 'assets/Sun grey.svg';
+                  }
+              }
+          }
+  
+          // Hämta tema från localStorage och tillämpa det vid sidladdning
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'bright') {
+              document.documentElement.classList.add('bright-mode');
+              updateSVGs('bright');
+          } else {
+              updateSVGs('dark');
+          }
+  
+          // Lägg till klick-event för Register-knapparna
           registerButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                window.location.href = 'register.html';
-            });
+              button.addEventListener('click', () => {
+                  window.location.href = 'register.html';
+              });
           });
-
+  
+          // Lägg till klick-event för temaväxlingsknapparna
+          const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+          themeToggleButtons.forEach(button => {
+              button.addEventListener('click', () => {
+                  const htmlElement = document.documentElement;
+                  if (htmlElement.classList.contains('bright-mode')) {
+                      htmlElement.classList.remove('bright-mode');
+                      localStorage.setItem('theme', 'dark');
+                      updateSVGs('dark');
+                  } else {
+                      htmlElement.classList.add('bright-mode');
+                      localStorage.setItem('theme', 'bright');
+                      updateSVGs('bright');
+                  }
+              });
+          });
+  
           // Funktion för att uppdatera login-knapparnas text och länk
           async function updateLoginButton() {
               try {
@@ -375,9 +463,9 @@
                       method: 'GET',
                       credentials: 'include'
                   });
-
+  
                   const data = await response.json();
-
+  
                   if (data.error) {
                       // Användaren är inte inloggad, visa "Log in"
                       loginButtons.forEach(button => {
@@ -392,7 +480,7 @@
                           button.href = '#';
                           button.addEventListener('click', openProfileModal);
                       });
-
+  
                       // Fyll i profilinformation
                       if (profileUsername && profileEmail) {
                           profileUsername.textContent = data.username;
@@ -408,7 +496,7 @@
                   });
               }
           }
-
+  
           // Funktion för att öppna profilsidan
           function openProfileModal(event) {
               event.preventDefault();
@@ -416,14 +504,14 @@
               profileOverlay.style.display = 'block';
               header.style.zIndex = '0';
           }
-
+  
           // Funktion för att stänga profilsidan
           function closeProfileModalHandler() {
               profileModal.style.display = 'none';
               profileOverlay.style.display = 'none';
               header.style.zIndex = '1';
           }
-
+  
           // Hantera sidomenyn
           sidebarLinks.forEach(link => {
               link.addEventListener('click', (event) => {
@@ -433,14 +521,14 @@
                       // Ta bort "active"-klassen från alla länkar och sektioner
                       sidebarLinks.forEach(l => l.classList.remove('active'));
                       contentSections.forEach(s => s.classList.remove('active'));
-
+  
                       // Lägg till "active"-klassen på den valda länken och sektionen
                       link.classList.add('active');
                       document.getElementById(`${section}-section`).classList.add('active');
                   }
               });
           });
-
+  
           // Hantera utloggning
           if (logoutButton) {
               logoutButton.addEventListener('click', (event) => {
@@ -459,16 +547,15 @@
                   });
               });
           }
-
+  
           // Stäng modalen vid klick på krysset
           if (closeProfileModal) {
               closeProfileModal.addEventListener('click', closeProfileModalHandler);
           }
-
+  
           // Kör vid sidladdning
           updateLoginButton();
       });
   </script>
-
 </body>
 </html>

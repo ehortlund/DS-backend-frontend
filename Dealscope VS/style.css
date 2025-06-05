@@ -1,5 +1,6 @@
-/* Färger */
+/* Färger – Flyttar till variabler och lägger till bright mode */
 :root {
+    /* Mörkt tema (standard) */
     --soft-white: #CCCCCC;
     --medium-white: #E9E9E9;
     --white: #F4F4F4;
@@ -8,14 +9,152 @@
     --dark-grey: #2B2A2A;
     --green: #3DA549;
     --red: #E02F2F;
+
+    /* Variabler för temat */
+    --background-color: var(--vantablack);
+    --text-color: var(--medium-white);
+    --secondary-text-color: var(--soft-white);
+    --container-bg: var(--black);
+    --container-border: var(--dark-grey);
+    --highlight-color: var(--red);
+    --button-bg: var(--green);
+    --button-text: var(--white);
+    --header-bg: var(--vantablack);
+    --card-bg: rgba(44, 44, 44, 0.434);
 }
+
+/* Ljust tema */
+.bright-mode {
+    /* Ljusare färger */
+    --background-color: #F4F4F4;
+    --text-color: #2B2A2A;
+    --secondary-text-color: #555555;
+    --container-bg: #FFFFFF;
+    --container-border: #CCCCCC;
+    --highlight-color: #E02F2F;
+    --button-bg: #3DA549;
+    --button-text: #FFFFFF;
+    --header-bg: #FFFFFF;
+    --card-bg: rgba(200, 200, 200, 0.434);
+}
+
+.bright-mode .main-header {
+    background-color: var(--background-color);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+    padding: 30px 0px;
+    background-color: none;
+}
+
+.bright-mode body {
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bright-mode .noise-dealscope-section, .bright-mode .noise-dealscope-header, .bright-mode .mobile-nav.visible{
+    background-color: var(--background-color);
+    background-image: 
+        linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.bright-mode .hero .cta-btn, .bright-mode .insights-section .cta-btn, .bright-mode .noise-dealscope-section .cta-btn  {
+    color: var(--button-text);
+}
+
+.bright-mode .hero .cta-btn:hover, .bright-mode .insights-section .cta-btn:hover, .bright-mode .noise-dealscope-section .cta-btn:hover{
+    color: var(--red);
+}
+
+.bright-mode .deal-example-card {
+    background-color: var(--medium-white);
+}
+
+/* Stil för temaväxlingsknappen */
+.theme-toggle-btn {
+    color: var(--highlight-color); /* Röd text/kant */
+    border: 1px solid var(--highlight-color);
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+    padding: 6px 11px; /* Anpassad padding för att passa ikonerna */
+    border-radius: 15px;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+    display: flex; /* Flexbox för att placera ikonerna bredvid varandra */
+    align-items: center;
+    gap: 5px; /* Mellanrum mellan ikonerna */
+}
+
+/* Hover-effekt för temaväxlingsknappen */
+.theme-toggle-btn:hover {
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* Stil för ikonerna */
+.theme-icon {
+    width: 22px; /* Justera storleken på ikonerna */
+    height: 22px;
+    transition: opacity 0.3s ease; /* Smidig övergång för temaväxling */
+}
+
+/* Ikonerna i mörkt tema */
+.moon-icon {
+    opacity: 1;
+    width: 18px; /* Justera storleken på ikonerna */
+    height: 18px;
+}
+.sun-icon {
+    opacity: 0.5;
+}
+
+/* Ikonerna i bright mode */
+.bright-mode .moon-icon {
+    opacity: 0.5;
+    width: 18px; /* Justera storleken på ikonerna */
+    height: 18px;
+}
+.bright-mode .sun-icon {
+    opacity: 1;
+}
+
 
 
 
 /* Initial tillstånd för elementen */
 .fade-in {
     opacity: 0;
-    transform: translateY(20px); /* Flytta elementet nedåt initialt */
+    transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
@@ -31,21 +170,20 @@ html {
     -moz-osx-font-smoothing: grayscale;
 }
 
-
 /* Grundlayout */
 body {
     overflow-x: hidden;
     font-family: 'Poppins', sans-serif;
-    font-weight: 400; /* Standardvikt för normal text */
+    font-weight: 400;
     margin: 0;
     padding: 0;
-    color: var(--medium-white);
-    background-color: var(--vantablack); /* Gör bakgrunden mörkare */
+    color: var(--text-color);
+    background-color: var(--background-color);
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-    background-size: 20px 20px; /* Storlek på rutnät */
-    position: relative; /* För att lägga till en sond som ligger under rutnätet */
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -53,40 +191,40 @@ body {
 
 /* Header */
 .main-header {
-    position: fixed; /* Fixera menyn */
+    position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: var(--vantablack);
+    background-color: var(--header-bg);
     background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-    background-size: 20px 20px; /* Storlek på rutnät */
-    display: flex; /* Flexbox för layout */
-    justify-content: space-between; /* Håll logotypen till vänster och menyn till höger */
-    align-items: center; /* Vertikal centrering */
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-right: 20px;
-    padding: 30px 0px; /* 20px padding på vänster och höger */
+    padding: 30px 0px;
     background-color: none;
 }
 
 /* Hamburgarikonen */
 .menu-btn {
-    display: none; /* Dölj hamburgarikonen som standard */
+    display: none;
 }
 
 /* Mobilmeny */
 .mobile-nav {
-    display: none; /* Dölj mobilmenyn som standard */
+    display: none;
     flex-direction: column;
     position: fixed;
     top: 0;
     right: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--vantablack); /* Mörk bakgrund */
-    justify-content: center; /* Centrera länkarna vertikalt */
-    align-items: center; /* Centrera länkarna horisontellt */
+    background-color: var(--background-color);
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
     transition: opacity 0.3s ease;
 }
@@ -94,7 +232,7 @@ body {
 .mobile-nav a {
     font-size: 32px;
     font-weight: 500;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
     margin: 15px 0;
     transition: color 0.3s ease;
@@ -108,9 +246,9 @@ body {
 .mobile-nav .login-btn {
     font-size: 32px;
     font-weight: 500;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
-    border: 1px solid var(--red); /* Röd cirkel */
+    border: 1px solid var(--highlight-color);
     padding: 10px 20px;
     border-radius: 15px;
     margin-top: 20px;
@@ -123,50 +261,51 @@ body {
 
 /* Hover-effekter */
 .mobile-nav a:hover {
-    color: var(--red);
+    color: var(--highlight-color);
 }
 
 .mobile-nav .login-btn:hover {
-    background-color: var(--red);
-    color: var(--medium-white);
+    background-color: var(--highlight-color);
+    color: var(--text-color);
 }
-
 
 /* Logo */
 .logo {
     margin-left: 25px;
-    width: 120px; /* Behåll storlek */
-    height: auto; /* Behåll proportionerna */
-    padding: 0; /* Ingen extra padding */
-    display: inline-block; /* Ingen onödig block-display */
-    background: none; /* Ingen bakgrund */
-    border: none; /* Ingen ram */
+    width: 120px;
+    height: auto;
+    padding: 0;
+    display: inline-block;
+    background: none;
+    border: none;
 }
 
 .logo svg {
-    transform: none; /* Ingen skalning */
-    width: 100%; /* Säkerställ att SVG-filen fyller ut korrekt */
+    transform: none;
+    width: 100%;
     height: auto;
 }
 
 /* Menyn */
 .desktop-nav {
-    display: flex ; /* Flexbox för horisontell layout */
-    justify-content: flex-end; /* Placera menyn till höger */
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
+    margin-right: 20px;
+
 }
 
 .desktop-nav a {
     margin-left: 20px;
     margin-right: 30px;
-    color: var(--medium-white);
+    color: var(--text-color);
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     padding: 5px 10px;
-    border: 1px solid transparent; /* Ingen cirkel i vanligt läge */
-    border-radius: 15px; /* Rundad effekt vid hover */
-    transition: all 0.3s ease; /* Smidig övergång */
+    border: 1px solid transparent;
+    border-radius: 15px;
+    transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -175,22 +314,22 @@ body {
 
 /* Hover-effekt för menylänkar */
 .desktop-nav a:hover {
-    border: 1px solid var(--red); /* Röd cirkel vid hover */
-    color: var(--red); /* Text blir röd vid hover */
+    border: 1px solid var(--highlight-color);
+    color: var(--highlight-color);
 }
 
 /* Login-knappen - vanligt läge */
 .login-btn {
     margin-left: 20px;
-    color: var(--red); /* Texten är röd */
-    border: 1px solid var(--red); /* Röd cirkel alltid synlig */
+    color: var(--highlight-color);
+    border: 1px solid var(--highlight-color);
     text-decoration: none;
     text-align: center;
     font-size: 16px;
     padding: 12px 32px;
-    border-radius: 15px; /* Rundad för cirkeleffekt */
-    background-color: transparent; /* Ingen bakgrund i vanligt läge */
-    transition: all 0.3s ease; /* Smidig övergång */
+    border-radius: 15px;
+    background-color: transparent;
+    transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -199,23 +338,18 @@ body {
 
 /* Hover-effekt för login-knappen */
 .login-btn:hover {
-    background-color: transparent; /* Behåll ingen bakgrund */
-    color: var(--red); /* Texten blir röd */
+    background-color: transparent;
+    color: var(--highlight-color);
 }
 
 .desktop-nav .login-btn {
-    border: 1px solid var(--red); /* Behåll röd cirkel alltid */
+    border: 1px solid var(--highlight-color);
 }
-
-
-
-
-
 
 /* Hero section */
 .hero {
-    text-align: center; /* Centrerar text och innehåll */
-    margin-top: 150px; /* Avstånd från toppen av hero-sektionen */
+    text-align: center;
+    margin-top: 150px;
 }
 
 .circle-icon {
@@ -224,25 +358,23 @@ body {
     display: block;
 }
 
-
 .hero h1 {
     font-weight: 600;
-    font-size: 48px; /* Storlek för H1 (ändra efter behov) */
-    line-height: 1.3; /* Gör raderna mer luftiga */
-    margin-bottom: 15px; /* Avstånd mellan H1 och underrubrik */
-    color: var(--medium-white);
+    font-size: 48px;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    color: var(--text-color);
     letter-spacing: 1.3px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-
 .hero p {
-    font-size: 24px; /* Storlek för underrubriken */
-    line-height: 1.3; /* Gör texten mer lättläst */
-    margin-bottom: 35px; /* Avstånd mellan underrubrik och knapp */
-    color: var(--medium-white);
+    font-size: 24px;
+    line-height: 1.3;
+    margin-bottom: 35px;
+    color: var(--text-color);
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -254,14 +386,14 @@ body {
     font-size: 24px;
     font-weight: 500;
     padding: 10px 20px;
-    background-color: var(--red);
-    color: var(--medium-white);
-    border: 1px solid var(--red); /* Samma röda färg */
-    border-radius: 15px; /* Rundade hörn */
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    border: 1px solid var(--highlight-color);
+    border-radius: 15px;
     cursor: pointer;
-    text-decoration: none; /* Ingen understrykning */
-    cursor: pointer; /* Ändrar muspekaren till klickbar */
-    transition: all 0.3s ease; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -269,49 +401,46 @@ body {
 }
 
 .hero .cta-btn:hover {
-    background-color: transparent; /* Ingen bakgrund i vanligt läge */
-    color: var(--red); /* Texten blir röd */
+    background-color: transparent;
+    color: var(--highlight-color);
 }
 
 /* Features */
-
 .features {
     padding: 20px;
-    display: flex; /* Gör hela sektionen till en Flexbox */
-    justify-content: center; /* Centrerar elementen horisontellt */
-    margin-top: 40px; /* Justera värdet efter behov */
-
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
 }
 
 .feature-list {
-    display: flex; /* Gör listan horisontell */
-    justify-content: space-between; /* Skapar mellanrum mellan punkterna */
-    align-items: center; /* Justerar vertikalt så text och prickar ligger i linje */
-    gap: 250px; /* Lägger mellanrum mellan listobjekten */
-    list-style: none; /* Tar bort standardkulor */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 250px;
+    list-style: none;
     padding: 0;
-    margin: 0 auto; /* Centrerar listan */
+    margin: 0 auto;
 }
 
 .feature-item {
-    display: flex; /* Gör varje listobjekt till en Flexbox */
-    align-items: center; /* Vertikalt justera pricken och texten */
-    gap: 6px; /* Mellanrum mellan pricken och texten */
-    color: var(--red); /* Textfärg */
-    font-size: 16px; /* Textstorlek */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--highlight-color);
+    font-size: 16px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 .red-dot {
-    aspect-ratio: 1 / 1; /* Säkerställer att bredd och höjd är lika */
-    width: 10px; /* Justera pricken storlek */
+    aspect-ratio: 1 / 1;
+    width: 10px;
     height: 10px;
-    background-color: var(--red); /* Färgen på pricken */
-    border-radius: 50%; /* Gör den rund */
+    background-color: var(--highlight-color);
+    border-radius: 50%;
 }
-
 
 /* Animation för att skifta gradienten */
 @keyframes gradientShift {
@@ -324,41 +453,40 @@ body {
 }
 
 .highlight2 {
-    color: var(--red);
-    background: linear-gradient(90deg, var(--red), var(--medium-white), var(--red)); /* Gradient från rött till vitt och tillbaka */
-    background-size: 200%; /* Gör gradienten bredare för att skapa en skiftande effekt */
+    color: var(--highlight-color);
+    background: linear-gradient(90deg, var(--highlight-color), var(--text-color), var(--highlight-color));
+    background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent; /* Gör texten transparent så att gradienten syns */
-    animation: gradientShift 2s linear infinite; /* Animera gradienten */
+    color: transparent;
+    animation: gradientShift 2s linear infinite;
 }
 
 .highlight {
-    color: var(--red);
-    background: linear-gradient(90deg, var(--red), var(--medium-white), var(--red)); /* Gradient från rött till vitt och tillbaka */
-    background-size: 200%; /* Gör gradienten bredare för att skapa en skiftande effekt */
+    color: var(--highlight-color);
+    background: linear-gradient(90deg, var(--highlight-color), var(--text-color), var(--highlight-color));
+    background-size: 200%;
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent; /* Gör texten transparent så att gradienten syns */
-    animation: gradientShift 2s linear infinite; /* Animera gradienten */
+    color: transparent;
+    animation: gradientShift 2s linear infinite;
 }
 
 /* Insights Section */
-/* Insights Section */
 .insights-section {
     margin-top: 150px;
-    text-align: left; /* Justera all text till vänster */
-    margin-left: 15%; /* Lägger in en vänstermarginal för snyggare placering */
-    margin-right: 10%; /* Behåller lite avstånd till höger också */
-    background: none; /* Behåll bakgrundsnätet */
+    text-align: left;
+    margin-left: 15%;
+    margin-right: 10%;
+    background: none;
 }
 
 .insights-section h2 {
     font-weight: 600;
     font-size: 48px;
-    color: var(--medium-white); /* Textfärg */
-    margin-bottom: 10px; /* Litet avstånd till underrubriken */
-    text-align: left; /* Vänsterjustering */
+    color: var(--text-color);
+    margin-bottom: 10px;
+    text-align: left;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -367,124 +495,120 @@ body {
 
 .insights-section .subheading {
     margin-top: 20px;
-    font-size: 24px; /* Storlek för underrubriken */
-    color: var(--medium-white); /* Textfärg */
-    margin-bottom: 50px; /* Avstånd till texten i linjerna */
-    text-align: left; /* Vänsterjustering */
+    font-size: 24px;
+    color: var(--text-color);
+    margin-bottom: 50px;
+    text-align: left;
 }
 
 /* Stil för hela listan */
 .benefits-list {
-    text-align: left; /* Vänsterjustera texten */
-    list-style: none; /* Ta bort standardpunktlistan */
-    padding: 0; /* Ingen extra padding */
-    margin: 0; /* Ingen marginal */
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 /* Stil för varje listpunkt */
 .benefits-list li {
-    display: flex; /* Flexbox för layout */
-    align-items: center; /* Centrera ikonen och texten vertikalt */
-    justify-content: flex-start; /* Justera ikonen och texten till vänster */
-    position: relative; /* För att placera linjerna relativt */
-    padding: 20px 0; /* Avstånd mellan punkterna */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    padding: 20px 0;
 }
 
 /* Stil för linjerna ovanför och under varje punkt */
 .benefits-list li::before,
 .benefits-list li::after {
-    content: ""; /* Pseudo-element för linjer */
-    height: 1px; /* Linjens tjocklek */
-    background-color: var(--red); /* Färgen på linjen */
-    position: absolute; /* Absolut positionering */
-    left: 0; /* Starta linjen vid vänsterkanten */
-    right: 0; /* Sluta linjen vid högerkanten */
+    content: "";
+    height: 1px;
+    background-color: var(--highlight-color);
+    position: absolute;
+    left: 0;
+    right: 0;
 }
 
 /* Linjen ovanför */
 .benefits-list li::before {
-    top: 0; /* Positionera linjen ovanför */
+    top: 0;
 }
 
 /* Linjen under */
 .benefits-list li::after {
-    bottom: 0; /* Positionera linjen under */
-    height: px;
+    bottom: 0;
+    height: 1px;
 }
 
 /* Endast första, andra och tredje punkten: Visa linjen ovanför */
 .benefits-list li::before {
-    content: ""; /* Pseudo-element för linjen */
-    height: 1px; /* Linjens tjocklek */
-    background-color: var(--red); /* Färgen på linjen */
-    position: absolute; /* Absolut positionering */
-    top: 0; /* Placera linjen högst upp */
+    content: "";
+    height: 1px;
+    background-color: var(--highlight-color);
+    position: absolute;
+    top: 0;
     left: 0%;
     right: 20%;
 }
 
 /* Dölj linjen under alla punkter utom den sista */
 .benefits-list li:not(:last-child)::after {
-    content: none; /* Ingen linje */
+    content: none;
 }
-
-
 
 /* Endast sista punkten: Visa linjen under */
 .benefits-list li:last-child::after {
-    content: ""; /* Pseudo-element för linjen */
-    height: 1px; /* Linjens tjocklek */
-    background-color: var(--red); /* Färgen på linjen */
-    position: absolute; /* Absolut positionering */
-    bottom: 0; /* Placera linjen längst ner */
+    content: "";
+    height: 1px;
+    background-color: var(--highlight-color);
+    position: absolute;
+    bottom: 0;
     left: 0;
     right: 20%;
 }
 
-
 /* Stil för innehållet i listpunkten */
 .benefits-list .content {
-    display: flex; /* Flexbox för att placera ikonen och texten horisontellt */
-    align-items: center; /* Centrera innehållet vertikalt */
-    gap: 10px; /* Avstånd mellan ikon och text */
-    text-align: left; /* Vänsterjustering av innehållet */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
 }
 
 /* Stil för ikonen */
 .benefits-list li .icon {
-    font-size: 24px; /* Ikonstorlek */
-    color: var(--green); /* Färg på ikonen */
-    margin-right: 5px; /* Avstånd mellan ikonen och texten */
+    font-size: 24px;
+    color: var(--button-bg);
+    margin-right: 5px;
 }
 
 /* Stil för texten */
 .benefits-list li .text {
-    font-size: 18px; /* Textstorlek */
-    color: var(--white); /* Textfärg */
-    text-align: left; /* Justera texten till vänster */
+    font-size: 18px;
+    color: var(--text-color);
+    text-align: left;
 }
 
 /* Gör stark text grön */
 .benefits-list .text strong {
-    color: var(--medium-white); /* För att markera fördelens titel */
+    color: var(--text-color);
 }
 
-
-/* undersida knapp */
+/* Undersida knapp */
 .cta-btn {
     font-family: 'Poppins', sans-serif;
     margin-top: 32px;
     font-size: 24px;
     font-weight: 500;
     padding: 10px 20px;
-    background-color: var(--red);
-    color: var(--medium-white);
-    border: 1px solid var(--red); /* Samma röda färg */
-    border-radius: 15px; /* Rundade hörn */
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    border: 1px solid var(--highlight-color);
+    border-radius: 15px;
     cursor: pointer;
-    text-decoration: none; /* Ingen understrykning */
-    cursor: pointer; /* Ändrar muspekaren till klickbar */
-    transition: all 0.3s ease; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -492,120 +616,109 @@ body {
 }
 
 .cta-btn:hover {
-    background-color: transparent; /* Ingen bakgrund i vanligt läge */
-    color: var(--red); /* Texten blir röd */
+    background-color: transparent;
+    color: var(--highlight-color);
 }
 
 /* How dealscope works */
-
-/* Sektionens wrapper */
 .deal-example-section {
-    margin-top: 100px; /* Justera så den passar in under insights */
-    padding: 0 15%;    /* Samma sidomarginaler som övriga sektioner */
+    margin-top: 100px;
+    padding: 0 15%;
 }
-  
-  /* Titel och underrubrik */
+
 .deal-example-title {
     font-weight: 600;
     font-size: 48px;
-    color: var(--medium-white);
+    color: var(--text-color);
     margin-bottom: 30px;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 1.3px;
 }
-  
+
 .deal-example-subtitle {
     font-size: 24px;
-    color: var(--medium-white);
+    color: var(--text-color);
     margin-bottom: 30px;
     margin-top: 0px;
-    /* Lite luft innan kortet börjar */
-}
-  
-  /* Kortet som innehåller all info om dealen */
-.deal-example-card {
-    position: relative;                   /* Gör att absolutely-positionerat innehåll placeras relativt kortet */
-    background-color: rgba(44, 44, 44, 0.434); /* Mörk transparent bakgrund */
-    border: 2px solid var(--red);         /* Röd ram */
-    padding: 20px 30px;
-    border-radius: 32px;
-    margin-bottom: 20px; /* Luft före knappen */
 }
 
-/* Texten uppe i högra hörnet */
+.deal-example-card {
+    position: relative;
+    background-color: var(--card-bg);
+    border: 2px solid var(--highlight-color);
+    padding: 20px 30px;
+    border-radius: 32px;
+    margin-bottom: 20px;
+}
+
 .stock-note {
     position: absolute;
-    top: 20px;                            /* Justera avstånd från överkanten */
-    right: 20px;                          /* Justera avstånd från högerkanten */
-    color: var(--green);                  /* Samma gröna färg som du använder för aktieticker */
-    font-size: 16px;                      /* Anpassa efter önskat utseende */
-    font-weight: 600;                     /* Lite fetare stil (valfritt) */
+    top: 20px;
+    right: 20px;
+    color: var(--button-bg);
+    font-size: 16px;
+    font-weight: 600;
 }
-  
-  /* Rubriker inom kortet */
+
 .deal-section-heading {
-    color: var(--red);
+    color: var(--highlight-color);
     margin-top: 20px;
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: 550;
 }
-  
-  /* Listor inom deal-kortet */
+
 .deal-example-card ul {
     list-style: disc;
-    margin-left: 25px; /* Avstånd för punkterna */
+    margin-left: 25px;
     margin-bottom: 20px;
 }
-  
-  /* Enskilda listpunkter */
-  .deal-example-card li {
-    color: var(--medium-white);
+
+.deal-example-card li {
+    color: var(--text-color);
     margin-bottom: 8px;
     font-size: 14px;
     line-height: 1.4;
 }
-  
-  /* Färger för tickers */
+
 .ticker-green {
-    color: var(--green);
+    color: var(--button-bg);
     font-weight: 600;
 }
+
 .ticker-private {
-    color: var(--medium-white);
+    color: var(--text-color);
     font-weight: 600;
-    font-style: italic; /* Exempel för 'Private' */
+    font-style: italic;
 }
 
 .noise-dealscope-header {
     text-align: center;
-    margin-top: 150px; /* Avstånd från toppen av sidan */
-    background-color: var(--vantablack); /* Gör bakgrunden mörkare */
+    margin-top: 150px;
+    background-color: var(--background-color);
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-    background-size: 20px 20px; /* Storlek på rutnät */
-    position: relative; /* För att lägga till en sond som ligger under rutnätet */
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-
-
 .noise-dealscope-heading {
     font-size: 48px;
     font-weight: 600;
-    color: #F4F4F4; /* --white */
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
 .noise-dealscope-subheading {
     font-size: 24px;
     font-weight: 400;
-    color: #E9E9E9; /* --medium-white */
+    color: var(--text-color);
     margin: 0 auto;
     max-width: 600px;
 }
@@ -630,16 +743,17 @@ body {
 
 .noise-dealscope-section {
     padding: 50px 20px;
-    color: #E9E9E9; /* --medium-white */
-    background-color: var(--vantablack); /* Gör bakgrunden mörkare */
+    color: var(--text-color);
+    background-color: var(--background-color);
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-    background-size: 20px 20px; /* Storlek på rutnät */
-    position: relative; /* För att lägga till en sond som ligger under rutnätet */
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;}
+    -moz-osx-font-smoothing: grayscale;
+}
 
 .noise-dealscope-container {
     display: flex;
@@ -650,20 +764,20 @@ body {
 }
 
 .noise-box, .dealscope-box {
-    flex: 1; /* Delar upp utrymmet lika mellan de två boxarna */
-    min-width: 0; /* Förhindrar att boxarna blir för breda på små skärmar */
+    flex: 1;
+    min-width: 0;
 }
 
 .noise-box h2.deal-example-title, .dealscope-box h2.deal-example-title {
     font-size: 18px;
     font-weight: 550;
-    color: #F4F4F4; /* --white */
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
 .noise-box p.deal-example-subtitle, .dealscope-box p.deal-example-subtitle {
     font-size: 16px;
-    color: #E9E9E9; /* --medium-white */
+    color: var(--text-color);
     margin-bottom: 20px;
 }
 
@@ -677,10 +791,10 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    background-color: #1c1c1c; /* --black */
+    background-color: var(--container-bg);
     padding: 15px;
     border-radius: 10px;
-    border: 1px solid #2B2A2A; /* --dark-grey */
+    border: 1px solid var(--container-border);
 }
 
 .article-profile-pic {
@@ -693,13 +807,13 @@ body {
 .article-content h3 {
     font-size: 16px;
     font-weight: 500;
-    color: #F4F4F4; /* --white */
+    color: var(--text-color);
     margin-bottom: 5px;
 }
 
 .article-content p {
     font-size: 14px;
-    color: #CCCCCC; /* --soft-white */
+    color: var(--secondary-text-color);
     margin: 0;
 }
 
@@ -721,25 +835,23 @@ body {
     }
 
     .noise-dealscope-header {
-        margin-top: 100px; /* Justera avståndet för mindre skärmar */
+        margin-top: 100px;
     }
 
     .noise-dealscope-section {
         padding-bottom: 0;
     }
 }
-  
 
-
-/* trusted sektion */
+/* Trusted sektion */
 .trusted-section {
     position: relative;
     margin-top: 150px;
-    color: #E9E9E9; /* --medium-white */
-    overflow: hidden; /* För att hålla rörliga lager inom sektionen */
-    background-color:var(--green); /* Vit bakgrund */
-    width: 100vw; /* Låt bakgrunden sträcka sig över hela skärmbredden */
-    padding: 50px 0; /* Vertikal padding för sektionen */
+    color: var(--text-color);
+    overflow: hidden;
+    background-color: var(--button-bg);
+    width: 100vw;
+    padding: 50px 0;
 }
 
 /* Första lagret av grön gradient som rör sig mjukt */
@@ -750,10 +862,10 @@ body {
     left: 0;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(61, 165, 73, 0.3), rgba(29, 94, 32, 0.1), transparent); /* Gröna nyanser */
-    filter: blur(50px); /* Mjuk blur-effekt */
-    animation: floatLayer1 4s ease-in-out infinite; /* Långsam animation */
-    z-index: 0; /* Bakom innehållet */
+    background: radial-gradient(circle, rgba(61, 165, 73, 0.3), rgba(29, 94, 32, 0.1), transparent);
+    filter: blur(50px);
+    animation: floatLayer1 4s ease-in-out infinite;
+    z-index: 0;
 }
 
 /* Andra lagret av grön gradient som rör sig i motsatt riktning */
@@ -764,16 +876,16 @@ body {
     left: 0;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(189, 235, 190, 0.483), rgba(201, 220, 202, 0.567), transparent); /* Ljusare gröna nyanser */
-    filter: blur(50px); /* Mjuk blur-effekt */
-    animation: floatLayer2 4s ease-in-out infinite; /* Långsam animation */
-    z-index: 0; /* Bakom innehållet */
+    background: radial-gradient(circle, rgba(189, 235, 190, 0.483), rgba(201, 220, 202, 0.567), transparent);
+    filter: blur(50px);
+    animation: floatLayer2 4s ease-in-out infinite;
+    z-index: 0;
 }
 
 /* Gör så att innehållet i sektionen ligger över lagren */
 .trusted-section .container {
     position: relative;
-    z-index: 1; /* Över de rörliga lagren */
+    z-index: 1;
 }
 
 /* Animation för första lagret */
@@ -804,57 +916,56 @@ body {
 
 /* Behåll allt inom en container */
 .trusted-section .container {
-    max-width: 1200px; /* Begränsa innehållets bredd */
-    margin: 0 auto; /* Centrera innehållet horisontellt */
-    padding: 0 20px; /* Sidpadding för att undvika att text klistrar sig mot kanterna */
-    margin-left: 15%; /* Synka med övriga sektioner på sidan */
-    text-align: left; /* Vänsterjustera texten */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    margin-left: 15%;
+    text-align: left;
 }
 
 /* Titel "Trusted by" */
 .trusted-title {
     font-weight: 600;
-    font-size: 24px; /* Storlek på titeln */
-    color: var(--black); /* Svart textfärg */
-    margin-bottom: 20px; /* Mellanrum till statistiken */
+    font-size: 24px;
+    color: var(--container-bg);
+    margin-bottom: 20px;
 }
 
 /* Paketerar titel + statlistan i en block */
 .trusted-stats-block {
     display: flex;
-    flex-direction: column; /* Titel överst, stats under */
+    flex-direction: column;
 }
 
 /* Flexcontainer för statistik och knapp */
 .trusted-content {
-    display: flex; /* Flexbox för layout */
-    align-items: center; /* Centrera innehållet vertikalt */
-    justify-content: space-between; /* Utrymme mellan statistik och knapp */
-    gap: 20px; /* Mellanrum mellan statistik och knapp */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 /* Varje statistikelement */
 .stat {
-    display: flex; /* Gör layouten horisontell */
-    align-items: center; /* Centrera vertikalt */
-    margin-bottom: 20px; /* Avstånd mellan statistikblock */
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 /* Nummer i statistiken */
 .stat .number {
-    font-size: 64px; /* Stor storlek på numret */
-    font-weight: bold; /* Gör numret fetstilt */
-    color: var(--black); /* Svart textfärg */
-    margin-right: 25px; /* Avstånd mellan numret och texten */
+    font-size: 64px;
+    font-weight: bold;
+    color: var(--container-bg);
+    margin-right: 25px;
 }
 
 /* Text bredvid numret */
 .stat .text {
-    font-weight: bold; /* Gör numret fetstilt */
-    font-size: 64px; /* Rätt textstorlek */
-    color: var(--black); /* Svart textfärg */
+    font-weight: bold;
+    font-size: 64px;
+    color: var(--container-bg);
 }
-
 
 /* Knappen "Register" */
 .register-btn {
@@ -864,14 +975,14 @@ body {
     font-size: 24px;
     font-weight: 500;
     padding: 10px 20px;
-    background-color: var(--black);
-    color: var(--medium-white);
-    border: 1px solid var(--black); /* Samma röda färg */
-    border-radius: 15px; /* Rundade hörn */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--background-color);
+    border-radius: 15px;
     cursor: pointer;
-    text-decoration: none; /* Ingen understrykning */
-    cursor: pointer; /* Ändrar muspekaren till klickbar */
-    transition: all 0.3s ease; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -880,32 +991,31 @@ body {
 
 /* Hover-effekt för knappen */
 .register-btn:hover {
-    border-color: var(--black);
-    background-color: transparent; /* Ändra bakgrunden till grön */
-    color: var(--black); /* Ändra textfärgen till svart */
+    border-color: var(--background-color);
+    background-color: transparent;
+    color: var(--background-color);
 }
-
 
 /* Footer styling */
 .footer {
     margin-left: 15%;
     margin-right: 15%;
-    background-color:transparent; /* Mörk bakgrund */
-    padding: 40px 20px; /* Generös padding */
-    color: #ffffff; /* Vit text */
+    background-color: transparent;
+    padding: 40px 20px;
+    color: var(--text-color);
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
-    text-align: center; /* Centrera text */
+    text-align: center;
 }
 
 .footer-container {
     display: flex;
-    flex-wrap: wrap; /* Responsiv layout */
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 20px; /* Mellanrum mellan sektioner */
+    gap: 20px;
 }
 
 /* Footer logo och copyright */
@@ -922,7 +1032,7 @@ body {
 
 .footer-logo-section p {
     margin: 0;
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     font-size: 12px;
 }
 
@@ -936,17 +1046,17 @@ body {
 
 .footer-links-section li,
 .footer-info-section li {
-    margin-bottom: 10px; /* Avstånd mellan länkar */
+    margin-bottom: 10px;
     font-size: 10px;
 }
 
 .footer-links-section a,
 .footer-info-section a {
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     padding: 5px 10px;
-    border: 1px solid transparent; /* Ingen cirkel i vanligt läge */
-    border-radius: 20px; /* Rundad effekt vid hover */
-    transition: all 0.3s ease; /* Smidig övergång */
+    border: 1px solid transparent;
+    border-radius: 20px;
+    transition: all 0.3s ease;
     text-decoration: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -956,24 +1066,22 @@ body {
 
 .footer-links-section a:hover,
 .footer-info-section a:hover {
-    color:var(--medium-white); /* Grön hoverfärg */
-    border: 1px solid var(--medium-white); /* Röd cirkel vid hover */
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
     padding: 5px 10px;
-    border-radius: 20px; /* Rundad effekt vid hover */
-    transition: all 0.1s ease; /* Smidig övergång */
+    border-radius: 20px;
+    transition: all 0.1s ease;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
 }
 
 /* Footer kontaktinfo */
 .footer-info-section {
-    color: var(--soft-white);
+    color: var(--secondary-text-color);
     flex: 1;
     text-align: right;
 }
-
 
 /* Stilar för profilsidans modal */
 .profile-overlay {
@@ -984,7 +1092,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.75);
-    z-index: 998; /* Under modalen, men över resten av innehållet */
+    z-index: 998;
 }
 
 .profile-modal {
@@ -1002,7 +1110,7 @@ body {
 .profile-modal-content {
     margin-right: 50px;
     margin-left: 50px;
-    background-color: #F4F4F4; /* --white */
+    background-color: var(--white);
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -1019,7 +1127,7 @@ body {
 
 .profile-sidebar {
     width: 200px;
-    border-right: 1px solid var(--soft-white); /* --dark-grey */
+    border-right: 1px solid var(--secondary-text-color);
     padding-right: 20px;
 }
 
@@ -1038,7 +1146,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    color: #2B2A2A; /* --dark-grey */
+    color: var(--container-border);
     text-decoration: none;
     display: block;
     padding: 5px 0;
@@ -1046,7 +1154,7 @@ body {
 }
 
 .profile-sidebar a:hover, .profile-sidebar a.active {
-    color: #E02F2F; /* --red */
+    color: var(--highlight-color);
 }
 
 .profile-sidebar a:hover {
@@ -1066,7 +1174,7 @@ body {
 }
 
 .content-section h2 {
-    color: #2B2A2A; /* --dark-grey */
+    color: var(--container-border);
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 550;
@@ -1076,12 +1184,12 @@ body {
 .content-section p {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    color: #2B2A2A; /* --dark-grey */
+    color: var(--container-border);
     margin-bottom: 10px;
 }
 
 .content-section a {
-    color: #E02F2F; /* --red */
+    color: var(--highlight-color);
     text-decoration: none;
 }
 
@@ -1095,7 +1203,7 @@ body {
     left: 10px;
     font-size: 26px;
     cursor: pointer;
-    color: #2B2A2A; /* --dark-grey */
+    color: var(--container-border);
 }
 
 @media (max-width: 768px) {
@@ -1106,7 +1214,7 @@ body {
     .profile-sidebar {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid #2B2A2A;
+        border-bottom: 1px solid var(--container-border);
         padding-right: 0;
         padding-bottom: 20px;
         margin-bottom: 20px;
@@ -1123,11 +1231,10 @@ body {
     }
 }
 
-
 /* Responsiv anpassning */
 @media (max-width: 768px) {
     .footer-container {
-        flex-direction:column; /* Stapla sektionerna vertikalt */
+        flex-direction: column;
         text-align: center;
     }
 
@@ -1137,39 +1244,36 @@ body {
     }
     
     .footer-links-section {
-    text-align: center ;
+        text-align: center;
     }
 }
 
 /* Mobilanpassning */
 @media (max-width: 768px) {
     body {
-        background-color: var(--vantablack); /* Mörk bakgrund */
-        margin: 0; /* Ta bort eventuella marginaler */
-        overflow-x: hidden; /* Förhindrar horisontell scroll */
+        background-color: var(--background-color);
+        margin: 0;
+        overflow-x: hidden;
     }
 
     * {
-        box-sizing: border-box; /* Inkluderar padding och border i elementets totala bredd */
+        box-sizing: border-box;
     }
 
-    /* Generella regler för sektioner */
     section {
         margin: 0 auto 100px;
         padding: 0 25px;
         max-width: 100%;
     }
-    
 
     .main-header {
-        background-color: var(--vantablack); /* Mörk bakgrund */
+        background-color: var(--header-bg);
         background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-        background-size: 20px 20px; /* Storlek på rutnät */
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
     }
 
-    /* Logotyp */
     .logo {
         z-index: 2100;
         margin-left: 10px;
@@ -1182,53 +1286,50 @@ body {
         display: none;
     }
     
-    /* Visa hamburgarikonen i mobil */
     .menu-btn {
-        display: block; /* Gör hamburgarikonen synlig */
+        display: block;
         font-size: 24px;
         background: none;
         border: none;
-        color: var(--medium-white);
+        color: var(--text-color);
         cursor: pointer;
         z-index: 2000;
         position: absolute;
-        top: 15px; /* Samma som logotypens top-position */
-        right: 10px; /* Justera avståndet från höger */
+        top: 15px;
+        right: 10px;
         transition: transform 0.2s ease;
     }
 
-    /* Hamburgarikonens standardläge */
     .menu-btn::before {
-        content: "\2630"; /* Unicode för hamburgarikonen */
+        content: "\2630";
         font-size: 26px;
-        color: var(--medium-white);
+        color: var(--text-color);
     }
 
-    /* Hamburgarikonens aktiva läge (kryssikon) */
     .menu-btn.active::before {
-        content: "\2715"; /* Unicode för kryssikonen */
+        content: "\2715";
         font-size: 22px;
-        color: var(--medium-white);
-
+        color: var(--text-color);
     }
 
-    /* När mobilmenyn är synlig */
     .mobile-nav.visible {
-        display: flex; /* Visa mobilmenyn */
+        display: flex;
         background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-        background-size: 20px 20px; /* Storlek på rutnät */
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 20px 20px;
     }
 
-    section.hero, section.features {
 
+    .mobile-nav .login-btn {
+        padding: 5px 20px;
+        border-radius: 24px;
     }
 
     .hero {
         padding: 0px;
         margin: 0 25px;
-        margin-top: 115px; /* Luft från toppen */
+        margin-top: 115px;
         margin-bottom: 10px;
         text-align: center;
         text-rendering: optimizeLegibility;
@@ -1244,8 +1345,8 @@ body {
     }
 
     .hero h1 {
-        color: var(--medium-white);
-        font-size:32px;
+        color: var(--text-color);
+        font-size: 32px;
         font-weight: 550;
         line-height: 1.2;
         margin-bottom: 10px;
@@ -1269,7 +1370,7 @@ body {
         font-size: 20px;
         font-weight: 550;
         padding: 10px 20px;
-        margin-top: 0; 
+        margin-top: 0;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -1280,23 +1381,22 @@ body {
         padding: 10px 20px;
     }
 
-    /* Media query för små skärmar */
-@media (max-width: 376px) {
-    .hero h1 {
-        font-size: 32px; /* Justera storleken till något som passar */
-        line-height: 1.2;
-    }
+    @media (max-width: 376px) {
+        .hero h1 {
+            font-size: 32px;
+            line-height: 1.2;
+        }
 
-    .hero p {
-        font-size: 16px;
-        line-height: 1.4;
-    }
+        .hero p {
+            font-size: 16px;
+            line-height: 1.4;
+        }
 
-    .hero .cta-btn {
-        font-size: 18px;
-        padding: 10px 20px;
+        .hero .cta-btn {
+            font-size: 18px;
+            padding: 10px 20px;
+        }
     }
-}
 
     .red-dot {
         width: 8px;
@@ -1357,29 +1457,29 @@ body {
         -moz-osx-font-smoothing: grayscale;
     }
 
-    .benefits-list li{
-        padding:10px
+    .benefits-list li {
+        padding: 10px;
     }
 
-    .benefits-list span.text{
+    .benefits-list span.text {
         font-size: 14px;
     }
 
-    .benefits-list li::before,li::after{
-        width: 100%;;
+    .benefits-list li::before, li::after {
+        width: 100%;
     }
 
-    .insights-section .cta-btn{
+    .insights-section .cta-btn {
         margin-top: 30px;
         padding: 10px 20px;
     }
 
     .deal-example-section {
         margin: 0 25px;
-        padding:0px;
+        padding: 0px;
     }
 
-    .deal-example-section .cta-btn{
+    .deal-example-section .cta-btn {
         padding: 10px 20px;
     }
 
@@ -1404,19 +1504,17 @@ body {
         -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Texten uppe i högra hörnet */
     .stock-note {
         position: absolute;
-        top: 20px;                            /* Justera avstånd från överkanten */
-        right: 20px;                          /* Justera avstånd från högerkanten */
-        color: var(--green);                  /* Samma gröna färg som du använder för aktieticker */
-        font-size: 10px;                      /* Anpassa efter önskat utseende */
-        font-weight: 600;                     /* Lite fetare stil (valfritt) */
+        top: 20px;
+        right: 20px;
+        color: var(--button-bg);
+        font-size: 10px;
+        font-weight: 600;
     }
     
-    /* Rubriker inom kortet */
     .deal-section-heading {
-        color: var(--red);
+        color: var(--highlight-color);
         margin-top: 25px;
         margin-bottom: 0px;
         font-size: 14px;
@@ -1425,7 +1523,7 @@ body {
 
     .deal-example-card {
         margin-bottom: 30px;
-        border: 1px solid var(--red);
+        border: 1px solid var(--highlight-color);
     }
 
     .deal-example-card ul {
@@ -1451,174 +1549,167 @@ body {
     }
 
     .trusted-section {
-        padding: 30px 20px; /* Sidopadding för utrymme */
-        text-align: center; /* Centrerar innehållet */
+        padding: 30px 20px;
+        text-align: center;
         height: 380px;
-        max-width: 100%; /* Förhindrar horisontell scroll */
+        max-width: 100%;
         margin: 0 auto;
     }
     
     .trusted-section .container {
-        max-width: 100%; /* Begränsa bredden */
+        max-width: 100%;
         margin: 0 auto;
         display: flex;
-        flex-direction: column; /* Ändra till vertikal layout */
-        align-items: center; /* Centrerar innehållet horisontellt */
-        gap: 20px; /* Avstånd mellan elementen */
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
     }
     
     .trusted-section .trusted-content {
         display: flex;
-        flex-direction: column; /* Ändra layouten till vertikal */
-        align-items: center; /* Centrerar innehållet horisontellt */
-        text-align: center; /* Centrerar text */
-        gap: 20px; /* Avstånd mellan statistikblock och knapp */
-        width: 100%; /* Säkerställ att blocket tar upp hela bredden */
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+        width: 100%;
     }
     
     .trusted-section h2 {
-        font-size: 18px; /* Justera storlek */
+        font-size: 18px;
         font-weight: 600;
-        line-height: 1.3; /* Förbättra radavstånd */
-        margin-bottom: 20px; /* Luft till nästa element */
-        text-align: center; /* Centrerad text */
+        line-height: 1.3;
+        margin-bottom: 20px;
+        text-align: center;
     }
     
     .trusted-section .trusted-stats-block {
         display: flex;
-        flex-direction: column; /* Vertikal layout */
-        align-items: center; /* Centrerar horisontellt */
-        gap: 15px; /* Avstånd mellan statistikelement */
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
     
-
     .trusted-section .stat {
         display: flex;
-        flex-direction: row; /* Placera siffror och text i rad */
-        align-items: center; /* Centrerar horisontellt */
-        justify-content: center; /* Centrerar vertikalt */
-        text-align: center; /* Säkerställer att texten centreras */
-        gap: 10px; /* Lägger mellanrum mellan siffror och text */
-        margin: 0; /* Ta bort onödiga marginaler */
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 10px;
+        margin: 0;
     }
     
     .trusted-section .stat .number,
     .trusted-section .stat .text {
-        font-size: 36px; /* Samma storlek för siffror och text */
+        font-size: 36px;
         font-weight: 600;
-        margin: 0; /* Ingen extra marginal */
+        margin: 0;
     }
     
     .trusted-section .register-btn {
-        display: inline-block; /* Behåll inline-block */
-        padding: 10px 20px; /* Luft inuti knappen */
-        font-size: 20px; /* Textstorlek */
-        font-weight: 550; /* Fet text */
-        background-color: var(--vantablack); /* Bakgrundsfärg */
-        color: var(--medium-white); /* Textfärg */
-        text-align: center; /* Centrerad text */
-        text-decoration: none; /* Ingen understrykning */
-        border: none; /* Ingen kantlinje */
-        border-radius: 15px; /* Rundade hörn */
-        cursor: pointer; /* Pekare vid hover */
-        margin-top: 0px; /* Avstånd ovanför knappen */
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 20px;
+        font-weight: 550;
+        text-align: center;
+        text-decoration: none;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-top: 0px;
         margin-right: 0;
     }
     
     @media (max-width: 768px) {
-
         .footer.footer {
             padding: 0;
             margin: 0;
         }
         .footer-container {
             display: flex;
-            flex-direction: row; /* Horisontell layout för kolumnerna */
-            justify-content: space-between; /* Fördela jämnt mellan vänster, mitten och höger */
-            align-items: flex-start; /* Justera alla till toppen */
-            padding: 20px; /* Padding runt om */
-            text-align: left; /* Justera texten till vänster */
-            gap: 10px; /* Mellanrum mellan kolumnerna */
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            text-align: left;
+            gap: 10px;
         }
     
         .footer-logo-section {
-            flex: 1; /* Ta upp lika stor plats som övriga kolumner */
+            flex: 1;
             display: flex;
-            flex-direction: column; /* Stapla logotypen och copyright */
-            align-items: flex-start; /* Justera till vänster */
+            flex-direction: column;
+            align-items: flex-start;
         }
     
         .footer-logo {
-            width: 80px; /* Mindre logotypstorlek */
-            height: auto; /* Bevara proportioner */
-            margin-bottom: 5px; /* Lite avstånd under loggan */
+            width: 80px;
+            height: auto;
+            margin-bottom: 5px;
             margin-top: 30px;
         }
     
         .footer-logo-section p {
-            font-size: 6px; /* Mindre fontstorlek */
-            margin: 0; /* Ingen extra marginal */
-            color: var(--soft-white); /* Färg på text */
+            font-size: 6px;
+            margin: 0;
+            color: var(--secondary-text-color);
             align-items: center;
         }
     
         .footer-links-section {
-            flex: 1; /* Ta upp lika stor plats som övriga kolumner */
+            flex: 1;
             display: flex;
-            flex-direction: column; /* Stapla länkarna vertikalt */
-            align-items: center; /* Justera till vänster */
+            flex-direction: column;
+            align-items: center;
         }
     
         .footer-links-section ul {
             align-items: center;
-            list-style: none; /* Ta bort punktlistor */
-            padding: 0; /* Ingen padding */
-            margin: 0; /* Ingen marginal */
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
     
         .footer-links-section li {
-            margin-bottom: 5px; /* Avstånd mellan länkar */
+            margin-bottom: 5px;
         }
     
         .footer-links-section a {
-            font-size: 10px; /* Anpassad textstorlek */
-            color: var(--soft-white); /* Textfärg */
-            text-decoration: none; /* Ingen understrykning */
+            font-size: 10px;
+            color: var(--secondary-text-color);
+            text-decoration: none;
         }
     
         .footer-info-section {
-            flex: 1; /* Ta upp lika stor plats som övriga kolumner */
+            flex: 1;
             display: flex;
-            flex-direction: column; /* Stapla kontaktinformationen vertikalt */
-            align-items: flex-start; /* Justera till vänster */
+            flex-direction: column;
+            align-items: flex-start;
         }
     
         .footer-info-section ul {
-            list-style: none; /* Ta bort punktlistor */
-            padding: 0; /* Ingen padding */
-            margin: 0; /* Ingen marginal */
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
     
         .footer-info-section li {
-            margin-bottom: 5px; /* Avstånd mellan information */
+            margin-bottom: 5px;
         }
     
         .footer-info-section a {
-            font-size: 10px; /* Anpassad textstorlek */
-            color: var(--soft-white); /* Textfärg */
-            text-decoration: none; /* Ingen understrykning */
+            font-size: 10px;
+            color: var(--secondary-text-color);
+            text-decoration: none;
         }
     }
 }
 
-
 @media (min-width: 768px) and (max-width: 1024px) {
-    
     .hero {
-        min-height: 60vh; /* Justera höjden för att visa del av nästa sektion */
+        min-height: 60vh;
     }
 
-    /* Justera Hero H1 */
     .hero h1 {
         padding-left: 20px;
         padding-right: 20px;
@@ -1629,89 +1720,77 @@ body {
         width: 170px;
     }
 
-    /* Justera Features-sektion */
     .features {
-        margin-top:0px ;
+        margin-top: 0px;
         padding-left: 20px;
         padding-right: 20px;
     }
 
-        /* För själva listan */
-        .feature-list {
-            gap: 100px;
-            margin: 0; /* Ta bort eventuell extra marginal */
-            padding: 0; /* Ta bort extra padding */
-            list-style: none; /* Ta bort punktlista om den finns */
-        }
-    
-        /* För varje listobjekt */
-        .feature-item {
-            gap: 10px;
-            padding-left: 20px;
-            padding-right: 20px;
-            font-size: 14px; /* Justera textstorleken */
-            line-height: 1.4; /* Gör texten mer lättläst */
-        }
+    .feature-list {
+        gap: 100px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
 
-        /* För prickarna */
-        .red-dot {
-            width: 8px; /* Ändra storlek på pricken */
-            height: 8px; /* Gör den mindre */
-        }
+    .feature-item {
+        gap: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        font-size: 14px;
+        line-height: 1.4;
+    }
 
-        .trusted-content {
-            display: flex;
-            flex-direction: column; /* Säkerställer att allt staplas vertikalt */
-            align-items: flex-start; /* Centrerar allt horisontellt */
-        }
-        
-        div.stat {
-            margin-bottom: 0;
-        }
-        .register-btn {
-            margin-top: 0; /* Avstånd från texten ovan */
-            order: 2; /* Flyttar knappen sist i sekvensen */
-            width: auto; /* Justerar knappen så den håller sig inom sin sektion */
-        }
+    .red-dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .trusted-content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
     
-        .trusted-stats-block {
-            order: 1; /* Text och siffror behåller sin ordning */
-            margin-bottom: 20px; /* Avstånd till knappen */
-        }
+    div.stat {
+        margin-bottom: 0;
+    }
+    .register-btn {
+        margin-top: 0;
+        order: 2;
+        width: auto;
+    }
+
+    .trusted-stats-block {
+        order: 1;
+        margin-bottom: 20px;
+    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 768px) and (min-height: 1024px) and (max-height: 1024px) and (orientation: portrait) {
-    /* Anpassningar specifikt för iPad Mini */
-  
     .hero {
-      min-height: 50vh; /* Justera höjden så den passar bättre */
-      margin-bottom: 0;
+        min-height: 50vh;
+        margin-bottom: 0;
     }
-  
+
     .features {
-      margin-top: -50px; /* Justera avståndet för att minska luckan */
+        margin-top: -50px;
     }
 
-    /* För själva listan */
     .feature-list {
-      gap: 50px;
-      margin: 0; /* Ta bort eventuell extra marginal */
-      padding: 0; /* Ta bort extra padding */
-      list-style: none; /* Ta bort punktlista om den finns */
+        gap: 50px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
     }
-    
 }
-  
-@media only screen and (max-width: 375px) {
-    /* Här lägger du in din anpassade CSS för iPhone SE */
 
+@media only screen and (max-width: 375px) {
     .hero {
         margin-bottom: 0;
         margin-top: 80px;
     }
-
-
-}    
+}
 
 /* Förbättrad fade-in för Chrome på mobil */
 @media screen and (max-width: 600px) {
