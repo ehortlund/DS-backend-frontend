@@ -6,9 +6,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <title>Login - Dealscope</title>
     <style>
-
-        /* Färger */
+        /* Färger – Flyttar till variabler och lägger till bright mode */
         :root {
+            /* Mörkt tema (standard) */
             --soft-white: #CCCCCC;
             --medium-white: #E9E9E9;
             --white: #F4F4F4;
@@ -17,6 +17,33 @@
             --dark-grey: #2B2A2A;
             --green: #3DA549;
             --red: #E02F2F;
+
+            /* Variabler för temat */
+            --background-color: var(--vantablack);
+            --text-color: var(--medium-white);
+            --secondary-text-color: var(--soft-white);
+            --container-bg: var(--black);
+            --container-border: var(--dark-grey);
+            --highlight-color: var(--red);
+            --button-bg: var(--green);
+            --button-text: var(--white);
+            --header-bg: var(--vantablack);
+            --card-bg: rgba(32, 32, 32, 0.22);
+        }
+
+        /* Ljust tema */
+        .bright-mode {
+            /* Ljusare färger */
+            --background-color: #f9f9f9;
+            --text-color: #2B2A2A;
+            --secondary-text-color: #555555;
+            --container-bg: #FFFFFF;
+            --container-border: #CCCCCC;
+            --highlight-color: #E02F2F;
+            --button-bg: #3DA549;
+            --button-text: #FFFFFF;
+            --header-bg: #FFFFFF;
+            --card-bg: rgba(200, 200, 200, 0.434);
         }
 
         body {
@@ -26,12 +53,24 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: var(--vantablack); /* Gör bakgrunden mörkare */
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); /* Rutnätet */
-            background-size: 20px 20px; /* Storlek på rutnät */
+            background-color: var(--background-color);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        
+        /* Bright mode-anpassning för body */
+        .bright-mode body {
+            background-image: 
+                linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        }
+
+        .bright-mode .login-container {
+            background-color: #fefefe;
+        }
+
         .login-container {
             background-color: var(--white);
             padding: 30px;
@@ -40,6 +79,7 @@
             width: 265px;
             text-align: center;
         }
+
         .login-container h2 {
             color: var(--dark-grey);
             font-family: 'Poppins', sans-serif;
@@ -90,28 +130,33 @@
             font-size: 24px;
             width: 100%;
             padding: 10px;
-            background-color: var(--red);
-            color: var(--medium-white);
-            border: 1px solid var(--red);
+            background-color: var(--highlight-color);
+            color: var(--button-text);
+            border: 1px solid var(--highlight-color);
             border-radius: 15px;
             cursor: pointer;
             margin-top: 10px;
             margin-bottom: 10px;
             transition: background-color 0.3s ease, color 0.3s ease;
-
         }
+
+        .bright-mode .login-container button {
+            color: var(--button-text);
+        }
+
         .login-container button:hover {
             background-color: transparent;
-            border: var(--red) 1px solid;
-            color: var(--red);
+            border: var(--highlight-color) 1px solid;
+            color: var(--highlight-color);
             transition: cubic-bezier(0.215, 0.610, 0.355, 1);
             transition: background-color 0.3s ease, color 0.3s ease;
-
         }
+
         .error {
-            color: var(--red);
+            color: var(--highlight-color);
             margin-top: 10px;
         }
+
         .link {
             font-weight: 500;
             font-family: 'Poppins', sans-serif;
@@ -121,299 +166,413 @@
 
         .link p {
             color: var(--dark-grey);
-
         }
+
         .link a {
-            color: var(--red);
+            color: var(--highlight-color);
             text-decoration: none;
         }
 
-    /* Header */
-    .main-header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background-color: var(--vantablack);
-        background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 20px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 30px 0px;
-    }
-
-    /* Hamburgarikonen */
-    .menu-btn {
-        display: none;
-    }
-
-    /* Mobilmeny */
-    .mobile-nav {
-        display: none;
-        flex-direction: column;
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--vantablack);
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        transition: opacity 0.3s ease;
-    }
-
-    .mobile-nav a {
-        font-size: 32px;
-        font-weight: 500;
-        color: var(--medium-white);
-        text-decoration: none;
-        margin: 15px 0;
-        transition: color 0.3s ease;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        letter-spacing: 1.3px;
-    }
-
-    .mobile-nav .login-btn {
-        font-size: 32px;
-        font-weight: 500;
-        color: var(--medium-white);
-        text-decoration: none;
-        border: 1px solid var(--red);
-        padding: 10px 20px;
-        border-radius: 15px;
-        margin-top: 20px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        letter-spacing: 1.3px;
-    }
-
-    .mobile-nav a:hover {
-        color: var(--red);
-    }
-
-    .mobile-nav .login-btn:hover {
-        background-color: var(--red);
-        color: var(--medium-white);
-    }
-
-    .logout-btn {
-        display: none;
-        background-color: transparent;
-        font-family: 'Poppins', sans-serif;
-        color: var(--medium-white);
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-        padding: 5px 10px;
-        border: 1px solid var(--red);
-        border-radius: 15px;
-        transition: all 0.3s ease;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        letter-spacing: 1.3px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-    .logout-btn:hover {
-        border: 1px solid var(--red);
-        color: var(--red);
-    }
-
-    /* Logo */
-    .logo {
-        margin-left: 25px;
-        width: 120px;
-        height: auto;
-        padding: 0;
-        display: inline-block;
-        background: none;
-        border: none;
-    }
-
-    .logo svg {
-        transform: none;
-        width: 100%;
-        height: auto;
-    }
-
-    /* Desktop-navigering */
-    .desktop-nav {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        margin-right: 20px;
-    }
-
-    .desktop-nav a {
-        margin-left: 20px;
-        margin-right: 30px;
-        color: var(--medium-white);
-        text-decoration: none;
-        font-size: 16px;
-        font-weight: 500;
-        padding: 5px 10px;
-        border: 1px solid transparent;
-        border-radius: 15px;
-        transition: all 0.3s ease;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        letter-spacing: 1.3px;
-    }
-
-    .desktop-nav a:hover {
-        border: 1px solid var(--red);
-        color: var(--red);
-    }
-
-    .login-btn {
-        margin-left: 20px;
-        color: var(--red);
-        border: 1px solid var(--red);
-        text-decoration: none;
-        text-align: center;
-        font-size: 16px;
-        padding: 12px 32px;
-        border-radius: 15px;
-        background-color: transparent;
-        transition: all 0.3s ease;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        letter-spacing: 1.3px;
-    }
-
-    .login-btn:hover {
-        background-color: transparent;
-        color: var(--red);
-    }
-
-    .desktop-nav .login-btn {
-        border: 1px solid var(--red);
-    }
-
-    /* Responsiv anpassning */
-    @media (max-width: 768px) {
-        body {
-            overflow-x: hidden;
-        }
-
-        html {
-            overflow-x: hidden;
-        }
-
-        .login-btn {
-            border-radius: 15px;
-        }
-
-        .logout-btn {
-            border-radius: 15px;
-        }
-
-        .login-btn:hover {
-            border-radius: 15px;
-        }
-
-        .footer-container {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .footer-info-section,
-        .footer-logo-section,
-        .footer-links-section {
-            text-align: center;
-        }
-
+        /* Header */
         .main-header {
-            background-color: var(--vantablack);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--header-bg);
             background-image: 
                 linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0px;
         }
 
-        .logo {
-            z-index: 2100;
-            margin-left: 10px;
-            position: absolute;
-            top: 25px;
-            left: 10px;
+        /* Bright mode-anpassning för header */
+        .bright-mode .main-header {
+            background-image: 
+                linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+            background-color: var(--background-color);
+
         }
 
-        .desktop-nav {
-            display: none;
-        }
+        
 
+        /* Hamburgarikonen */
         .menu-btn {
             display: none;
-            font-size: 24px;
-            background: none;
-            border: none;
-            color: var(--medium-white);
-            cursor: pointer;
-            z-index: 2000;
-            position: absolute;
-            top: 15px;
-            right: 10px;
-            transition: transform 0.2s ease;
         }
 
-        .menu-btn::before {
-            content: "\2630";
-            font-size: 26px;
-            color: var(--medium-white);
+        /* Mobilmeny */
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--background-color);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
         }
 
-        .menu-btn.active::before {
-            content: "\2715";
-            font-size: 22px;
-            color: var(--medium-white);
-        }
-
-        .mobile-nav.visible {
-            display: flex;
+        /* Bright mode-anpassning för mobilmeny */
+        .bright-mode .mobile-nav {
             background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-            background-size: 20px 20px;
+                linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
         }
 
-        section {
-            margin: 0 auto 100px;
-            padding: 0 25px;
-            max-width: 100%;
-        }
-
-        .hero {
-            padding: 0px;
-            margin: 0 25px;
-            margin-top: 115px;
-            margin-bottom: 10px;
-            text-align: center;
+        .mobile-nav a {
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 15px 0;
+            transition: color 0.3s ease;
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
         }
-    }
 
+        .mobile-nav .login-btn {
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--text-color);
+            text-decoration: none;
+            border: 1px solid var(--highlight-color);
+            padding: 10px 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
+        }
+
+        .mobile-nav a:hover {
+            color: var(--highlight-color);
+        }
+
+        .mobile-nav .login-btn:hover {
+            background-color: var(--highlight-color);
+            color: var(--text-color);
+        }
+
+        .logout-btn {
+            display: none;
+            background-color: transparent;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border: 1px solid var(--highlight-color);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            border: 1px solid var(--highlight-color);
+            color: var(--highlight-color);
+        }
+
+        /* Logo */
+        .logo {
+            margin-left: 25px;
+            width: 120px;
+            height: auto;
+            padding: 0;
+            display: inline-block;
+            background: none;
+            border: none;
+        }
+
+        .logo svg {
+            transform: none;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Desktop-navigering */
+        .desktop-nav {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .desktop-nav a {
+            margin-left: 20px;
+            margin-right: 30px;
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
+        }
+
+        .desktop-nav a:hover {
+            border: 1px solid var(--highlight-color);
+            color: var(--highlight-color);
+        }
+
+        .login-btn {
+            margin-left: 20px;
+            color: var(--highlight-color);
+            border: 1px solid var(--highlight-color);
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            padding: 12px 32px;
+            border-radius: 15px;
+            background-color: transparent;
+            transition: all 0.3s ease;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
+        }
+
+        .login-btn:hover {
+            background-color: transparent;
+            color: var(--highlight-color);
+        }
+
+        .desktop-nav .login-btn {
+            border: 1px solid var(--highlight-color);
+        }
+
+        /* Stil för temaväxlingsknappen */
+        .theme-toggle-btn {
+            color: var(--highlight-color);
+            border: 1px solid var(--highlight-color);
+            text-decoration: none;
+            text-align: center;
+            font-size: 16px;
+            padding: 6px 11px;
+            border-radius: 15px;
+            background-color: transparent;
+            transition: all 0.3s ease;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Hover-effekt för temaväxlingsknappen */
+        .theme-toggle-btn:hover {
+            background-color: transparent;
+            color: var(--text-color);
+            cursor: pointer;
+        }
+
+        /* Stil för ikonerna */
+        .theme-icon {
+            width: 22px;
+            height: 22px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Ikonerna i mörkt tema */
+        .moon-icon {
+            opacity: 1;
+            width: 18px;
+            height: 18px;
+        }
+        .sun-icon {
+            opacity: 0.5;
+        }
+
+        /* Ikonerna i bright mode */
+        .bright-mode .moon-icon {
+            opacity: 0.5;
+            width: 18px;
+            height: 18px;
+        }
+        .bright-mode .sun-icon {
+            opacity: 1;
+        }
+
+        /* Anpassning för mobilmenyn */
+        .mobile-nav .theme-toggle-btn {
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--text-color);
+            text-decoration: none;
+            border: 1px solid var(--highlight-color);
+            padding: 10px 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 1.3px;
+        }
+
+        .mobile-nav .theme-toggle-btn:hover {
+            background-color: var(--highlight-color);
+            color: var(--text-color);
+        }
+
+        /* Responsiv anpassning */
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+                background-size: 10px 10px; /* Mindre rutnät på mobila skärmar */
+            }
+
+            /* Bright mode-anpassning för body på mobila skärmar */
+            .bright-mode body {
+                background-size: 10px 10px;
+            }
+
+            html {
+                overflow-x: hidden;
+            }
+
+            .login-btn {
+                border-radius: 15px;
+            }
+
+            .logout-btn {
+                border-radius: 15px;
+            }
+
+            .login-btn:hover {
+                border-radius: 15px;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-info-section,
+            .footer-logo-section,
+            .footer-links-section {
+                text-align: center;
+            }
+
+            .main-header {
+                background-color: var(--header-bg);
+                background-image: 
+                    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                background-size: 10px 10px; /* Mindre rutnät på mobila skärmar */
+            }
+
+            /* Bright mode-anpassning för header på mobila skärmar */
+            .bright-mode .main-header {
+                background-image: 
+                    linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+                background-size: 10px 10px;
+            }
+
+            .logo {
+                z-index: 2100;
+                margin-left: 10px;
+                position: absolute;
+                top: 25px;
+                left: 10px;
+            }
+
+            .desktop-nav {
+                display: none;
+            }
+
+            .menu-btn {
+                display: none;
+                font-size: 24px;
+                background: none;
+                border: none;
+                color: var(--text-color);
+                cursor: pointer;
+                z-index: 2000;
+                position: absolute;
+                top: 15px;
+                right: 10px;
+                transition: transform 0.2s ease;
+            }
+
+            .menu-btn::before {
+                content: "\2630";
+                font-size: 26px;
+                color: var(--text-color);
+            }
+
+            .menu-btn.active::before {
+                content: "\2715";
+                font-size: 22px;
+                color: var(--text-color);
+            }
+
+            .mobile-nav.visible {
+                display: flex;
+                background-image: 
+                    linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+                background-size: 10px 10px;
+            }
+
+            /* Bright mode-anpassning för mobilmenyn på mobila skärmar */
+            .bright-mode .mobile-nav.visible {
+                background-image: 
+                    linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+                background-size: 10px 10px;
+            }
+
+            section {
+                margin: 0 auto 100px;
+                padding: 0 25px;
+                max-width: 100%;
+            }
+
+            .hero {
+                padding: 0px;
+                margin: 0 25px;
+                margin-top: 115px;
+                margin-bottom: 10px;
+                text-align: center;
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
     </style>
 </head>
 <body>
-
     <!-- Header -->
     <header class="main-header">
         <a href="index.html">
-          <img class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+            <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
         </a>
         <div class="mobile-menu">
             <button class="menu-btn" aria-label="Open menu"></button>
@@ -423,6 +582,10 @@
                 <a href="plans.html">Plans</a>
                 <a href="FAQ.html">FAQ</a> 
                 <a class="login-btn" href="#login">Log in</a>
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <img id="mobile-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                    <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+                </button>
             </nav>
         </div>
         <nav class="desktop-nav">
@@ -432,6 +595,10 @@
             <a href="FAQ.html">FAQ</a> 
             <a class="login-btn" href="#login">Log in</a>
             <button id="logout-btn" class="logout-btn">Log out</button>
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                <img id="desktop-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+            </button>
         </nav>
     </header>
 
@@ -445,10 +612,59 @@
         <p class="link">Don't have an account? <a href="register.html">Register</a></p>
     </div>
 
-
-
     <script>
         let isLoggingIn = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const headerLogo = document.getElementById('header-logo');
+            const desktopMoonIcon = document.getElementById('desktop-moon-icon');
+            const desktopSunIcon = document.getElementById('desktop-sun-icon');
+            const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+            const mobileSunIcon = document.getElementById('mobile-sun-icon');
+
+            // Funktion för att uppdatera SVG:er baserat på tema
+            function updateSVGs(theme) {
+                if (theme === 'bright') {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon grey.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
+                } else {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon red.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
+                }
+            }
+
+            // Hämta tema från localStorage och tillämpa det vid sidladdning
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'bright') {
+                document.documentElement.classList.add('bright-mode');
+                updateSVGs('bright');
+            } else {
+                updateSVGs('dark');
+            }
+
+            // Lägg till klick-event för temaväxlingsknapparna
+            const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+            themeToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const htmlElement = document.documentElement;
+                    if (htmlElement.classList.contains('bright-mode')) {
+                        htmlElement.classList.remove('bright-mode');
+                        localStorage.setItem('theme', 'dark');
+                        updateSVGs('dark');
+                    } else {
+                        htmlElement.classList.add('bright-mode');
+                        localStorage.setItem('theme', 'bright');
+                        updateSVGs('bright');
+                    }
+                });
+            });
+        });
 
         async function login() {
             if (isLoggingIn) {

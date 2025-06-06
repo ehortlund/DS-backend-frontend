@@ -765,12 +765,16 @@ body {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: 1.3px;
 }
 
 .deal-details-container p {
     line-height: 1.6;
     margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.deal-details-container span {
+    font-weight: 500;
 }
 
 .back-button {
