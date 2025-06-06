@@ -754,7 +754,7 @@ body {
 
 /* Bright mode-anpassning för deal-details-container */
 .bright-mode .deal-details-container {
-    background-color: var(--medium-white);
+    background-color: #fafafaa8;
 }
 
 .deal-details-container h3 {
@@ -838,7 +838,7 @@ body {
 
 /* Bright mode-anpassning för deal-recommendation */
 .bright-mode .deal-recommendation {
-    background-color: var(--medium-white);
+    background-color: #fafafaa8;
 }
 
 .deal-recommendation-title {
