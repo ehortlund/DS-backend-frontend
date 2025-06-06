@@ -347,7 +347,7 @@ body {
 }
 
 .mobile-nav .theme-toggle-btn:hover {
-    background-color: var(--highlight-color);
+    background-color: transparent;
     color: var(--text-color);
 }
 

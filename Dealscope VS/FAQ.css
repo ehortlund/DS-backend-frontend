@@ -356,6 +356,7 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 20px;
 }
 
 .desktop-nav a {
@@ -481,7 +482,7 @@ body {
 }
 
 .mobile-nav .theme-toggle-btn:hover {
-    background-color: var(--highlight-color);
+    background-color: transparent;
     color: var(--text-color);
 }
 

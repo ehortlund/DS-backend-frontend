@@ -89,7 +89,7 @@ body {
     top: 0;
     width: 100%;
     z-index: 998;
-    background-color: var(--header-bg);
+    background-color: var(--background-color);
     background-image: 
         linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
@@ -199,6 +199,7 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 20px;
 }
 
 .desktop-nav a {
@@ -324,7 +325,7 @@ body {
 }
 
 .mobile-nav .theme-toggle-btn:hover {
-    background-color: var(--highlight-color);
+    background-color: transparent;
     color: var(--text-color);
 }
 
@@ -355,6 +356,11 @@ body {
     justify-content: center;
     gap: 70px;
     flex-wrap: wrap;
+}
+
+.bright-mode .plan {
+    background-color: var(--background-color);
+    box-shadow: 0px 4px 6px rgba(31, 31, 31, 0.1);
 }
 
 .plan {
