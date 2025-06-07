@@ -773,6 +773,10 @@ body {
     font-weight: 500;
 }
 
+.deal-details-container li {
+    font-weight: 500;
+}
+
 .deal-details-container span {
     font-weight: 500;
 }
