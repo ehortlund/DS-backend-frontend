@@ -1272,9 +1272,11 @@ body {
 
     .deal-details-container {
         background-color: rgba(49, 49, 49, 0.22);
-        margin-left: 35px;
-        margin-right: 35px;
+        margin-left: 25px;
+        margin-right: 25px;
         margin-bottom: 50px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     /* Bright mode-anpassning för deal-details-container i mobil */
@@ -1383,8 +1385,8 @@ body {
 
     .deal-recommendation {
         padding: 8px 10px;
-        margin-left: 30px;
-        margin-right: 30px;
+        margin-left: 25px;
+        margin-right: 25px;
     }
 
     /* Bright mode-anpassning för deal-recommendation i mobil */
