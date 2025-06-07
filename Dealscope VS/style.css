@@ -748,6 +748,14 @@ body {
     .noise-box h2.deal-example-title, .dealscope-box h2.deal-example-title {
         font-size: 18px;
     }
+
+    .bright-mode .noise-dealscope-section{
+        background-color: var(--background-color);
+        background-image: 
+            linear-gradient(rgba(201, 153, 153, 0.152) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
+        background-size: 10px 10px;
+    }
 }
 
 .noise-dealscope-section {

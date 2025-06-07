@@ -378,10 +378,21 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
-.plan:hover {
+.plan:hover  {
     box-shadow: var(--button-bg) 0px 0px 20px;
     transform: translateY(-5px);
     background: var(--white); /* Behåller samma hover-färg som i dark mode */
+}
+
+.plan:hover .badge {
+    background: var(--button-bg); /* Behåller grön färg */
+    color: var(--button-text); /* Behåller vit text */
+    /* Alternativt: Lägg till en ljusare nyans eller effekt, t.ex. */
+    /* background: lighten(var(--button-bg), 10%); (kräver en preprocessor som Sass) */
+    /* Eller använd en rgba-värde för subtil effekt: */
+    background: rgb(61, 165, 73); /* Ljusare grön vid hover */
+    box-shadow: var(--button-bg) 0px 0px 20px;
+
 }
 
 .plans-title {
