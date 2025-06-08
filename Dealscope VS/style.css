@@ -756,6 +756,18 @@ body {
             linear-gradient(90deg, rgba(201, 153, 153, 0.152) 1px, transparent 1px);
         background-size: 10px 10px;
     }
+
+    .bright-mode .noise-dealscope-header {
+        background-size: 10px 10px;
+    }
+
+    .noise-dealscope-header{
+        background-size: 10px 10px;
+    }
+
+    .noise-dealscope-section {
+        background-size: 10px 10px !important;
+    }
 }
 
 .noise-dealscope-section {
