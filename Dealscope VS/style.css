@@ -1250,17 +1250,46 @@ body {
     text-decoration: underline;
 }
 
+#subscription-section select {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 15px;
+    border: var(--highlight-color) 1px solid;
+    background-color: transparent;
+    color: var(--text-color);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+    cursor: pointer;
+    width: 100%; /* Fyll hela tillgängliga bredd */
+    appearance: none; /* Ta bort standardpil i vissa webbläsare */
+    -webkit-appearance: none; /* För Safari */
+    -moz-appearance: none; /* För Firefox */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23E02F2F' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
 #subscription-section select:focus {
     outline: none;
     border-color: var(--highlight-color);
+    box-shadow: 0 0 5px rgba(224, 47, 47, 0.5); /* Lätt skugga vid fokus */
+}
+
+.bright-mode #subscription-section select {
+    color: var(--dark-grey); /* Justera textfärg i bright mode */
 }
 
 #save-subscription {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    width: 100%;
-    padding: 10px;
+    width: 160px;
+    padding: 8px 16px;
     background-color: var(--highlight-color);
     color: var(--button-text);
     border: 1px solid var(--highlight-color);
