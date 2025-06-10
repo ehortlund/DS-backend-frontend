@@ -1291,7 +1291,7 @@ body {
     top: 100%;
     left: 0;
     right: 0;
-    background-color: transparent;
+    background-color: #F4F4F4;
     border: var(--highlight-color) 1px solid;
     border-top: none; /* Ta bort översta gränsen för att gå ihop med select-selected */
     border-radius: 0 0 15px 15px; /* Rundade hörn bara nedtill */
@@ -1302,7 +1302,7 @@ body {
 
 .select-items div.select-item {
     padding: 8px 15px;
-    color: var(--secondary-text-color);
+    color: var(--dark-grey);
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -1329,7 +1329,7 @@ body {
 }
 
 .bright-mode .select-items {
-    background-color: var(--container-bg);
+    background-color: #f4f4f4;
     color: var(--dark-grey);
 }
 
