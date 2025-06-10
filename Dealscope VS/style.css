@@ -1250,7 +1250,13 @@ body {
     text-decoration: underline;
 }
 
-#subscription-section select {
+.custom-select {
+    position: relative;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.select-selected {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -1264,44 +1270,78 @@ body {
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: 1.3px;
     cursor: pointer;
-    width: 100%; /* Fyll hela tillgängliga bredd */
-    appearance: none; /* Ta bort standardpil i vissa webbläsare */
-    -webkit-appearance: none; /* För Safari */
-    -moz-appearance: none; /* För Firefox */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23E02F2F' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 12px;
 }
 
-#subscription-section select:focus {
-    outline: none;
-    border-color: var(--highlight-color);
-    box-shadow: 0 0 5px rgba(224, 47, 47, 0.5); /* Lätt skugga vid fokus */
+.select-selected:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--highlight-color);
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
-.bright-mode #subscription-section select {
-    color: var(--dark-grey); /* Justera textfärg i bright mode */
-}
-
-#save-subscription {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    width: 160px;
-    padding: 8px 16px;
-    background-color: var(--highlight-color);
-    color: var(--button-text);
+.select-items {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--background-color);
     border: 1px solid var(--highlight-color);
-    border-radius: 15px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    border-top: none;
+    border-radius: 0 0 15px 15px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
-#save-subscription:hover {
-    background-color: transparent;
+.select-items div.select-item {
+    padding: 8px 15px;
+    color: var(--secondary-text-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.select-items div.select-item:hover {
+    background-color: rgba(255, 0, 0, 0.1);
     color: var(--highlight-color);
+}
+
+.custom-select.open .select-items {
+    display: block;
+}
+
+.bright-mode .select-selected {
+    color: var(--dark-grey);
+}
+
+.bright-mode .select-items {
+    background-color: var(--container-bg);
+    color: var(--dark-grey);
+}
+
+.bright-mode .select-items div.select-item:hover {
+    background-color: rgba(224, 47, 47, 0.1);
 }
 
 #subscription-error {

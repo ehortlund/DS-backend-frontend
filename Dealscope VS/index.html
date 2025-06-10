@@ -343,11 +343,14 @@
                   <div id="subscription-section" class="content-section fade-in">
                     <h2 class="fade-in">Subscription</h2>
                     <p class="fade-in">Current plan: <span id="current-plan"></span></p>
-                    <select id="plan-options" class="fade-in">
-                        <option value="pro">Pro - $14.99/month</option>
-                        <option value="pro_yearly">Pro Yearly - $149/year</option>
-                        <option value="cancel">Cancel Subscription</option> <!-- Nytt alternativ -->
-                    </select>
+                    <div class="custom-select fade-in">
+                        <div class="select-selected" id="selected-plan">Select a plan</div>
+                        <div class="select-items" id="plan-options">
+                            <div class="select-item" data-value="pro">Pro - $14.99/month</div>
+                            <div class="select-item" data-value="pro_yearly">Pro Yearly - $149/year</div>
+                            <div class="select-item" data-value="cancel">Cancel Subscription</div>
+                        </div>
+                    </div>
                     <button id="save-subscription" class="fade-in">Save Changes</button>
                     <p class="error fade-in" id="subscription-error"></p>
                   </div>
@@ -379,6 +382,41 @@
           const desktopSunIcon = document.getElementById('desktop-sun-icon');
           const mobileMoonIcon = document.getElementById('mobile-moon-icon');
           const mobileSunIcon = document.getElementById('mobile-sun-icon');
+
+                // Hantera anpassad dropdown
+          const select = document.querySelector('.custom-select');
+          const selected = document.getElementById('selected-plan');
+          const items = document.getElementById('plan-options');
+          let selectedValue = '';
+
+          selected.addEventListener('click', () => {
+              select.classList.toggle('open');
+              items.style.display = select.classList.contains('open') ? 'block' : 'none';
+          });
+
+          items.querySelectorAll('.select-item').forEach(item => {
+              item.addEventListener('click', () => {
+                  selectedValue = item.getAttribute('data-value');
+                  selected.textContent = item.textContent;
+                  select.classList.remove('open');
+                  items.style.display = 'none';
+              });
+          });
+
+          // Stäng dropdown vid klick utanför
+          document.addEventListener('click', (e) => {
+              if (!select.contains(e.target)) {
+                  select.classList.remove('open');
+                  items.style.display = 'none';
+              }
+          });
+
+          // Lägg till save-subscription-funktionalitet (komplettas i Steg 3)
+          const saveButton = document.getElementById('save-subscription');
+          saveButton.addEventListener('click', () => {
+              // Logik läggs till i Steg 3
+              console.log('Selected plan:', selectedValue);
+          });
   
           // Intersection Observer för att trigga fade-in-animationer vid skroll
           const fadeInElements = document.querySelectorAll('.fade-in');
