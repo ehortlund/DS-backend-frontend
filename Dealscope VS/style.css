@@ -1262,7 +1262,7 @@ body {
     font-size: 14px;
     font-weight: 500;
     padding: 8px 16px;
-    border-radius: 15px 15px 0 0; /* Rundade hörn bara upptill */
+    border-radius: 15px; 
     border: var(--highlight-color) 1px solid;
     background-color: transparent;
     color: var(--dark-grey);
@@ -1298,6 +1298,7 @@ body {
     z-index: 1001;
     max-height: 200px;
     overflow-y: auto;
+    margin-top: -15px;
 }
 
 .select-items div.select-item {
