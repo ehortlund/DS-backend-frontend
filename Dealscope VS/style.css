@@ -1344,6 +1344,45 @@ body {
     background-color: rgba(224, 47, 47, 0.1);
 }
 
+/*Payment */
+#payment-settings-section p {
+    margin: 10px 0;
+}
+
+#payment-settings-section a,
+#payment-settings-section button {
+    display: block;
+    margin: 10px 0;
+    padding: 8px 16px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+#add-payment-method {
+    background-color: var(--highlight-color);
+    color: var(--button-text);
+    border: 1px solid var(--highlight-color);
+}
+
+#add-payment-method:hover {
+    background-color: transparent;
+    color: var(--highlight-color);
+}
+
+#remove-payment-method {
+    background-color: #ccc;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+#remove-payment-method:hover {
+    background-color: #bbb;
+}
+
+#payment-error {
+    color: var(--highlight-color);
+}
+
 /* Styling för Save-knappen */
 #save-subscription {
     font-family: 'Poppins', sans-serif;
