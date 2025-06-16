@@ -164,6 +164,8 @@ app.get('/api/users/me', async (req, res) => {
     }
 });
 
+
+
 app.get('/deals.html', async (req, res) => {
     const token = req.cookies.token;
 
@@ -226,6 +228,95 @@ app.post('/api/create-payment-intent', async (req, res) => {
         res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
         res.status(500).json({ error: `Kunde inte skapa betalning: ${error.message}` });
+    }
+});
+
+app.get('/api/users/payment-methods', async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        if (!user.stripeCustomerId) {
+            return res.status(404).json({ error: 'No payment methods associated with this account' });
+        }
+
+        const paymentMethods = await stripe.paymentMethods.list({
+            customer: user.stripeCustomerId,
+            type: 'card'
+        });
+
+        const formattedMethods = paymentMethods.data.map(method => ({
+            id: method.id,
+            last4: method.card.last4,
+            brand: method.card.brand,
+            expMonth: method.card.exp_month,
+            expYear: method.card.exp_year
+        }));
+
+        res.status(200).json({ paymentMethods: formattedMethods });
+    } catch (error) {
+        console.error('Error fetching payment methods:', error);
+        res.status(500).json({ error: `Error fetching payment methods: ${error.message}` });
+    }
+});
+
+app.post('/api/users/payment-methods', async (req, res) => {
+    const token = req.cookies.token;
+    const { paymentMethodId, makeDefault } = req.body;
+    if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        let user = await User.findById(decoded.userId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        if (!user.stripeCustomerId) {
+            const customer = await stripe.customers.create({
+                email: user.email,
+                name: user.username
+            });
+            user.stripeCustomerId = customer.id;
+            await user.save();
+        }
+
+        await stripe.paymentMethods.attach(paymentMethodId, { customer: user.stripeCustomerId });
+        if (makeDefault) {
+            await stripe.customers.update(user.stripeCustomerId, {
+                invoice_settings: { default_payment_method: paymentMethodId }
+            });
+        }
+
+        res.status(200).json({ message: 'Payment method added/updated successfully' });
+    } catch (error) {
+        console.error('Error adding/updating payment method:', error);
+        res.status(500).json({ error: `Error adding/updating payment method: ${error.message}` });
+    }
+});
+
+app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
+    const token = req.cookies.token;
+    const paymentMethodId = req.params.paymentMethodId;
+    if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user || !user.stripeCustomerId) return res.status(404).json({ error: 'User or payment customer not found' });
+
+        const paymentMethods = await stripe.paymentMethods.list({ customer: user.stripeCustomerId, type: 'card' });
+        if (paymentMethods.data.length <= 1) {
+            return res.status(400).json({ error: 'Cannot remove the only payment method. Add a new one first.' });
+        }
+
+        await stripe.paymentMethods.detach(paymentMethodId);
+        res.status(200).json({ message: 'Payment method removed successfully' });
+    } catch (error) {
+        console.error('Error removing payment method:', error);
+        res.status(500).json({ error: `Error removing payment method: ${error.message}` });
     }
 });
 

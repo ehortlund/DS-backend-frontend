@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
         trim: true, // Tar bort onödiga mellanslag
         minlength: 3, // Minsta längd för användarnamn
         maxlength: 15 // Maxlängd för användarnamn
+    },
+    stripeCustomerId: {
+        type: String, default: null 
     }
 });
 
