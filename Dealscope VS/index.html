@@ -387,18 +387,18 @@
         const desktopSunIcon = document.getElementById('desktop-sun-icon');
         const mobileMoonIcon = document.getElementById('mobile-moon-icon');
         const mobileSunIcon = document.getElementById('mobile-sun-icon');
-
+  
         // Hantera anpassad dropdown
         const select = document.querySelector('.custom-select');
         const selected = document.getElementById('selected-plan');
         const items = document.getElementById('plan-options');
         let selectedValue = '';
-
+  
         selected.addEventListener('click', () => {
             select.classList.toggle('open');
             items.style.display = select.classList.contains('open') ? 'block' : 'none';
         });
-
+  
         items.querySelectorAll('.select-item').forEach(item => {
             item.addEventListener('click', () => {
                 selectedValue = item.getAttribute('data-value');
@@ -407,7 +407,7 @@
                 items.style.display = 'none';
             });
         });
-
+  
         // Stäng dropdown vid klick utanför
         document.addEventListener('click', (e) => {
             if (!select.contains(e.target)) {
@@ -415,21 +415,21 @@
                 items.style.display = 'none';
             }
         });
-
-        // Lägg till save-subscription-funktionalitet (komplettas i Steg 3)
+  
+        // Lägg till save-subscription-funktionalitet
         const saveButton = document.getElementById('save-subscription');
         saveButton.addEventListener('click', () => {
             console.log('Selected plan:', selectedValue);
         });
-
-        // Intersection Observer för att trigga fade-in-animationer vid skroll
+  
+        // Intersection Observer för fade-in-animationer
         const fadeInElements = document.querySelectorAll('.fade-in');
         const observerOptions = {
             root: null,
             rootMargin: '0px',
             threshold: 0.1
         };
-
+  
         const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -438,11 +438,11 @@
                 }
             });
         }, observerOptions);
-
+  
         fadeInElements.forEach(element => {
             observer.observe(element);
         });
-
+  
         // Funktion för att uppdatera SVG:er baserat på tema
         function updateSVGs(theme) {
             if (theme === 'bright') {
@@ -463,7 +463,7 @@
                 if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
             }
         }
-
+  
         // Hämta tema från localStorage och tillämpa det vid sidladdning
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme === 'bright') {
@@ -472,14 +472,14 @@
         } else {
             updateSVGs('dark');
         }
-
+  
         // Lägg till klick-event för Register-knapparna
         registerButtons.forEach(button => {
             button.addEventListener('click', () => {
                 window.location.href = 'register.html';
             });
         });
-
+  
         // Lägg till klick-event för temaväxlingsknapparna
         const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
         themeToggleButtons.forEach(button => {
@@ -496,7 +496,7 @@
                 }
             });
         });
-
+  
         // Funktion för att uppdatera login-knapparnas text och länk
         async function updateLoginButton() {
             try {
@@ -504,9 +504,9 @@
                     method: 'GET',
                     credentials: 'include'
                 });
-
+  
                 const data = await response.json();
-
+  
                 if (data.error) {
                     loginButtons.forEach(button => {
                         button.textContent = 'Log in';
@@ -519,7 +519,7 @@
                         button.href = '#';
                         button.addEventListener('click', openProfileModal);
                     });
-
+  
                     if (profileUsername && profileEmail) {
                         profileUsername.textContent = data.username;
                         profileEmail.textContent = data.email;
@@ -534,40 +534,44 @@
                 });
             }
         }
-
+  
         // Funktion för att hämta och visa betalningsdata
         async function updatePaymentSettings() {
             // Simulerad data (ersätts med API-anrop när backend är redo)
             const paymentData = {
                 method: "Visa ending in 1234",
-                nextPayment: "2025-07-17 - $14.99" // Uppdaterat datum till dagens datum + några dagar
+                nextPayment: "2025-07-17 - $14.99"
             };
-
+  
             // Uppdatera DOM
             const paymentMethod = document.getElementById('payment-method');
             const nextPayment = document.getElementById('next-payment');
             if (paymentMethod) paymentMethod.textContent = paymentData.method;
             if (nextPayment) nextPayment.textContent = paymentData.nextPayment;
         }
-
+  
         // Funktion för att hantera betalningsåtgärder
         function handlePaymentActions() {
             const addButton = document.getElementById('add-payment-method');
             const removeButton = document.getElementById('remove-payment-method');
+            const viewHistoryLink = document.getElementById('view-payment-history');
             const errorElement = document.getElementById('payment-error');
-
+            let hasPaymentMethod = false; // Spårar om en metod är tillagd
+  
             if (addButton) {
                 addButton.addEventListener('click', () => {
                     errorElement.textContent = 'Adding/changing payment method (simulated).';
                     setTimeout(() => {
                         errorElement.textContent = '';
+                        hasPaymentMethod = true; // Simulerar att en metod är tillagd
+                        removeButton.disabled = false; // Aktiverar "Remove"-knappen
                     }, 2000);
                 });
             }
-
+  
             if (removeButton) {
                 removeButton.addEventListener('click', () => {
-                    if (removeButton.disabled) {
+                    if (!hasPaymentMethod) {
                         errorElement.textContent = 'Please add a new payment method first.';
                         setTimeout(() => {
                             errorElement.textContent = '';
@@ -576,13 +580,28 @@
                         errorElement.textContent = 'Removing payment method (simulated).';
                         setTimeout(() => {
                             errorElement.textContent = '';
-                            removeButton.disabled = true;
+                            hasPaymentMethod = false; // Simulerar borttagning
+                            removeButton.disabled = true; // Inaktiverar knappen igen
+                            updatePaymentSettings(); // Återställer till "Not set"
                         }, 2000);
                     }
                 });
             }
+  
+            if (viewHistoryLink) {
+                viewHistoryLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    errorElement.textContent = 'Viewing payment history (simulated).';
+                    setTimeout(() => {
+                        errorElement.textContent = 'Payment history: [Simulated data: Transaction on 2025-06-01 - $14.99]';
+                        setTimeout(() => {
+                            errorElement.textContent = '';
+                        }, 3000);
+                    }, 500);
+                });
+            }
         }
-
+  
         // Funktion för att öppna profilsidan
         function openProfileModal(event) {
             event.preventDefault();
@@ -590,14 +609,14 @@
             profileOverlay.style.display = 'block';
             header.style.zIndex = '0';
         }
-
+  
         // Funktion för att stänga profilsidan
         function closeProfileModalHandler() {
             profileModal.style.display = 'none';
             profileOverlay.style.display = 'none';
             header.style.zIndex = '1';
         }
-
+  
         // Hantera sidomenyn
         sidebarLinks.forEach(link => {
             link.addEventListener('click', (event) => {
@@ -614,7 +633,7 @@
                 }
             });
         });
-
+  
         // Hantera utloggning
         if (logoutButton) {
             logoutButton.addEventListener('click', (event) => {
@@ -633,17 +652,17 @@
                 });
             });
         }
-
+  
         // Stäng modalen vid klick på krysset
         if (closeProfileModal) {
             closeProfileModal.addEventListener('click', closeProfileModalHandler);
         }
-
+  
         // Kör vid sidladdning
         updateLoginButton();
         updatePaymentSettings(); // Kör vid sidladdning för att visa initial data
         handlePaymentActions(); // Aktivera knapparna
     });
-</script>
+  </script>
 </body>
 </html>
