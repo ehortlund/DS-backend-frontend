@@ -4,7 +4,9 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true, // Lägger till trim för att ta bort onödiga mellanslag
+        lowercase: true // Gör e-post till gemener för konsistens
     },
     password: {
         type: String,
@@ -27,7 +29,12 @@ const userSchema = new mongoose.Schema({
         maxlength: 15 // Maxlängd för användarnamn
     },
     stripeCustomerId: {
-        type: String, default: null 
+        type: String,
+        default: null 
+    },
+    defaultPaymentMethodId: {
+        type: String,
+        default: null // Spårar den valda betalningsmetoden från Stripe
     }
 });
 

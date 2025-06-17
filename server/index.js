@@ -254,7 +254,8 @@ app.get('/api/users/payment-methods', async (req, res) => {
             last4: method.card.last4,
             brand: method.card.brand,
             expMonth: method.card.exp_month,
-            expYear: method.card.exp_year
+            expYear: method.card.exp_year,
+            isDefault: method.id === user.defaultPaymentMethodId // Markera standardmetoden
         }));
 
         res.status(200).json({ paymentMethods: formattedMethods });
@@ -268,6 +269,7 @@ app.post('/api/users/payment-methods', async (req, res) => {
     const token = req.cookies.token;
     const { paymentMethodId, makeDefault } = req.body;
     if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
+    if (!paymentMethodId) return res.status(400).json({ error: 'Payment method ID is required' });
 
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
@@ -288,6 +290,8 @@ app.post('/api/users/payment-methods', async (req, res) => {
             await stripe.customers.update(user.stripeCustomerId, {
                 invoice_settings: { default_payment_method: paymentMethodId }
             });
+            user.defaultPaymentMethodId = paymentMethodId; // Uppdatera standardmetoden
+            await user.save();
         }
 
         res.status(200).json({ message: 'Payment method added/updated successfully' });
@@ -313,6 +317,11 @@ app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
         }
 
         await stripe.paymentMethods.detach(paymentMethodId);
+        if (user.defaultPaymentMethodId === paymentMethodId) {
+            user.defaultPaymentMethodId = null; // Nollställ standardmetoden om den tas bort
+            await user.save();
+        }
+
         res.status(200).json({ message: 'Payment method removed successfully' });
     } catch (error) {
         console.error('Error removing payment method:', error);
