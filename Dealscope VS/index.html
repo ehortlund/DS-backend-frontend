@@ -336,15 +336,24 @@
                     <p class="error fade-in" id="payment-error"></p>
 
                     <!-- Dolt formulär för Stripe Elements -->
-                      <div id="payment-form-container" style="display: none;">
-                        <form id="payment-form">
-                            <div id="card-element" class="fade-in">
-                                <!-- Stripe Element placeras här -->
-                            </div>
-                            <button type="submit" id="submit-payment" class="fade-in">Submit Payment Method</button>
-                            <button type="button" id="cancel-payment" class="fade-in">Cancel</button>
-                        </form>
-                    </div>
+                    <div id="payment-form-container" style="display: none;">
+                      <form id="payment-form">
+                          <div class="payment-field fade-in">
+                              <label for="card-number">Card Number</label>
+                              <div id="card-number-element"></div>
+                          </div>
+                          <div class="payment-field fade-in">
+                              <label for="card-expiry">Expiry Date</label>
+                              <div id="card-expiry-element"></div>
+                          </div>
+                          <div class="payment-field fade-in">
+                              <label for="card-cvc">CVC</label>
+                              <div id="card-cvc-element"></div>
+                          </div>
+                          <button type="submit" id="submit-payment" class="fade-in">Submit Payment Method</button>
+                          <button type="button" id="cancel-payment" class="fade-in">Cancel</button>
+                      </form>
+                  </div>
 
                 </div>
                   <!-- Inställningar -->
@@ -401,18 +410,18 @@
           const desktopSunIcon = document.getElementById('desktop-sun-icon');
           const mobileMoonIcon = document.getElementById('mobile-moon-icon');
           const mobileSunIcon = document.getElementById('mobile-sun-icon');
-
+  
           // Hantera anpassad dropdown
           const select = document.querySelector('.custom-select');
           const selected = document.getElementById('selected-plan');
           const items = document.getElementById('plan-options');
           let selectedValue = '';
-
+  
           selected.addEventListener('click', () => {
               select.classList.toggle('open');
               items.style.display = select.classList.contains('open') ? 'block' : 'none';
           });
-
+  
           items.querySelectorAll('.select-item').forEach(item => {
               item.addEventListener('click', () => {
                   selectedValue = item.getAttribute('data-value');
@@ -421,7 +430,7 @@
                   items.style.display = 'none';
               });
           });
-
+  
           // Stäng dropdown vid klick utanför
           document.addEventListener('click', (e) => {
               if (!select.contains(e.target)) {
@@ -429,13 +438,13 @@
                   items.style.display = 'none';
               }
           });
-
+  
           // Lägg till save-subscription-funktionalitet
           const saveButton = document.getElementById('save-subscription');
           saveButton.addEventListener('click', () => {
               console.log('Selected plan:', selectedValue);
           });
-
+  
           // Intersection Observer för fade-in-animationer
           const fadeInElements = document.querySelectorAll('.fade-in');
           const observerOptions = {
@@ -443,7 +452,7 @@
               rootMargin: '0px',
               threshold: 0.1
           };
-
+  
           const observer = new IntersectionObserver((entries, observer) => {
               entries.forEach(entry => {
                   if (entry.isIntersecting) {
@@ -452,11 +461,11 @@
                   }
               });
           }, observerOptions);
-
+  
           fadeInElements.forEach(element => {
               observer.observe(element);
           });
-
+  
           // Funktion för att uppdatera SVG:er baserat på tema
           function updateSVGs(theme) {
               if (theme === 'bright') {
@@ -477,7 +486,7 @@
                   if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
               }
           }
-
+  
           // Hämta tema från localStorage och tillämpa det vid sidladdning
           const savedTheme = localStorage.getItem('theme');
           if (savedTheme === 'bright') {
@@ -486,14 +495,14 @@
           } else {
               updateSVGs('dark');
           }
-
+  
           // Lägg till klick-event för Register-knapparna
           registerButtons.forEach(button => {
               button.addEventListener('click', () => {
                   window.location.href = 'register.html';
               });
           });
-
+  
           // Lägg till klick-event för temaväxlingsknapparna
           const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
           themeToggleButtons.forEach(button => {
@@ -510,7 +519,7 @@
                   }
               });
           });
-
+  
           // Funktion för att uppdatera login-knapparnas text och länk
           async function updateLoginButton() {
               try {
@@ -518,9 +527,9 @@
                       method: 'GET',
                       credentials: 'include'
                   });
-
+  
                   const data = await response.json();
-
+  
                   if (data.error) {
                       loginButtons.forEach(button => {
                           button.textContent = 'Log in';
@@ -533,7 +542,7 @@
                           button.href = '#';
                           button.addEventListener('click', openProfileModal);
                       });
-
+  
                       if (profileUsername && profileEmail) {
                           profileUsername.textContent = data.username;
                           profileEmail.textContent = data.email;
@@ -548,7 +557,7 @@
                   });
               }
           }
-
+  
           // Funktion för att hämta och visa betalningsdata
           async function updatePaymentSettings() {
               try {
@@ -570,7 +579,7 @@
                   if (nextPayment) nextPayment.textContent = "Error loading date";
               }
           }
-
+  
           // Funktion för att hantera betalningsåtgärder
           function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
@@ -582,9 +591,9 @@
               const submitPaymentButton = document.getElementById('submit-payment');
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
-              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key från Stripe Dashboard
+              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key
               let elements = stripe.elements();
-              let cardElement = elements.create('card', {
+              let cardNumber = elements.create('cardNumber', {
                   style: {
                       base: {
                           fontSize: '16px',
@@ -595,22 +604,46 @@
                       }
                   }
               });
-
-              cardElement.mount('#card-element');
-
+              let cardExpiry = elements.create('cardExpiry', {
+                  style: {
+                      base: {
+                          fontSize: '16px',
+                          color: '#333',
+                          '::placeholder': {
+                              color: '#999'
+                          }
+                      }
+                  }
+              });
+              let cardCvc = elements.create('cardCvc', {
+                  style: {
+                      base: {
+                          fontSize: '16px',
+                          color: '#333',
+                          '::placeholder': {
+                              color: '#999'
+                          }
+                      }
+                  }
+              });
+  
+              cardNumber.mount('#card-number-element');
+              cardExpiry.mount('#card-expiry-element');
+              cardCvc.mount('#card-cvc-element');
+  
               if (addButton) {
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
                   });
               }
-
+  
               if (submitPaymentButton) {
                   paymentForm.addEventListener('submit', async (event) => {
                       event.preventDefault();
                       try {
                           const { paymentMethod, error } = await stripe.createPaymentMethod({
                               type: 'card',
-                              card: cardElement
+                              card: { number: cardNumber, expiry: cardExpiry, cvc: cardCvc }
                           });
                           if (error) {
                               errorElement.textContent = error.message;
@@ -636,19 +669,23 @@
                       setTimeout(() => {
                           errorElement.textContent = '';
                           paymentFormContainer.style.display = 'none';
-                          cardElement.clear(); // Rensa kortfältet
+                          cardNumber.clear();
+                          cardExpiry.clear();
+                          cardCvc.clear(); // Rensa alla fält
                       }, 2000);
                       updatePaymentSettings();
                   });
               }
-
+  
               if (cancelPaymentButton) {
                   cancelPaymentButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'none';
-                      cardElement.clear(); // Rensa kortfältet
+                      cardNumber.clear();
+                      cardExpiry.clear();
+                      cardCvc.clear(); // Rensa alla fält
                   });
               }
-
+  
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
                       if (!hasPaymentMethod) {
@@ -680,7 +717,7 @@
                       }
                   });
               }
-
+  
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
                       event.preventDefault();
@@ -694,7 +731,7 @@
                   });
               }
           }
-
+  
           // Funktion för att öppna profilsidan
           function openProfileModal(event) {
               event.preventDefault();
@@ -702,14 +739,14 @@
               profileOverlay.style.display = 'block';
               header.style.zIndex = '0';
           }
-
+  
           // Funktion för att stänga profilsidan
           function closeProfileModalHandler() {
               profileModal.style.display = 'none';
               profileOverlay.style.display = 'none';
               header.style.zIndex = '1';
           }
-
+  
           // Hantera sidomenyn
           sidebarLinks.forEach(link => {
               link.addEventListener('click', (event) => {
@@ -726,7 +763,7 @@
                   }
               });
           });
-
+  
           // Hantera utloggning
           if (logoutButton) {
               logoutButton.addEventListener('click', (event) => {
@@ -745,12 +782,12 @@
                   });
               });
           }
-
+  
           // Stäng modalen vid klick på krysset
           if (closeProfileModal) {
               closeProfileModal.addEventListener('click', closeProfileModalHandler);
           }
-
+  
           // Kör vid sidladdning
           updateLoginButton();
           updatePaymentSettings(); // Kör vid sidladdning för att visa initial data

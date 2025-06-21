@@ -1417,6 +1417,81 @@ body {
     margin-top: 10px;
 }
 
+.payment-field {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    background-color: var(--background-color);
+}
+
+.payment-field label {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.payment-field div {
+    padding: 10px;
+    border: 1px solid var(--highlight-color);
+    border-radius: 10px;
+    background-color: #fff;
+    min-height: 40px;
+}
+
+.payment-field div:focus-within {
+    border-color: var(--highlight-color);
+    box-shadow: 0 0 5px var(--highlight-color);
+}
+
+#payment-form button {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+}
+
+#submit-payment {
+    background-color: var(--highlight-color);
+    color: var(--button-text);
+    border: 1px solid var(--highlight-color);
+}
+
+#submit-payment:hover {
+    background-color: transparent;
+    color: var(--highlight-color);
+}
+
+#cancel-payment {
+    background-color: #ccc;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+#cancel-payment:hover {
+    background-color: #bbb;
+}
+
+.bright-mode .payment-field div {
+    background-color: #f9f9f9;
+}
+
+.bright-mode #cancel-payment {
+    background-color: #e0e0e0;
+    color: #666;
+    border-color: #e0e0e0;
+}
+
+.bright-mode #cancel-payment:hover {
+    background-color: #d0d0d0;
+}
+
 .close-modal {
     position: absolute;
     top: 10px;
