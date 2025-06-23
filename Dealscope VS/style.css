@@ -1158,6 +1158,8 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    overflow-y: auto; /* Aktiverar skrollning */
+    -webkit-overflow-scrolling: touch; /* Smidigare skrollning på iOS */
 }
 
 .profile-modal-content {
@@ -1496,11 +1498,12 @@ body {
 }
 
 @media (max-width: 768px) { /* Anpassning för mobiler och iPads (upp till 768px) */
-    #payment-form-container {
-        max-height: 300px; /* Begränsar höjden för skrollning */
-        overflow-y: auto; /* Aktiverar vertikal skrollning */
-        -webkit-overflow-scrolling: touch; /* Smidigare skrollning på iOS */
+
+    #profile-modal {
+        max-height: 100vh; /* Begränsar höjden till skärmen */
+        padding: 10px;
     }
+
 }
 
 .close-modal {
