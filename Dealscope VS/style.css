@@ -1357,6 +1357,10 @@ body {
     border-radius: 15px;
     text-align: center;
     cursor: pointer;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    width: 100%;
 }
 
 #add-payment-method {
@@ -1418,11 +1422,10 @@ body {
 }
 
 .payment-field {
-    margin: 10px 0;
-    padding: 10px;
+    margin-top: 10px;
     border: 1px solid var(--border-color);
     border-radius: 15px;
-    background-color: var(--background-color);
+    background-color: transparent;
 }
 
 .payment-field label {
@@ -1430,7 +1433,7 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-color);
+    color: var(--dark-grey);
     margin-bottom: 5px;
 }
 
@@ -1439,7 +1442,7 @@ body {
     border: 1px solid var(--highlight-color);
     border-radius: 10px;
     background-color: #fff;
-    min-height: 40px;
+    min-height: 25px;
 }
 
 .payment-field div:focus-within {
@@ -1490,6 +1493,14 @@ body {
 
 .bright-mode #cancel-payment:hover {
     background-color: #d0d0d0;
+}
+
+@media (max-width: 768px) { /* Anpassning för mobiler och iPads (upp till 768px) */
+    #payment-form-container {
+        max-height: 300px; /* Begränsar höjden för skrollning */
+        overflow-y: auto; /* Aktiverar vertikal skrollning */
+        -webkit-overflow-scrolling: touch; /* Smidigare skrollning på iOS */
+    }
 }
 
 .close-modal {
