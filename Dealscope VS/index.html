@@ -591,7 +591,7 @@
               const submitPaymentButton = document.getElementById('submit-payment');
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
-              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key
+              let stripe = Stripe('pk_test_your_publishable_key_here'); // Ersätt med din Publishable Key
               let elements = stripe.elements();
               let cardNumber = elements.create('cardNumber', {
                   style: {
@@ -626,24 +626,30 @@
                       }
                   }
               });
-  
+
               cardNumber.mount('#card-number-element');
               cardExpiry.mount('#card-expiry-element');
               cardCvc.mount('#card-cvc-element');
-  
+
               if (addButton) {
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
                   });
               }
-  
+
               if (submitPaymentButton) {
                   paymentForm.addEventListener('submit', async (event) => {
                       event.preventDefault();
                       try {
                           const { paymentMethod, error } = await stripe.createPaymentMethod({
                               type: 'card',
-                              card: { number: cardNumber, expiry: cardExpiry, cvc: cardCvc }
+                              card: {
+                                  number: cardNumber,
+                                  exp_month: cardExpiry, // Korrigerad från 'expiry' till 'exp_month'
+                                  exp_year: cardExpiry,  // Korrigerad från 'expiry' till 'exp_year'
+                                  cvc: cardCvc
+                              },
+                              billing_details: { name: 'Test User' }
                           });
                           if (error) {
                               errorElement.textContent = error.message;
@@ -671,21 +677,21 @@
                           paymentFormContainer.style.display = 'none';
                           cardNumber.clear();
                           cardExpiry.clear();
-                          cardCvc.clear(); // Rensa alla fält
+                          cardCvc.clear();
                       }, 2000);
                       updatePaymentSettings();
                   });
               }
-  
+
               if (cancelPaymentButton) {
                   cancelPaymentButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'none';
                       cardNumber.clear();
                       cardExpiry.clear();
-                      cardCvc.clear(); // Rensa alla fält
+                      cardCvc.clear();
                   });
               }
-  
+
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
                       if (!hasPaymentMethod) {
@@ -717,7 +723,7 @@
                       }
                   });
               }
-  
+
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
                       event.preventDefault();
