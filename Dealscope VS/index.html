@@ -702,11 +702,12 @@
   
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
-                      console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId, 'hasPaymentMethod:', hasPaymentMethod);
-                      if (!removeButton || !removeButton.click) {
-                          console.error('Remove button not found or not clickable');
+                      console.log('Remove payment method button clicked, element:', removeButton);
+                      if (!removeButton || typeof removeButton.click !== 'function') {
+                          console.error('Remove button not properly initialized');
                           return;
                       }
+                      console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId, 'hasPaymentMethod:', hasPaymentMethod);
                       if (!hasPaymentMethod) {
                           errorElement.textContent = 'Please add a new payment method first.';
                           setTimeout(() => {
@@ -823,6 +824,6 @@
           updatePaymentSettings();
           handlePaymentActions();
       });
-  </script>
+</script>
 </body>
 </html>
