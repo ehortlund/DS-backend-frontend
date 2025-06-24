@@ -635,6 +635,12 @@
               cardExpiry.mount('#card-expiry-element');
               cardCvc.mount('#card-cvc-element');
   
+              // Validera och logga DOM-element
+              if (!addButton) console.error('Add button not found');
+              if (!removeButton) console.error('Remove button not found');
+              if (!submitPaymentButton) console.error('Submit button not found');
+              if (!cancelPaymentButton) console.error('Cancel button not found');
+  
               if (addButton) {
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
