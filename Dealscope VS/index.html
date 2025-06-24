@@ -594,7 +594,7 @@
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
               let currentPaymentMethodId = null; // Spara paymentMethod.id
-              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key
+              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
               let elements = stripe.elements();
               let cardNumber = elements.create('cardNumber', {
                   style: {
@@ -702,7 +702,11 @@
   
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
-                      console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId);
+                      console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId, 'hasPaymentMethod:', hasPaymentMethod);
+                      if (!removeButton || !removeButton.click) {
+                          console.error('Remove button not found or not clickable');
+                          return;
+                      }
                       if (!hasPaymentMethod) {
                           errorElement.textContent = 'Please add a new payment method first.';
                           setTimeout(() => {
