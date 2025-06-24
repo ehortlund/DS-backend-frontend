@@ -702,9 +702,9 @@
   
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
-                      console.log('Remove payment method button clicked, element:', removeButton);
-                      if (!removeButton || typeof removeButton.click !== 'function') {
-                          console.error('Remove button not properly initialized');
+                      console.log('Remove payment method button clicked, removeButton:', removeButton);
+                      if (!removeButton) {
+                          console.error('Remove button not found in DOM');
                           return;
                       }
                       console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId, 'hasPaymentMethod:', hasPaymentMethod);
