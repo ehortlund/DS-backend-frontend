@@ -522,14 +522,14 @@
   
           // Funktion för att uppdatera login-knapparnas text och länk
           async function updateLoginButton() {
+              console.log('Fetching user data...');
               try {
                   const response = await fetch('/api/users/me', {
                       method: 'GET',
                       credentials: 'include'
                   });
-  
                   const data = await response.json();
-  
+                  console.log('User data response:', data);
                   if (data.error) {
                       loginButtons.forEach(button => {
                           button.textContent = 'Log in';
@@ -542,7 +542,6 @@
                           button.href = '#';
                           button.addEventListener('click', openProfileModal);
                       });
-  
                       if (profileUsername && profileEmail) {
                           profileUsername.textContent = data.username;
                           profileEmail.textContent = data.email;
@@ -560,9 +559,12 @@
   
           // Funktion för att hämta och visa betalningsdata
           async function updatePaymentSettings() {
+              console.log('Fetching payment methods...');
               try {
                   const response = await fetch('/api/users/payment-methods', { credentials: 'include' });
+                  console.log('Payment methods response status:', response.status);
                   const data = await response.json();
+                  console.log('Payment methods data:', data);
                   const paymentData = {
                       method: data.paymentMethods.length ? `${data.paymentMethods[0].brand} ending in ${data.paymentMethods[0].last4}` : "Not set",
                       nextPayment: data.paymentMethods.length ? "2025-07-20 - $14.99" : "Not set"
@@ -592,7 +594,7 @@
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
               let currentPaymentMethodId = null; // Spara paymentMethod.id
-              let stripe = Stripe('pk_test_your_publishable_key_here'); // Ersätt med din Publishable Key
+              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key
               let elements = stripe.elements();
               let cardNumber = elements.create('cardNumber', {
                   style: {
@@ -627,18 +629,19 @@
                       }
                   }
               });
-
+  
               cardNumber.mount('#card-number-element');
               cardExpiry.mount('#card-expiry-element');
               cardCvc.mount('#card-cvc-element');
-
+  
               if (addButton) {
                   addButton.addEventListener('click', () => {
+                      console.log('Add payment method button clicked');
                       paymentFormContainer.style.display = 'block';
                       errorElement.textContent = ''; // Rensa tidigare fel
                   });
               }
-
+  
               if (submitPaymentButton) {
                   paymentForm.addEventListener('submit', async (event) => {
                       event.preventDefault();
@@ -686,16 +689,17 @@
                       updatePaymentSettings();
                   });
               }
-
+  
               if (cancelPaymentButton) {
                   cancelPaymentButton.addEventListener('click', () => {
+                      console.log('Cancel payment method clicked');
                       paymentFormContainer.style.display = 'none';
                       cardNumber.clear();
                       cardExpiry.clear();
                       cardCvc.clear();
                   });
               }
-
+  
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
                       console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId);
@@ -738,7 +742,7 @@
                       }
                   });
               }
-
+  
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
                       console.log('View payment history clicked');
@@ -780,7 +784,7 @@
                       link.classList.add('active');
                       document.getElementById(`${section}-section`).classList.add('active');
                       if (section === 'payment-settings') {
-                          updatePaymentSettings(); // Uppdatera betalningsdata när sektionen visas
+                          updatePaymentSettings();
                       }
                   }
               });
@@ -812,8 +816,8 @@
   
           // Kör vid sidladdning
           updateLoginButton();
-          updatePaymentSettings(); // Kör vid sidladdning för att visa initial data
-          handlePaymentActions(); // Aktivera knapparna
+          updatePaymentSettings();
+          handlePaymentActions();
       });
   </script>
 </body>
