@@ -591,8 +591,8 @@
               const submitPaymentButton = document.getElementById('submit-payment');
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
-              let currentPaymentMethodId = null; // Lägg till för att spara paymentMethod.id
-              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key
+              let currentPaymentMethodId = null; // Spara paymentMethod.id
+              let stripe = Stripe('pk_test_your_publishable_key_here'); // Ersätt med din Publishable Key
               let elements = stripe.elements();
               let cardNumber = elements.create('cardNumber', {
                   style: {
@@ -698,7 +698,7 @@
 
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
-                      console.log('Remove payment method clicked');
+                      console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId);
                       if (!hasPaymentMethod) {
                           errorElement.textContent = 'Please add a new payment method first.';
                           setTimeout(() => {
@@ -711,6 +711,7 @@
                           }, 2000);
                       } else {
                           try {
+                              console.log('Sending DELETE request for paymentMethodId:', currentPaymentMethodId);
                               const response = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
                                   method: 'DELETE',
                                   credentials: 'include'
