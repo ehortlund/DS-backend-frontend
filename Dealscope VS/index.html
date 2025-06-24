@@ -591,7 +591,7 @@
               const submitPaymentButton = document.getElementById('submit-payment');
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
-              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ersätt med din Publishable Key
+              let stripe = Stripe('pk_test_your_publishable_key_here'); // Ersätt med din Publishable Key
               let elements = stripe.elements();
               let cardNumber = elements.create('cardNumber', {
                   style: {
@@ -634,33 +634,34 @@
               if (addButton) {
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
+                      errorElement.textContent = ''; // Rensa tidigare fel
                   });
               }
 
               if (submitPaymentButton) {
                   paymentForm.addEventListener('submit', async (event) => {
                       event.preventDefault();
+                      console.log('Submitting payment method...');
                       try {
                           const { paymentMethod, error } = await stripe.createPaymentMethod({
                               type: 'card',
-                              card: {
-                                  number: cardNumber,
-                                  exp_month: cardExpiry, // Korrigerad från 'expiry' till 'exp_month'
-                                  exp_year: cardExpiry,  // Korrigerad från 'expiry' till 'exp_year'
-                                  cvc: cardCvc
-                              },
+                              card: cardNumber, // Använder cardNumber direkt, Stripe hanterar delarna
                               billing_details: { name: 'Test User' }
                           });
                           if (error) {
-                              errorElement.textContent = error.message;
+                              console.error('Stripe createPaymentMethod error:', error);
+                              errorElement.textContent = error.message; // Visar exakt fel (t.ex. "kortnumret är ofullständigt")
                           } else {
+                              console.log('Payment method created:', paymentMethod.id);
                               const response = await fetch('/api/users/payment-methods', {
                                   method: 'POST',
                                   credentials: 'include',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
                               });
+                              console.log('API response status:', response.status);
                               const data = await response.json();
+                              console.log('API response data:', data);
                               if (data.message) {
                                   errorElement.textContent = data.message;
                                   hasPaymentMethod = true;
@@ -670,6 +671,7 @@
                               }
                           }
                       } catch (error) {
+                          console.error('Error in payment submission:', error);
                           errorElement.textContent = 'Error adding payment method: ' + error.message;
                       }
                       setTimeout(() => {
@@ -705,7 +707,9 @@
                                   method: 'DELETE',
                                   credentials: 'include'
                               });
+                              console.log('Delete API response status:', response.status);
                               const data = await response.json();
+                              console.log('Delete API response data:', data);
                               if (data.message) {
                                   errorElement.textContent = data.message;
                                   hasPaymentMethod = false;
@@ -714,6 +718,7 @@
                                   errorElement.textContent = 'Failed to remove payment method.';
                               }
                           } catch (error) {
+                              console.error('Error in payment removal:', error);
                               errorElement.textContent = 'Error removing payment method: ' + error.message;
                           }
                           setTimeout(() => {
