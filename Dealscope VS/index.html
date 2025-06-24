@@ -593,16 +593,10 @@
               const submitPaymentButton = document.getElementById('submit-payment');
               const cancelPaymentButton = document.getElementById('cancel-payment');
               let hasPaymentMethod = false;
-              let currentPaymentMethodId = null; // Spara paymentMethod.id
+              let currentPaymentMethodId = null;
+  
               let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
               let elements = stripe.elements();
-  
-              // Kontrollera om Stripe laddas korrekt
-              if (!stripe) {
-                  console.error('Stripe failed to initialize');
-                  return;
-              }
-  
               let cardNumber = elements.create('cardNumber', {
                   style: {
                       base: {
@@ -643,16 +637,14 @@
   
               if (addButton) {
                   addButton.addEventListener('click', () => {
-                      console.log('Add payment method button clicked');
                       paymentFormContainer.style.display = 'block';
-                      errorElement.textContent = ''; // Rensa tidigare fel
+                      errorElement.textContent = '';
                   });
               }
   
               if (submitPaymentButton) {
                   paymentForm.addEventListener('submit', async (event) => {
                       event.preventDefault();
-                      console.log('Submitting payment method...');
                       try {
                           const { paymentMethod, error } = await stripe.createPaymentMethod({
                               type: 'card',
@@ -660,20 +652,16 @@
                               billing_details: { name: 'Test User' }
                           });
                           if (error) {
-                              console.error('Stripe createPaymentMethod error:', error);
                               errorElement.textContent = error.message;
                           } else {
-                              console.log('Payment method created:', paymentMethod.id);
-                              currentPaymentMethodId = paymentMethod.id; // Spara ID:t
+                              currentPaymentMethodId = paymentMethod.id;
                               const response = await fetch('/api/users/payment-methods', {
                                   method: 'POST',
                                   credentials: 'include',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
                               });
-                              console.log('API response status:', response.status);
                               const data = await response.json();
-                              console.log('API response data:', data);
                               if (data.message) {
                                   errorElement.textContent = data.message;
                                   hasPaymentMethod = true;
@@ -683,7 +671,6 @@
                               }
                           }
                       } catch (error) {
-                          console.error('Error in payment submission:', error);
                           errorElement.textContent = 'Error adding payment method: ' + error.message;
                       }
                       setTimeout(() => {
@@ -699,7 +686,6 @@
   
               if (cancelPaymentButton) {
                   cancelPaymentButton.addEventListener('click', () => {
-                      console.log('Cancel payment method clicked');
                       paymentFormContainer.style.display = 'none';
                       cardNumber.clear();
                       cardExpiry.clear();
@@ -708,60 +694,46 @@
               }
   
               if (removeButton) {
-                  if (!removeButton) {
-                      console.error('Remove button not found in DOM');
-                  } else {
-                      removeButton.addEventListener('click', async () => {
-                          console.log('Remove payment method button clicked, removeButton:', removeButton);
-                          if (!removeButton.disabled) {
-                              console.log('Remove payment method clicked, currentPaymentMethodId:', currentPaymentMethodId, 'hasPaymentMethod:', hasPaymentMethod);
-                              if (!hasPaymentMethod) {
-                                  errorElement.textContent = 'Please add a new payment method first.';
-                                  setTimeout(() => {
-                                      errorElement.textContent = '';
-                                  }, 2000);
-                              } else if (!currentPaymentMethodId) {
-                                  errorElement.textContent = 'No payment method ID available to remove.';
-                                  setTimeout(() => {
-                                      errorElement.textContent = '';
-                                  }, 2000);
+                  removeButton.addEventListener('click', async () => {
+                      errorElement.textContent = 'Attempting to remove payment method...';
+                      if (!hasPaymentMethod) {
+                          errorElement.textContent = 'Please add a new payment method first.';
+                          setTimeout(() => {
+                              errorElement.textContent = '';
+                          }, 2000);
+                      } else if (!currentPaymentMethodId) {
+                          errorElement.textContent = 'No payment method ID available to remove.';
+                          setTimeout(() => {
+                              errorElement.textContent = '';
+                          }, 2000);
+                      } else {
+                          try {
+                              const response = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                                  method: 'DELETE',
+                                  credentials: 'include'
+                              });
+                              const data = await response.json();
+                              if (data.message) {
+                                  errorElement.textContent = data.message;
+                                  hasPaymentMethod = false;
+                                  removeButton.disabled = true;
+                                  currentPaymentMethodId = null;
                               } else {
-                                  try {
-                                      console.log('Sending DELETE request for paymentMethodId:', currentPaymentMethodId);
-                                      const response = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
-                                          method: 'DELETE',
-                                          credentials: 'include'
-                                      });
-                                      console.log('Delete API response status:', response.status);
-                                      const data = await response.json();
-                                      console.log('Delete API response data:', data);
-                                      if (data.message) {
-                                          errorElement.textContent = data.message;
-                                          hasPaymentMethod = false;
-                                          removeButton.disabled = true;
-                                          currentPaymentMethodId = null; // Nollställ efter borttagning
-                                      } else {
-                                          errorElement.textContent = 'Failed to remove payment method.';
-                                      }
-                                  } catch (error) {
-                                      console.error('Error in payment removal:', error);
-                                      errorElement.textContent = 'Error removing payment method: ' + error.message;
-                                  }
-                                  setTimeout(() => {
-                                      errorElement.textContent = '';
-                                  }, 2000);
-                                  updatePaymentSettings();
+                                  errorElement.textContent = 'Failed to remove payment method.';
                               }
-                          } else {
-                              console.log('Remove button is disabled');
+                          } catch (error) {
+                              errorElement.textContent = 'Error removing payment method: ' + error.message;
                           }
-                      });
-                  }
+                          setTimeout(() => {
+                              errorElement.textContent = '';
+                          }, 2000);
+                          updatePaymentSettings();
+                      }
+                  });
               }
   
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
-                      console.log('View payment history clicked');
                       event.preventDefault();
                       errorElement.textContent = 'Viewing payment history (simulated).';
                       setTimeout(() => {
