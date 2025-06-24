@@ -597,6 +597,15 @@
   
               let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
               let elements = stripe.elements();
+  
+              // Validera DOM-element vid laddning
+              console.log('Validating DOM elements...');
+              if (!addButton) console.error('Add button not found');
+              if (!removeButton) console.error('Remove button not found');
+              if (!submitPaymentButton) console.error('Submit button not found');
+              if (!cancelPaymentButton) console.error('Cancel button not found');
+              if (!paymentFormContainer) console.error('Payment form container not found');
+  
               let cardNumber = elements.create('cardNumber', {
                   style: {
                       base: {
@@ -635,14 +644,9 @@
               cardExpiry.mount('#card-expiry-element');
               cardCvc.mount('#card-cvc-element');
   
-              // Validera och logga DOM-element
-              if (!addButton) console.error('Add button not found');
-              if (!removeButton) console.error('Remove button not found');
-              if (!submitPaymentButton) console.error('Submit button not found');
-              if (!cancelPaymentButton) console.error('Cancel button not found');
-  
               if (addButton) {
                   addButton.addEventListener('click', () => {
+                      console.log('Add payment method button clicked');
                       paymentFormContainer.style.display = 'block';
                       errorElement.textContent = '';
                   });
@@ -701,7 +705,11 @@
   
               if (removeButton) {
                   removeButton.addEventListener('click', async () => {
-                      errorElement.textContent = 'Attempting to remove payment method...';
+                      console.log('Remove payment method button clicked');
+                      if (!removeButton) {
+                          console.error('Remove button not available during click');
+                          return;
+                      }
                       if (!hasPaymentMethod) {
                           errorElement.textContent = 'Please add a new payment method first.';
                           setTimeout(() => {
@@ -735,7 +743,7 @@
                           }, 2000);
                           updatePaymentSettings();
                       }
-                  });
+                  }, { once: true }); // Testa med 'once' för att säkerställa enstaka utlösning
               }
   
               if (viewHistoryLink) {
