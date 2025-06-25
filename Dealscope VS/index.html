@@ -325,18 +325,17 @@
                       <p class="fade-in">Username: <span id="profile-username"></span></p>
                       <p class="fade-in">Email: <span id="profile-email"></span></p>
                   </div>
-                  <!-- Betalningsinställningar -->
-                  <div id="payment-settings-section" class="content-section fade-in">
-                    <h2 class="fade-in">Payment Settings</h2>
-                    <p class="fade-in">Payment Method: <span id="payment-method">Not set</span></p>
-                    <p class="fade-in">Next Payment: <span id="next-payment">Not set</span></p>
-                    <a href="#" id="view-payment-history" class="fade-in">View Payment History</a>
-                    <button id="add-payment-method" class="fade-in">Add/Change Payment Method</button>
-                    <button id="remove-payment-method" class="fade-in" disabled>Remove Payment Method</button>
-                    <p class="error fade-in" id="payment-error"></p>
-
-                    <!-- Dolt formulär för Stripe Elements -->
-                    <div id="payment-form-container" style="display: none;">
+                <!-- Betalningsinställningar -->
+                <div id="payment-settings-section" class="content-section fade-in">
+                  <h2 class="fade-in">Payment Settings</h2>
+                  <p class="fade-in">Payment Method: <span id="payment-method">Not set</span></p>
+                  <p class="fade-in">Next Payment: <span id="next-payment">Not set</span></p>
+                  <a href="#" id="view-payment-history" class="fade-in">View Payment History</a>
+                  <button id="add-payment-method" class="fade-in">Add/Change Payment Method</button>
+                  <button id="remove-payment-method" class="fade-in" disabled>Remove Payment Method</button>
+                  <p class="error fade-in" id="payment-error"></p>
+                  <!-- Dolt formulär för Stripe Elements -->
+                  <div id="payment-form-container" style="display: none;">
                       <form id="payment-form">
                           <div class="payment-field fade-in">
                               <label for="card-number">Card Number</label>
@@ -354,6 +353,15 @@
                           <button type="button" id="cancel-payment" class="fade-in">Cancel</button>
                       </form>
                   </div>
+                </div>
+                  <!-- Profilinställningar -->
+                  <div id="profile-settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Profile Settings</h2>
+                      <p class="fade-in">Update your profile information and preferences.</p>
+                  </div>
+                  <!-- Utloggning -->
+                  <div class="content-section fade-in">
+                      <button id="logout-btn" class="fade-in">Log out</button>
 
                 </div>
                   <!-- Inställningar -->
@@ -585,7 +593,7 @@
           // Funktion för att hantera betalningsåtgärder
           function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
-              const removeButton = document.querySelector('#remove-payment-method'); // Försök med querySelector
+              const removeButton = document.getElementById('remove-payment-method');
               const viewHistoryLink = document.getElementById('view-payment-history');
               const errorElement = document.getElementById('payment-error');
               const paymentFormContainer = document.getElementById('payment-form-container');
@@ -600,8 +608,10 @@
   
               // Validera DOM-element vid laddning
               console.log('Validating DOM elements...');
+              if (!document.getElementById('remove-payment-method')) {
+                  console.error('Remove button not found in DOM');
+              }
               if (!addButton) console.error('Add button not found');
-              if (!removeButton) console.error('Remove button not found');
               if (!submitPaymentButton) console.error('Submit button not found');
               if (!cancelPaymentButton) console.error('Cancel button not found');
               if (!paymentFormContainer) console.error('Payment form container not found');
@@ -675,7 +685,7 @@
                               if (data.message) {
                                   errorElement.textContent = data.message;
                                   hasPaymentMethod = true;
-                                  removeButton.disabled = false;
+                                  if (removeButton) removeButton.disabled = false;
                               } else {
                                   errorElement.textContent = 'Failed to add payment method.';
                               }
@@ -730,7 +740,7 @@
                               if (data.message) {
                                   errorElement.textContent = data.message;
                                   hasPaymentMethod = false;
-                                  removeButton.disabled = true;
+                                  if (removeButton) removeButton.disabled = true;
                                   currentPaymentMethodId = null;
                               } else {
                                   errorElement.textContent = 'Failed to remove payment method.';
@@ -743,7 +753,7 @@
                           }, 2000);
                           updatePaymentSettings();
                       }
-                  }, { capture: true }); // Lägg till capture för att fånga eventuella blockerade klick
+                  }, { capture: true, passive: false }); // Försök fånga klicket
               }
   
               if (viewHistoryLink) {

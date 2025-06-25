@@ -1380,6 +1380,8 @@ body {
     background-color: #ccc;
     color: #333;
     border: 1px solid #ccc;
+    pointer-events: auto; /* Gör knappen klickbar */
+    display: block;
 }
 
 #remove-payment-method:hover {
