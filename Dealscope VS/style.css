@@ -1464,6 +1464,10 @@ body {
     width: 100%;
 }
 
+#payment-info-text {
+    text-align: center;
+}
+
 #submit-payment {
     background-color: var(--highlight-color);
     color: var(--button-text);
