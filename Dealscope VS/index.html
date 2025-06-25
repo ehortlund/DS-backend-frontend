@@ -585,7 +585,7 @@
           // Funktion för att hantera betalningsåtgärder
           function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
-              const removeButton = document.getElementById('remove-payment-method');
+              const removeButton = document.querySelector('#remove-payment-method'); // Försök med querySelector
               const viewHistoryLink = document.getElementById('view-payment-history');
               const errorElement = document.getElementById('payment-error');
               const paymentFormContainer = document.getElementById('payment-form-container');
@@ -743,7 +743,7 @@
                           }, 2000);
                           updatePaymentSettings();
                       }
-                  }, { once: true }); // Testa med 'once' för att säkerställa enstaka utlösning
+                  }, { capture: true }); // Lägg till capture för att fånga eventuella blockerade klick
               }
   
               if (viewHistoryLink) {
