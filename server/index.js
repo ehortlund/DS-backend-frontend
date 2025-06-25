@@ -35,18 +35,36 @@ app.post('/api/create-payment-intent', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        if (!process.env.STRIPE_SECRET_KEY) {
+            throw new Error('STRIPE_SECRET_KEY is not set in environment variables');
+        }
+
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount,
+            amount: Math.round(amount), // Säkerställ heltal i cent
             currency: 'usd',
             payment_method: paymentMethodId,
             confirmation_method: 'manual',
             confirm: true,
-            return_url: 'https://your-render-url.com' // Ersätt med din live-URL
+            return_url: process.env.RENDER_URL || 'https://your-render-url.com' // Använd env-variabel
         });
+
+        if (!paymentIntent.client_secret) {
+            throw new Error('No client secret returned from Stripe');
+        }
 
         res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        res.status(500).json({ error: `Error creating payment intent: ${error.message}` });
+        console.error('Payment Intent error:', error);
+        let statusCode = 500;
+        let errorMessage = 'Error creating payment intent';
+        if (error.type === 'StripeInvalidRequestError') {
+            statusCode = 400;
+            errorMessage = `Stripe error: ${error.message}`;
+        } else if (error.message.includes('STRIPE_SECRET_KEY')) {
+            statusCode = 500;
+            errorMessage = 'Stripe configuration error: Check your secret key';
+        }
+        res.status(statusCode).json({ error: errorMessage });
     }
 });
 
