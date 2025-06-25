@@ -567,19 +567,22 @@
               try {
                   const response = await fetch('/api/users/payment-methods', { credentials: 'include' });
                   const data = await response.json();
+                  const paymentMethodsCount = data.paymentMethods ? data.paymentMethods.length : 0;
                   const paymentData = {
-                      method: data.paymentMethods.length ? `${data.paymentMethods[0].brand} ending in ${data.paymentMethods[0].last4}` : "Not set",
-                      nextPayment: data.paymentMethods.length ? "2025-07-20 - $14.99" : "Not set"
+                      method: paymentMethodsCount ? `${data.paymentMethods[0].brand} ending in ${data.paymentMethods[0].last4}` : "Not set",
+                      nextPayment: paymentMethodsCount ? "2025-07-20 - $14.99" : "Not set"
                   };
                   const paymentMethod = document.getElementById('payment-method');
                   const nextPayment = document.getElementById('next-payment');
                   if (paymentMethod) paymentMethod.textContent = paymentData.method;
                   if (nextPayment) nextPayment.textContent = paymentData.nextPayment;
+                  return paymentMethodsCount; // Returnera antalet betalningsmetoder
               } catch (error) {
                   const paymentMethod = document.getElementById('payment-method');
                   const nextPayment = document.getElementById('next-payment');
                   if (paymentMethod) paymentMethod.textContent = "Error loading method";
                   if (nextPayment) nextPayment.textContent = "Error loading date";
+                  return 0;
               }
           }
   
@@ -596,7 +599,7 @@
               let hasPaymentMethod = false;
               let currentPaymentMethodId = null;
   
-              let stripe = new Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ny instansiering
+              let stripe = new Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
               let elements = stripe.elements();
   
               let cardNumber = elements.create('cardNumber', {
@@ -695,11 +698,11 @@
                   });
               }
   
-              document.addEventListener('click', (e) => {
-                  if (e.target && e.target.id === 'remove-payment-method') {
-                      const removeButton = e.target;
-                      if (!hasPaymentMethod) {
-                          errorElement.textContent = 'Please add a new payment method first.';
+              if (removeButton) {
+                  removeButton.addEventListener('click', async () => {
+                      const paymentMethodsCount = await updatePaymentSettings(); // Hämta aktuellt antal metoder
+                      if (paymentMethodsCount <= 1) {
+                          errorElement.textContent = 'You must keep at least one active payment method. Cancel subscription under the Subscription tab instead.';
                           setTimeout(() => {
                               errorElement.textContent = '';
                           }, 2000);
@@ -710,21 +713,19 @@
                           }, 2000);
                       } else {
                           try {
-                              const response = fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                              const response = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
                                   method: 'DELETE',
                                   credentials: 'include'
-                              }).then(res => res.json()).then(data => {
-                                  if (data.message) {
-                                      errorElement.textContent = data.message;
-                                      hasPaymentMethod = false;
-                                      removeButton.disabled = true;
-                                      currentPaymentMethodId = null;
-                                  } else {
-                                      errorElement.textContent = 'Failed to remove payment method.';
-                                  }
-                              }).catch(error => {
-                                  errorElement.textContent = 'Error removing payment method: ' + error.message;
                               });
+                              const data = await response.json();
+                              if (data.message) {
+                                  errorElement.textContent = data.message;
+                                  hasPaymentMethod = false;
+                                  if (removeButton) removeButton.disabled = true;
+                                  currentPaymentMethodId = null;
+                              } else {
+                                  errorElement.textContent = 'Failed to remove payment method.';
+                              }
                           } catch (error) {
                               errorElement.textContent = 'Error removing payment method: ' + error.message;
                           }
@@ -733,8 +734,8 @@
                           }, 2000);
                           updatePaymentSettings();
                       }
-                  }
-              });
+                  });
+              }
   
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
@@ -811,6 +812,6 @@
           updatePaymentSettings();
           handlePaymentActions();
       });
-</script>
+  </script>
 </body>
 </html>
