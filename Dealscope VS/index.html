@@ -332,7 +332,7 @@
                   <p class="fade-in">Next Payment: <span id="next-payment">Not set</span></p>
                   <a href="#" id="view-payment-history" class="fade-in">View Payment History</a>
                   <button id="add-payment-method" class="fade-in">Add/Change Payment Method</button>
-                  <button id="remove-payment-method" class="fade-in" disabled>Remove Payment Method</button>
+                  <p id="payment-info-text" class="fade-in" style="display: none; color: #666;">Note: You can only use one payment method at a time.</p>
                   <p class="error fade-in" id="payment-error"></p>
                   <!-- Dolt formulär för Stripe Elements -->
                   <div id="payment-form-container" style="display: none;">
@@ -589,13 +589,14 @@
           // Funktion för att hantera betalningsåtgärder
           function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
-              const removeButton = document.getElementById('remove-payment-method');
+              const removeButton = document.getElementById('remove-payment-method'); // Ej längre behövs, tas bort
               const viewHistoryLink = document.getElementById('view-payment-history');
               const errorElement = document.getElementById('payment-error');
               const paymentFormContainer = document.getElementById('payment-form-container');
               const paymentForm = document.getElementById('payment-form');
               const submitPaymentButton = document.getElementById('submit-payment');
               const cancelPaymentButton = document.getElementById('cancel-payment');
+              const paymentInfoText = document.getElementById('payment-info-text');
               let hasPaymentMethod = false;
               let currentPaymentMethodId = null;
   
@@ -643,6 +644,7 @@
               if (addButton) {
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
+                      paymentInfoText.style.display = 'block'; // Visa infotext när knappen klickas
                       errorElement.textContent = '';
                   });
               }
@@ -659,6 +661,13 @@
                           if (error) {
                               errorElement.textContent = error.message;
                           } else {
+                              // Om ett kort redan finns, ta bort det innan du lägger till det nya
+                              if (currentPaymentMethodId) {
+                                  await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                                      method: 'DELETE',
+                                      credentials: 'include'
+                                  });
+                              }
                               currentPaymentMethodId = paymentMethod.id;
                               const response = await fetch('/api/users/payment-methods', {
                                   method: 'POST',
@@ -670,7 +679,6 @@
                               if (data.message) {
                                   errorElement.textContent = data.message;
                                   hasPaymentMethod = true;
-                                  if (removeButton) removeButton.disabled = false;
                               } else {
                                   errorElement.textContent = 'Failed to add payment method.';
                               }
@@ -681,6 +689,7 @@
                       setTimeout(() => {
                           errorElement.textContent = '';
                           paymentFormContainer.style.display = 'none';
+                          paymentInfoText.style.display = 'none'; // Dölj infotext
                           cardNumber.clear();
                           cardExpiry.clear();
                           cardCvc.clear();
@@ -692,48 +701,10 @@
               if (cancelPaymentButton) {
                   cancelPaymentButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'none';
+                      paymentInfoText.style.display = 'none'; // Dölj infotext
                       cardNumber.clear();
                       cardExpiry.clear();
                       cardCvc.clear();
-                  });
-              }
-  
-              if (removeButton) {
-                  removeButton.addEventListener('click', async () => {
-                      const paymentMethodsCount = await updatePaymentSettings(); // Hämta aktuellt antal metoder
-                      if (paymentMethodsCount <= 1) {
-                          errorElement.textContent = 'You must keep at least one active payment method. Cancel subscription under the Subscription tab instead.';
-                          setTimeout(() => {
-                              errorElement.textContent = '';
-                          }, 2000);
-                      } else if (!currentPaymentMethodId) {
-                          errorElement.textContent = 'No payment method ID available to remove.';
-                          setTimeout(() => {
-                              errorElement.textContent = '';
-                          }, 2000);
-                      } else {
-                          try {
-                              const response = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
-                                  method: 'DELETE',
-                                  credentials: 'include'
-                              });
-                              const data = await response.json();
-                              if (data.message) {
-                                  errorElement.textContent = data.message;
-                                  hasPaymentMethod = false;
-                                  if (removeButton) removeButton.disabled = true;
-                                  currentPaymentMethodId = null;
-                              } else {
-                                  errorElement.textContent = 'Failed to remove payment method.';
-                              }
-                          } catch (error) {
-                              errorElement.textContent = 'Error removing payment method: ' + error.message;
-                          }
-                          setTimeout(() => {
-                              errorElement.textContent = '';
-                          }, 2000);
-                          updatePaymentSettings();
-                      }
                   });
               }
   
@@ -812,6 +783,6 @@
           updatePaymentSettings();
           handlePaymentActions();
       });
-  </script>
+</script>
 </body>
 </html>
