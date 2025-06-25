@@ -450,7 +450,7 @@
           // Lägg till save-subscription-funktionalitet
           const saveButton = document.getElementById('save-subscription');
           saveButton.addEventListener('click', () => {
-              console.log('Selected plan:', selectedValue);
+              window.location.href = 'register.html'; // Exempel, ändra efter behov
           });
   
           // Intersection Observer för fade-in-animationer
@@ -530,14 +530,12 @@
   
           // Funktion för att uppdatera login-knapparnas text och länk
           async function updateLoginButton() {
-              console.log('Fetching user data...');
               try {
                   const response = await fetch('/api/users/me', {
                       method: 'GET',
                       credentials: 'include'
                   });
                   const data = await response.json();
-                  console.log('User data response:', data);
                   if (data.error) {
                       loginButtons.forEach(button => {
                           button.textContent = 'Log in';
@@ -556,7 +554,6 @@
                       }
                   }
               } catch (error) {
-                  console.error('Error fetching user data:', error);
                   loginButtons.forEach(button => {
                       button.textContent = 'Log in';
                       button.href = '/login.html';
@@ -567,12 +564,9 @@
   
           // Funktion för att hämta och visa betalningsdata
           async function updatePaymentSettings() {
-              console.log('Fetching payment methods...');
               try {
                   const response = await fetch('/api/users/payment-methods', { credentials: 'include' });
-                  console.log('Payment methods response status:', response.status);
                   const data = await response.json();
-                  console.log('Payment methods data:', data);
                   const paymentData = {
                       method: data.paymentMethods.length ? `${data.paymentMethods[0].brand} ending in ${data.paymentMethods[0].last4}` : "Not set",
                       nextPayment: data.paymentMethods.length ? "2025-07-20 - $14.99" : "Not set"
@@ -582,7 +576,6 @@
                   if (paymentMethod) paymentMethod.textContent = paymentData.method;
                   if (nextPayment) nextPayment.textContent = paymentData.nextPayment;
               } catch (error) {
-                  console.error('Error fetching payment data:', error);
                   const paymentMethod = document.getElementById('payment-method');
                   const nextPayment = document.getElementById('next-payment');
                   if (paymentMethod) paymentMethod.textContent = "Error loading method";
@@ -593,7 +586,7 @@
           // Funktion för att hantera betalningsåtgärder
           function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
-              let removeButton = document.getElementById('remove-payment-method'); // Definiera separat för att testa
+              const removeButton = document.getElementById('remove-payment-method');
               const viewHistoryLink = document.getElementById('view-payment-history');
               const errorElement = document.getElementById('payment-error');
               const paymentFormContainer = document.getElementById('payment-form-container');
@@ -603,21 +596,8 @@
               let hasPaymentMethod = false;
               let currentPaymentMethodId = null;
   
-              let stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
+              let stripe = new Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0'); // Ny instansiering
               let elements = stripe.elements();
-  
-              // Validera DOM-element vid laddning
-              console.log('Validating DOM elements...');
-              if (!document.getElementById('remove-payment-method')) {
-                  console.error('Remove button not found in DOM with ID remove-payment-method');
-              } else {
-                  console.log('Remove button found in DOM');
-                  removeButton = document.getElementById('remove-payment-method'); // Uppdatera variabeln
-              }
-              if (!addButton) console.error('Add button not found');
-              if (!submitPaymentButton) console.error('Submit button not found');
-              if (!cancelPaymentButton) console.error('Cancel button not found');
-              if (!paymentFormContainer) console.error('Payment form container not found');
   
               let cardNumber = elements.create('cardNumber', {
                   style: {
@@ -659,7 +639,6 @@
   
               if (addButton) {
                   addButton.addEventListener('click', () => {
-                      console.log('Add payment method button clicked');
                       paymentFormContainer.style.display = 'block';
                       errorElement.textContent = '';
                   });
@@ -716,13 +695,9 @@
                   });
               }
   
-              if (removeButton) {
-                  removeButton.addEventListener('click', async () => {
-                      console.log('Remove payment method button clicked');
-                      if (!removeButton) {
-                          console.error('Remove button not available during click');
-                          return;
-                      }
+              document.addEventListener('click', (e) => {
+                  if (e.target && e.target.id === 'remove-payment-method') {
+                      const removeButton = e.target;
                       if (!hasPaymentMethod) {
                           errorElement.textContent = 'Please add a new payment method first.';
                           setTimeout(() => {
@@ -735,19 +710,21 @@
                           }, 2000);
                       } else {
                           try {
-                              const response = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                              const response = fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
                                   method: 'DELETE',
                                   credentials: 'include'
+                              }).then(res => res.json()).then(data => {
+                                  if (data.message) {
+                                      errorElement.textContent = data.message;
+                                      hasPaymentMethod = false;
+                                      removeButton.disabled = true;
+                                      currentPaymentMethodId = null;
+                                  } else {
+                                      errorElement.textContent = 'Failed to remove payment method.';
+                                  }
+                              }).catch(error => {
+                                  errorElement.textContent = 'Error removing payment method: ' + error.message;
                               });
-                              const data = await response.json();
-                              if (data.message) {
-                                  errorElement.textContent = data.message;
-                                  hasPaymentMethod = false;
-                                  if (removeButton) removeButton.disabled = true;
-                                  currentPaymentMethodId = null;
-                              } else {
-                                  errorElement.textContent = 'Failed to remove payment method.';
-                              }
                           } catch (error) {
                               errorElement.textContent = 'Error removing payment method: ' + error.message;
                           }
@@ -756,8 +733,8 @@
                           }, 2000);
                           updatePaymentSettings();
                       }
-                  }, { capture: true, passive: false }); // Försök fånga klicket
-              }
+                  }
+              });
   
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
