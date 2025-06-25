@@ -16,6 +16,40 @@ const app = express();
 
 app.use(cookieParser());
 
+app.post('/api/create-payment-intent', async (req, res) => {
+    const token = req.cookies.token;
+    const { amount, paymentMethodId } = req.body;
+
+    if (!token) {
+        return res.status(401).json({ error: 'No token, redirecting to login' });
+    }
+
+    if (!amount || !paymentMethodId) {
+        return res.status(400).json({ error: 'Amount and payment method ID are required' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: amount,
+            currency: 'usd',
+            payment_method: paymentMethodId,
+            confirmation_method: 'manual',
+            confirm: true,
+            return_url: 'https://your-render-url.com' // Ersätt med din live-URL
+        });
+
+        res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+        res.status(500).json({ error: `Error creating payment intent: ${error.message}` });
+    }
+});
+
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;

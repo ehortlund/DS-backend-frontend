@@ -587,9 +587,8 @@
           }
   
           // Funktion för att hantera betalningsåtgärder
-          function handlePaymentActions() {
+          async function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
-              const removeButton = document.getElementById('remove-payment-method'); // Ej längre behövs, tas bort
               const viewHistoryLink = document.getElementById('view-payment-history');
               const errorElement = document.getElementById('payment-error');
               const paymentFormContainer = document.getElementById('payment-form-container');
@@ -603,39 +602,9 @@
               let stripe = new Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
               let elements = stripe.elements();
   
-              let cardNumber = elements.create('cardNumber', {
-                  style: {
-                      base: {
-                          fontSize: '16px',
-                          color: '#333',
-                          '::placeholder': {
-                              color: '#999'
-                          }
-                      }
-                  }
-              });
-              let cardExpiry = elements.create('cardExpiry', {
-                  style: {
-                      base: {
-                          fontSize: '16px',
-                          color: '#333',
-                          '::placeholder': {
-                              color: '#999'
-                          }
-                      }
-                  }
-              });
-              let cardCvc = elements.create('cardCvc', {
-                  style: {
-                      base: {
-                          fontSize: '16px',
-                          color: '#333',
-                          '::placeholder': {
-                              color: '#999'
-                          }
-                      }
-                  }
-              });
+              let cardNumber = elements.create('cardNumber');
+              let cardExpiry = elements.create('cardExpiry');
+              let cardCvc = elements.create('cardCvc');
   
               cardNumber.mount('#card-number-element');
               cardExpiry.mount('#card-expiry-element');
@@ -644,7 +613,7 @@
               if (addButton) {
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
-                      paymentInfoText.style.display = 'block'; // Visa infotext när knappen klickas
+                      paymentInfoText.style.display = 'block';
                       errorElement.textContent = '';
                   });
               }
@@ -661,26 +630,52 @@
                           if (error) {
                               errorElement.textContent = error.message;
                           } else {
-                              // Om ett kort redan finns, ta bort det innan du lägger till det nya
-                              if (currentPaymentMethodId) {
-                                  await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
-                                      method: 'DELETE',
-                                      credentials: 'include'
-                                  });
-                              }
-                              currentPaymentMethodId = paymentMethod.id;
-                              const response = await fetch('/api/users/payment-methods', {
+                              // Skapa Payment Intent för 3D Secure
+                              const paymentIntentResponse = await fetch('/api/create-payment-intent', {
                                   method: 'POST',
                                   credentials: 'include',
                                   headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
+                                  body: JSON.stringify({ amount: 1000, paymentMethodId: paymentMethod.id }) // Exempelbelopp (10.00 USD)
                               });
-                              const data = await response.json();
-                              if (data.message) {
-                                  errorElement.textContent = data.message;
-                                  hasPaymentMethod = true;
+                              const paymentIntentData = await paymentIntentResponse.json();
+                              if (paymentIntentData.error) {
+                                  errorElement.textContent = paymentIntentData.error;
                               } else {
-                                  errorElement.textContent = 'Failed to add payment method.';
+                                  const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+                                      paymentIntentData.clientSecret,
+                                      {
+                                          payment_method: paymentMethod.id
+                                      }
+                                  );
+                                  if (confirmError) {
+                                      errorElement.textContent = confirmError.message;
+                                  } else if (paymentIntent.status === 'succeeded') {
+                                      if (currentPaymentMethodId) {
+                                          await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                                              method: 'DELETE',
+                                              credentials: 'include'
+                                          });
+                                      }
+                                      currentPaymentMethodId = paymentMethod.id;
+                                      hasPaymentMethod = true;
+                                      errorElement.textContent = 'Payment method added/updated successfully';
+                                  } else if (paymentIntent.status === 'requires_action') {
+                                      // Hantera 3D Secure-dialog (simuleras i testläge)
+                                      const { error: authError } = await stripe.handleCardAction(paymentIntent.client_secret);
+                                      if (authError) {
+                                          errorElement.textContent = authError.message;
+                                      } else {
+                                          errorElement.textContent = 'Payment method authenticated and added successfully';
+                                          if (currentPaymentMethodId) {
+                                              await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                                                  method: 'DELETE',
+                                                  credentials: 'include'
+                                              });
+                                          }
+                                          currentPaymentMethodId = paymentMethod.id;
+                                          hasPaymentMethod = true;
+                                      }
+                                  }
                               }
                           }
                       } catch (error) {
@@ -689,7 +684,7 @@
                       setTimeout(() => {
                           errorElement.textContent = '';
                           paymentFormContainer.style.display = 'none';
-                          paymentInfoText.style.display = 'none'; // Dölj infotext
+                          paymentInfoText.style.display = 'none';
                           cardNumber.clear();
                           cardExpiry.clear();
                           cardCvc.clear();
@@ -701,7 +696,7 @@
               if (cancelPaymentButton) {
                   cancelPaymentButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'none';
-                      paymentInfoText.style.display = 'none'; // Dölj infotext
+                      paymentInfoText.style.display = 'none';
                       cardNumber.clear();
                       cardExpiry.clear();
                       cardCvc.clear();
@@ -783,6 +778,6 @@
           updatePaymentSettings();
           handlePaymentActions();
       });
-</script>
+  </script>
 </body>
 </html>
