@@ -9,6 +9,16 @@ require('dotenv').config();
 
 const app = express();
 
+// Global Stripe-initiering
+const stripe = process.env.STRIPE_SECRET_KEY
+    ? require('stripe')(process.env.STRIPE_SECRET_KEY)
+    : null;
+
+if (!stripe) {
+    console.error('Failed to initialize Stripe: STRIPE_SECRET_KEY is missing');
+    process.exit(1); // Avsluta om Stripe inte kan initieras
+}
+
 // Middleware för statiska filer ska komma först
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
@@ -36,11 +46,6 @@ app.post('/api/create-payment-intent', async (req, res) => {
         const user = await User.findById(decoded.userId);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
-        }
-
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        if (!stripe) {
-            throw new Error('Failed to initialize Stripe');
         }
 
         console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
@@ -72,6 +77,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
     }
 });
 
+// Övriga endpoints
 app.post('/api/stripe-webhook', async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
