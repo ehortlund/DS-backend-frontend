@@ -5,16 +5,23 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const User = require('./User');
-
-console.log('STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY);
-if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not set in environment variables');
-}
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+require('dotenv').config(); // Lägg till dotenv för att läsa .env-filer
 
 const app = express();
 
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.raw({ type: 'application/json' })); // För webhook
+app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
+
+const stripe = process.env.STRIPE_SECRET_KEY
+    ? require('stripe')(process.env.STRIPE_SECRET_KEY)
+    : null;
+
+if (!stripe) {
+    console.error('Failed to initialize Stripe: STRIPE_SECRET_KEY is missing');
+    process.exit(1); // Avsluta om Stripe inte kan initieras
+}
 
 app.post('/api/create-payment-intent', async (req, res) => {
     const token = req.cookies.token;
@@ -37,13 +44,9 @@ app.post('/api/create-payment-intent', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        if (!process.env.STRIPE_SECRET_KEY) {
-            throw new Error('STRIPE_SECRET_KEY is not set in environment variables');
-        }
-
         console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount), // Säkerställ heltal i cent
+            amount: Math.round(amount),
             currency: 'usd',
             payment_method: paymentMethodId,
             confirmation_method: 'manual',
@@ -75,7 +78,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
     }
 });
 
-app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+app.post('/api/stripe-webhook', async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -129,9 +132,6 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 
     res.json({ received: true });
 });
-
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 app.post('/api/users/register', async (req, res) => {
     const { email, username, password } = req.body;
@@ -223,8 +223,6 @@ app.get('/api/users/me', async (req, res) => {
     }
 });
 
-
-
 app.get('/deals.html', async (req, res) => {
     const token = req.cookies.token;
 
@@ -257,39 +255,6 @@ app.post('/api/users/logout', (req, res) => {
     res.status(200).json({ message: 'Utloggning lyckades' });
 });
 
-app.post('/api/create-payment-intent', async (req, res) => {
-    const token = req.cookies.token;
-    const { amount } = req.body;
-
-    if (!token) {
-        return res.status(401).json({ error: 'Ingen token, omdirigerar till login' });
-    }
-
-    if (!amount || isNaN(amount)) {
-        return res.status(400).json({ error: 'Ogiltigt belopp' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, 'mysecretkey');
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            return res.status(404).json({ error: 'Användare hittades inte' });
-        }
-
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: amount,
-            currency: 'usd',
-            metadata: {
-                userId: user._id.toString()
-            }
-        });
-
-        res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-        res.status(500).json({ error: `Kunde inte skapa betalning: ${error.message}` });
-    }
-});
-
 app.get('/api/users/payment-methods', async (req, res) => {
     const token = req.cookies.token;
     if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
@@ -314,7 +279,7 @@ app.get('/api/users/payment-methods', async (req, res) => {
             brand: method.card.brand,
             expMonth: method.card.exp_month,
             expYear: method.card.exp_year,
-            isDefault: method.id === user.defaultPaymentMethodId // Markera standardmetoden
+            isDefault: method.id === user.defaultPaymentMethodId
         }));
 
         res.status(200).json({ paymentMethods: formattedMethods });
@@ -349,7 +314,7 @@ app.post('/api/users/payment-methods', async (req, res) => {
             await stripe.customers.update(user.stripeCustomerId, {
                 invoice_settings: { default_payment_method: paymentMethodId }
             });
-            user.defaultPaymentMethodId = paymentMethodId; // Uppdatera standardmetoden
+            user.defaultPaymentMethodId = paymentMethodId;
             await user.save();
         }
 
@@ -377,7 +342,7 @@ app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
 
         await stripe.paymentMethods.detach(paymentMethodId);
         if (user.defaultPaymentMethodId === paymentMethodId) {
-            user.defaultPaymentMethodId = null; // Nollställ standardmetoden om den tas bort
+            user.defaultPaymentMethodId = null;
             await user.save();
         }
 
