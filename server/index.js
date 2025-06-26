@@ -9,11 +9,14 @@ require('dotenv').config();
 
 const app = express();
 
+// Middleware för statiska filer ska komma först
+app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.raw({ type: 'application/json' })); // För webhook
 
-// Definiera alla API-endpoints innan statisk filservering
+// Definiera API-endpoints
 app.post('/api/create-payment-intent', async (req, res) => {
     const token = req.cookies.token;
     const { amount, paymentMethodId } = req.body;
@@ -69,7 +72,6 @@ app.post('/api/create-payment-intent', async (req, res) => {
     }
 });
 
-// Övriga endpoints
 app.post('/api/stripe-webhook', async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
