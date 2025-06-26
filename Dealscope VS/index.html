@@ -638,8 +638,8 @@
                                   body: JSON.stringify({ amount: 1000, paymentMethodId: paymentMethod.id })
                               });
                               if (!paymentIntentResponse.ok) {
-                                  const text = await paymentIntentResponse.text(); // Fånga råtext för felsökning
-                                  errorElement.textContent = `HTTP error! status: ${paymentIntentResponse.status}, body: ${text}`;
+                                  const text = await paymentIntentResponse.text();
+                                  errorElement.textContent = `HTTP error! status: ${paymentIntentResponse.status}, body: ${text || 'No response body'}`;
                                   return;
                               }
                               const paymentIntentData = await paymentIntentResponse.json();

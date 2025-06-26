@@ -46,11 +46,11 @@ app.post('/api/create-payment-intent', async (req, res) => {
 
         console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
         const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount),
+            amount: Math.round(amount), // Säkerställ heltal i cent
             currency: 'usd',
             payment_method: paymentMethodId,
-            confirmation_method: 'manual',
-            confirm: true,
+            confirmation_method: 'automatic', // Ändra till automatic
+            // Ta bort confirm: true eftersom automatic hanterar det
             return_url: process.env.RENDER_URL || 'https://your-render-url.com'
         });
 
