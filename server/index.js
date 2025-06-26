@@ -20,6 +20,8 @@ app.post('/api/create-payment-intent', async (req, res) => {
     const token = req.cookies.token;
     const { amount, paymentMethodId } = req.body;
 
+    console.log('Received /api/create-payment-intent request:', { tokenExists: !!token, amount, paymentMethodId });
+
     if (!token) {
         return res.status(401).json({ error: 'No token, redirecting to login' });
     }
@@ -39,6 +41,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
             throw new Error('STRIPE_SECRET_KEY is not set in environment variables');
         }
 
+        console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(amount), // Säkerställ heltal i cent
             currency: 'usd',
@@ -48,13 +51,14 @@ app.post('/api/create-payment-intent', async (req, res) => {
             return_url: process.env.RENDER_URL || 'https://your-render-url.com' // Använd env-variabel
         });
 
+        console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
         if (!paymentIntent.client_secret) {
             throw new Error('No client secret returned from Stripe');
         }
 
         res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        console.error('Payment Intent error:', error);
+        console.error('Payment Intent error details:', error);
         let statusCode = 500;
         let errorMessage = 'Error creating payment intent';
         if (error.type === 'StripeInvalidRequestError') {

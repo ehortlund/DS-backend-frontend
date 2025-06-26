@@ -630,14 +630,15 @@
                           if (error) {
                               errorElement.textContent = error.message;
                           } else {
-                              // Skapa Payment Intent för 3D Secure
+                              currentPaymentMethodId = paymentMethod.id;
                               const paymentIntentResponse = await fetch('/api/create-payment-intent', {
                                   method: 'POST',
                                   credentials: 'include',
                                   headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({ amount: 1000, paymentMethodId: paymentMethod.id }) // Exempelbelopp (10.00 USD)
+                                  body: JSON.stringify({ amount: 1000, paymentMethodId: paymentMethod.id })
                               });
-                              const paymentIntentData = await paymentIntentResponse.json();
+                              const paymentIntentData = await paymentIntentResponse.json(); // Detta orsakar felet
+                              console.log('Payment Intent Response:', paymentIntentData); // Lägg till loggning
                               if (paymentIntentData.error) {
                                   errorElement.textContent = paymentIntentData.error;
                               } else {
@@ -660,7 +661,6 @@
                                       hasPaymentMethod = true;
                                       errorElement.textContent = 'Payment method added/updated successfully';
                                   } else if (paymentIntent.status === 'requires_action') {
-                                      // Hantera 3D Secure-dialog (simuleras i testläge)
                                       const { error: authError } = await stripe.handleCardAction(paymentIntent.client_secret);
                                       if (authError) {
                                           errorElement.textContent = authError.message;
@@ -714,7 +714,7 @@
                           }, 3000);
                       }, 500);
                   });
-              }
+                }
           }
   
           // Funktion för att öppna profilsidan
@@ -778,6 +778,6 @@
           updatePaymentSettings();
           handlePaymentActions();
       });
-  </script>
+</script>
 </body>
 </html>
