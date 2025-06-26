@@ -632,13 +632,14 @@
                           } else {
                               currentPaymentMethodId = paymentMethod.id;
                               const paymentIntentResponse = await fetch('/api/create-payment-intent', {
-                                  method: 'POST', // Explicitly set to POST
+                                  method: 'POST',
                                   credentials: 'include',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({ amount: 1000, paymentMethodId: paymentMethod.id })
                               });
                               if (!paymentIntentResponse.ok) {
-                                  errorElement.textContent = `HTTP error! status: ${paymentIntentResponse.status}`;
+                                  const text = await paymentIntentResponse.text(); // Fånga råtext för felsökning
+                                  errorElement.textContent = `HTTP error! status: ${paymentIntentResponse.status}, body: ${text}`;
                                   return;
                               }
                               const paymentIntentData = await paymentIntentResponse.json();

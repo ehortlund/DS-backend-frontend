@@ -48,7 +48,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
             payment_method: paymentMethodId,
             confirmation_method: 'manual',
             confirm: true,
-            return_url: process.env.RENDER_URL || 'https://your-render-url.com' // Använd env-variabel
+            return_url: process.env.RENDER_URL || 'https://your-render-url.com'
         });
 
         console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
@@ -64,6 +64,9 @@ app.post('/api/create-payment-intent', async (req, res) => {
         if (error.type === 'StripeInvalidRequestError') {
             statusCode = 400;
             errorMessage = `Stripe error: ${error.message}`;
+        } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
+            statusCode = 502;
+            errorMessage = 'Gateway error: Connection to Stripe failed';
         } else if (error.message.includes('STRIPE_SECRET_KEY')) {
             statusCode = 500;
             errorMessage = 'Stripe configuration error: Check your secret key';
