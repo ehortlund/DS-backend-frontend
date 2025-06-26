@@ -10,8 +10,7 @@
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#121212">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <script src="https://js.stripe.com/v3/"></script>
-  </head>
+</head>
 
   <body>
     <!-- Header -->
@@ -655,29 +654,43 @@
                                   if (confirmError) {
                                       errorElement.textContent = confirmError.message;
                                   } else if (paymentIntent.status === 'succeeded') {
+                                      // Ta bort det gamla kortet om det finns
                                       if (currentPaymentMethodId) {
-                                          await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                                          const deleteResponse = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
                                               method: 'DELETE',
                                               credentials: 'include'
                                           });
+                                          if (!deleteResponse.ok) {
+                                              const deleteText = await deleteResponse.text();
+                                              console.error('Delete error:', deleteText);
+                                          }
                                       }
-                                      currentPaymentMethodId = paymentMethod.id;
+                                      currentPaymentMethodId = paymentMethod.id; // Uppdatera till det nya kortet
                                       hasPaymentMethod = true;
                                       errorElement.textContent = 'Payment method added/updated successfully';
+                                      // Omedelbar uppdatering av betalningsdata
+                                      await updatePaymentSettings();
                                   } else if (paymentIntent.status === 'requires_action') {
                                       const { error: authError } = await stripe.handleCardAction(paymentIntent.client_secret);
                                       if (authError) {
                                           errorElement.textContent = authError.message;
                                       } else {
-                                          errorElement.textContent = 'Payment method authenticated and added successfully';
+                                          // Ta bort det gamla kortet om det finns
                                           if (currentPaymentMethodId) {
-                                              await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
+                                              const deleteResponse = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
                                                   method: 'DELETE',
                                                   credentials: 'include'
                                               });
+                                              if (!deleteResponse.ok) {
+                                                  const deleteText = await deleteResponse.text();
+                                                  console.error('Delete error:', deleteText);
+                                              }
                                           }
-                                          currentPaymentMethodId = paymentMethod.id;
+                                          currentPaymentMethodId = paymentMethod.id; // Uppdatera till det nya kortet
                                           hasPaymentMethod = true;
+                                          errorElement.textContent = 'Payment method authenticated and added successfully';
+                                          // Omedelbar uppdatering av betalningsdata
+                                          await updatePaymentSettings();
                                       }
                                   }
                               }

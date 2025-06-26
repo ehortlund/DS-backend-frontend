@@ -339,16 +339,16 @@ app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
             return res.status(400).json({ error: 'Cannot remove the only payment method. Add a new one first.' });
         }
 
-        await stripe.paymentMethods.detach(paymentMethodId);
+        const deletedMethod = await stripe.paymentMethods.detach(paymentMethodId);
         if (user.defaultPaymentMethodId === paymentMethodId) {
-            user.defaultPaymentMethodId = null;
+            user.defaultPaymentMethodId = paymentMethods.data.find(m => m.id !== paymentMethodId)?.id || null;
             await user.save();
         }
 
         res.status(200).json({ message: 'Payment method removed successfully' });
     } catch (error) {
         console.error('Error removing payment method:', error);
-        res.status(500).json({ error: `Error removing payment method: ${error.message}` });
+        res.status(400).json({ error: `Error removing payment method: ${error.message}` });
     }
 });
 
