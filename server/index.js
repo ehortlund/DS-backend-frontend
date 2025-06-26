@@ -29,6 +29,8 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 
     let event;
     try {
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Initiera stripe lokalt för webhook
+        if (!stripe) throw new Error('Stripe initialization failed');
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
         console.log('Webhook event constructed:', event.type);
     } catch (err) {
@@ -71,6 +73,16 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 app.use(express.json());
 app.use(cookieParser());
 
+// Global Stripe-initiering (för alla andra endpoints)
+const stripe = process.env.STRIPE_SECRET_KEY
+    ? require('stripe')(process.env.STRIPE_SECRET_KEY)
+    : null;
+
+if (!stripe) {
+    console.error('Failed to initialize Stripe globally: STRIPE_SECRET_KEY is missing');
+    process.exit(1); // Avsluta om Stripe inte kan initieras
+}
+
 // Definiera API-endpoints
 app.post('/api/create-payment-intent', async (req, res) => {
     const token = req.cookies.token;
@@ -91,11 +103,6 @@ app.post('/api/create-payment-intent', async (req, res) => {
         const user = await User.findById(decoded.userId);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
-        }
-
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        if (!stripe) {
-            throw new Error('Failed to initialize Stripe');
         }
 
         console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
