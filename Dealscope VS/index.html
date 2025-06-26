@@ -632,13 +632,16 @@
                           } else {
                               currentPaymentMethodId = paymentMethod.id;
                               const paymentIntentResponse = await fetch('/api/create-payment-intent', {
-                                  method: 'POST',
+                                  method: 'POST', // Explicitly set to POST
                                   credentials: 'include',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({ amount: 1000, paymentMethodId: paymentMethod.id })
                               });
-                              const paymentIntentData = await paymentIntentResponse.json(); // Detta orsakar felet
-                              console.log('Payment Intent Response:', paymentIntentData); // Lägg till loggning
+                              if (!paymentIntentResponse.ok) {
+                                  errorElement.textContent = `HTTP error! status: ${paymentIntentResponse.status}`;
+                                  return;
+                              }
+                              const paymentIntentData = await paymentIntentResponse.json();
                               if (paymentIntentData.error) {
                                   errorElement.textContent = paymentIntentData.error;
                               } else {
@@ -714,7 +717,7 @@
                           }, 3000);
                       }, 500);
                   });
-                }
+              }
           }
   
           // Funktion för att öppna profilsidan
