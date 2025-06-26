@@ -49,9 +49,8 @@ app.post('/api/create-payment-intent', async (req, res) => {
             amount: Math.round(amount), // Säkerställ heltal i cent
             currency: 'usd',
             payment_method: paymentMethodId,
-            confirmation_method: 'automatic', // Ändra till automatic
-            // Ta bort confirm: true eftersom automatic hanterar det
-            return_url: process.env.RENDER_URL || 'https://your-render-url.com'
+            confirmation_method: 'automatic' // Håller automatiskt läge
+            // Ta bort return_url helt
         });
 
         console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
