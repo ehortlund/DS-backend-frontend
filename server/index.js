@@ -78,14 +78,14 @@ app.post('/api/create-payment-intent', async (req, res) => {
 });
 
 // Övriga endpoints
-app.post('/api/stripe-webhook', async (req, res) => {
+app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
     console.log('Received Stripe webhook request');
     console.log('Webhook Secret:', webhookSecret);
     console.log('Signature:', sig);
-    console.log('Request Body:', req.body);
+    console.log('Raw Request Body:', req.body); // Logga rådata för felsökning
 
     if (!webhookSecret) {
         console.error('Webhook Secret is not set');
