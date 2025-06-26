@@ -9,75 +9,10 @@ require('dotenv').config();
 
 const app = express();
 
-// Global Stripe-initiering
-const stripe = process.env.STRIPE_SECRET_KEY
-    ? require('stripe')(process.env.STRIPE_SECRET_KEY)
-    : null;
-
-if (!stripe) {
-    console.error('Failed to initialize Stripe: STRIPE_SECRET_KEY is missing');
-    process.exit(1); // Avsluta om Stripe inte kan initieras
-}
-
 // Middleware för statiska filer ska komma först
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.raw({ type: 'application/json' })); // För webhook
-
-// Definiera API-endpoints
-app.post('/api/create-payment-intent', async (req, res) => {
-    const token = req.cookies.token;
-    const { amount, paymentMethodId } = req.body;
-
-    console.log('Received /api/create-payment-intent request:', { tokenExists: !!token, amount, paymentMethodId });
-
-    if (!token) {
-        return res.status(401).json({ error: 'No token, redirecting to login' });
-    }
-
-    if (!amount || !paymentMethodId) {
-        return res.status(400).json({ error: 'Amount and payment method ID are required' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, 'mysecretkey');
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount),
-            currency: 'usd',
-            payment_method: paymentMethodId,
-            confirmation_method: 'automatic'
-        });
-
-        console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
-        if (!paymentIntent.client_secret) {
-            throw new Error('No client secret returned from Stripe');
-        }
-
-        res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-        console.error('Payment Intent error details:', error);
-        let statusCode = 500;
-        let errorMessage = 'Error creating payment intent';
-        if (error.type === 'StripeInvalidRequestError') {
-            statusCode = 400;
-            errorMessage = `Stripe error: ${error.message}`;
-        } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
-            statusCode = 502;
-            errorMessage = 'Gateway error: Connection to Stripe failed';
-        }
-        res.status(statusCode).json({ error: errorMessage });
-    }
-});
-
-// Övriga endpoints
+// Specifik middleware för webhook innan andra parsers
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -85,7 +20,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     console.log('Received Stripe webhook request');
     console.log('Webhook Secret:', webhookSecret);
     console.log('Signature:', sig);
-    console.log('Raw Request Body:', req.body); // Logga rådata för felsökning
+    console.log('Raw Request Body:', req.body.toString()); // Konvertera Buffer till sträng för loggning
 
     if (!webhookSecret) {
         console.error('Webhook Secret is not set');
@@ -130,6 +65,66 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     }
 
     res.json({ received: true });
+});
+
+// Övriga middleware efter webhook
+app.use(express.json());
+app.use(cookieParser());
+
+// Definiera API-endpoints
+app.post('/api/create-payment-intent', async (req, res) => {
+    const token = req.cookies.token;
+    const { amount, paymentMethodId } = req.body;
+
+    console.log('Received /api/create-payment-intent request:', { tokenExists: !!token, amount, paymentMethodId });
+
+    if (!token) {
+        return res.status(401).json({ error: 'No token, redirecting to login' });
+    }
+
+    if (!amount || !paymentMethodId) {
+        return res.status(400).json({ error: 'Amount and payment method ID are required' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        if (!stripe) {
+            throw new Error('Failed to initialize Stripe');
+        }
+
+        console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: Math.round(amount),
+            currency: 'usd',
+            payment_method: paymentMethodId,
+            confirmation_method: 'automatic'
+        });
+
+        console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
+        if (!paymentIntent.client_secret) {
+            throw new Error('No client secret returned from Stripe');
+        }
+
+        res.json({ clientSecret: paymentIntent.client_secret });
+    } catch (error) {
+        console.error('Payment Intent error details:', error);
+        let statusCode = 500;
+        let errorMessage = 'Error creating payment intent';
+        if (error.type === 'StripeInvalidRequestError') {
+            statusCode = 400;
+            errorMessage = `Stripe error: ${error.message}`;
+        } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
+            statusCode = 502;
+            errorMessage = 'Gateway error: Connection to Stripe failed';
+        }
+        res.status(statusCode).json({ error: errorMessage });
+    }
 });
 
 app.post('/api/users/register', async (req, res) => {
