@@ -588,7 +588,7 @@
           // Funktion för att hantera betalningsåtgärder
           async function handlePaymentActions() {
               const addButton = document.getElementById('add-payment-method');
-              const viewHistoryLink = document.getElementById('view-payment-history');
+              const viewHistoryLink = document.getElementById('view-history-link'); // Fixat ID
               const errorElement = document.getElementById('payment-error');
               const paymentFormContainer = document.getElementById('payment-form-container');
               const paymentForm = document.getElementById('payment-form');
@@ -654,43 +654,33 @@
                                   if (confirmError) {
                                       errorElement.textContent = confirmError.message;
                                   } else if (paymentIntent.status === 'succeeded') {
-                                      // Ta bort det gamla kortet om det finns
-                                      if (currentPaymentMethodId) {
-                                          const deleteResponse = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
-                                              method: 'DELETE',
-                                              credentials: 'include'
-                                          });
-                                          if (!deleteResponse.ok) {
-                                              const deleteText = await deleteResponse.text();
-                                              console.error('Delete error:', deleteText);
-                                          }
-                                      }
-                                      currentPaymentMethodId = paymentMethod.id; // Uppdatera till det nya kortet
+                                      // Uppdatera till det nya kortet som standard
+                                      await fetch('/api/users/payment-methods', {
+                                          method: 'POST',
+                                          credentials: 'include',
+                                          headers: { 'Content-Type': 'application/json' },
+                                          body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
+                                      });
+                                      currentPaymentMethodId = paymentMethod.id;
                                       hasPaymentMethod = true;
                                       errorElement.textContent = 'Payment method added/updated successfully';
-                                      // Omedelbar uppdatering av betalningsdata
-                                      await updatePaymentSettings();
+                                      await updatePaymentSettings(); // Omedelbar uppdatering
                                   } else if (paymentIntent.status === 'requires_action') {
                                       const { error: authError } = await stripe.handleCardAction(paymentIntent.client_secret);
                                       if (authError) {
                                           errorElement.textContent = authError.message;
                                       } else {
-                                          // Ta bort det gamla kortet om det finns
-                                          if (currentPaymentMethodId) {
-                                              const deleteResponse = await fetch(`/api/users/payment-methods/${currentPaymentMethodId}`, {
-                                                  method: 'DELETE',
-                                                  credentials: 'include'
-                                              });
-                                              if (!deleteResponse.ok) {
-                                                  const deleteText = await deleteResponse.text();
-                                                  console.error('Delete error:', deleteText);
-                                              }
-                                          }
-                                          currentPaymentMethodId = paymentMethod.id; // Uppdatera till det nya kortet
+                                          // Uppdatera till det nya kortet som standard
+                                          await fetch('/api/users/payment-methods', {
+                                              method: 'POST',
+                                              credentials: 'include',
+                                              headers: { 'Content-Type': 'application/json' },
+                                              body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
+                                          });
+                                          currentPaymentMethodId = paymentMethod.id;
                                           hasPaymentMethod = true;
                                           errorElement.textContent = 'Payment method authenticated and added successfully';
-                                          // Omedelbar uppdatering av betalningsdata
-                                          await updatePaymentSettings();
+                                          await updatePaymentSettings(); // Omedelbar uppdatering
                                       }
                                   }
                               }

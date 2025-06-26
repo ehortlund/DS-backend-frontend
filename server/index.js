@@ -23,57 +23,48 @@ if (!stripe) {
     process.exit(1); // Avsluta om Stripe inte kan initieras
 }
 
-app.post('/api/create-payment-intent', async (req, res) => {
+app.post('/api/users/payment-methods', async (req, res) => {
     const token = req.cookies.token;
-    const { amount, paymentMethodId } = req.body;
-
-    console.log('Received /api/create-payment-intent request:', { tokenExists: !!token, amount, paymentMethodId });
-
-    if (!token) {
-        return res.status(401).json({ error: 'No token, redirecting to login' });
-    }
-
-    if (!amount || !paymentMethodId) {
-        return res.status(400).json({ error: 'Amount and payment method ID are required' });
-    }
+    const { paymentMethodId, makeDefault } = req.body;
+    if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
+    if (!paymentMethodId) return res.status(400).json({ error: 'Payment method ID is required' });
 
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
+        let user = await User.findById(decoded.userId);
+        if (!user) return res.status(404).json({ error: 'User not found' });
+
+        if (!user.stripeCustomerId) {
+            const customer = await stripe.customers.create({
+                email: user.email,
+                name: user.username
+            });
+            user.stripeCustomerId = customer.id;
+            await user.save();
         }
 
-        console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount), // Säkerställ heltal i cent
-            currency: 'usd',
-            payment_method: paymentMethodId,
-            confirmation_method: 'automatic' // Håller automatiskt läge
-            // Ta bort return_url helt
-        });
+        await stripe.paymentMethods.attach(paymentMethodId, { customer: user.stripeCustomerId });
+        if (makeDefault || !user.defaultPaymentMethodId) {
+            await stripe.customers.update(user.stripeCustomerId, {
+                invoice_settings: { default_payment_method: paymentMethodId }
+            });
+            user.defaultPaymentMethodId = paymentMethodId;
+            await user.save();
 
-        console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
-        if (!paymentIntent.client_secret) {
-            throw new Error('No client secret returned from Stripe');
+            // Ta bort det gamla kortet om det finns
+            if (user.stripeCustomerId) {
+                const paymentMethods = await stripe.paymentMethods.list({ customer: user.stripeCustomerId, type: 'card' });
+                const oldMethods = paymentMethods.data.filter(m => m.id !== paymentMethodId);
+                for (const method of oldMethods) {
+                    await stripe.paymentMethods.detach(method.id);
+                }
+            }
         }
 
-        res.json({ clientSecret: paymentIntent.client_secret });
+        res.status(200).json({ message: 'Payment method added/updated successfully' });
     } catch (error) {
-        console.error('Payment Intent error details:', error);
-        let statusCode = 500;
-        let errorMessage = 'Error creating payment intent';
-        if (error.type === 'StripeInvalidRequestError') {
-            statusCode = 400;
-            errorMessage = `Stripe error: ${error.message}`;
-        } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
-            statusCode = 502;
-            errorMessage = 'Gateway error: Connection to Stripe failed';
-        } else if (error.message.includes('STRIPE_SECRET_KEY')) {
-            statusCode = 500;
-            errorMessage = 'Stripe configuration error: Check your secret key';
-        }
-        res.status(statusCode).json({ error: errorMessage });
+        console.error('Error adding/updating payment method:', error);
+        res.status(500).json({ error: `Error adding/updating payment method: ${error.message}` });
     }
 });
 
@@ -339,7 +330,7 @@ app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
             return res.status(400).json({ error: 'Cannot remove the only payment method. Add a new one first.' });
         }
 
-        const deletedMethod = await stripe.paymentMethods.detach(paymentMethodId);
+        await stripe.paymentMethods.detach(paymentMethodId);
         if (user.defaultPaymentMethodId === paymentMethodId) {
             user.defaultPaymentMethodId = paymentMethods.data.find(m => m.id !== paymentMethodId)?.id || null;
             await user.save();
