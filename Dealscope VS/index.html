@@ -420,6 +420,7 @@
           const contentSections = document.querySelectorAll('.content-section');
           const registerButtons = document.querySelectorAll('.cta-btn, .register-btn');
           const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+          const header = document.querySelector('.main-header');
           const headerLogo = document.getElementById('header-logo');
           const footerLogo = document.getElementById('footer-logo');
           const heroCircle = document.getElementById('hero-circle');
@@ -642,6 +643,7 @@
               event.preventDefault();
               profileModal.style.display = 'flex';
               profileOverlay.style.display = 'block';
+              header.style.opacity = '0.5';
               header.style.zIndex = '0';
           }
   
@@ -649,6 +651,7 @@
           function closeProfileModalHandler() {
               profileModal.style.display = 'none';
               profileOverlay.style.display = 'none';
+              header.style.opacity = '1';
               header.style.zIndex = '1';
           }
   
@@ -657,6 +660,10 @@
               logoutButton.addEventListener('click', (event) => {
                   event.preventDefault();
                   fetch('/api/users/logout', { method: 'POST', credentials: 'include' })
+                      .then(response => {
+                          if (!response.ok) throw new Error('Logout failed');
+                          return response.json();
+                      })
                       .then(() => {
                           closeProfileModalHandler();
                           updateLoginButton();
@@ -666,6 +673,11 @@
                           window.location.replace('/login.html');
                       });
               });
+          }
+  
+          // Hantera stängning av modal
+          if (closeProfileModal) {
+              closeProfileModal.addEventListener('click', closeProfileModalHandler);
           }
   
           // Hantera sidomeny
