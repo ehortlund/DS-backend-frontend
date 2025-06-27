@@ -403,13 +403,23 @@
           const profileModal = document.getElementById('profile-modal');
           const profileOverlay = document.getElementById('profile-overlay');
           const closeProfileModal = document.getElementById('close-profile-modal');
-          const header = document.querySelector('.main-header');
-          const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
-          const contentSections = document.querySelectorAll('.content-section');
           const logoutButton = document.getElementById('logout-btn');
           const profileUsername = document.getElementById('profile-username');
           const profileEmail = document.getElementById('profile-email');
+          const addButton = document.getElementById('add-payment-method');
+          const paymentFormContainer = document.getElementById('payment-form-container');
+          const paymentForm = document.getElementById('payment-form');
+          const submitPaymentButton = document.getElementById('submit-payment');
+          const cancelPaymentButton = document.getElementById('cancel-payment');
+          const paymentInfoText = document.getElementById('payment-info-text');
+          const paymentMethod = document.getElementById('payment-method');
+          const nextPayment = document.getElementById('next-payment');
+          const paymentError = document.getElementById('payment-error');
+          const viewHistoryLink = document.getElementById('view-payment-history');
+          const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
+          const contentSections = document.querySelectorAll('.content-section');
           const registerButtons = document.querySelectorAll('.cta-btn, .register-btn');
+          const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
           const headerLogo = document.getElementById('header-logo');
           const footerLogo = document.getElementById('footer-logo');
           const heroCircle = document.getElementById('hero-circle');
@@ -418,62 +428,7 @@
           const mobileMoonIcon = document.getElementById('mobile-moon-icon');
           const mobileSunIcon = document.getElementById('mobile-sun-icon');
   
-          // Hantera anpassad dropdown
-          const select = document.querySelector('.custom-select');
-          const selected = document.getElementById('selected-plan');
-          const items = document.getElementById('plan-options');
-          let selectedValue = '';
-  
-          selected.addEventListener('click', () => {
-              select.classList.toggle('open');
-              items.style.display = select.classList.contains('open') ? 'block' : 'none';
-          });
-  
-          items.querySelectorAll('.select-item').forEach(item => {
-              item.addEventListener('click', () => {
-                  selectedValue = item.getAttribute('data-value');
-                  selected.textContent = item.textContent;
-                  select.classList.remove('open');
-                  items.style.display = 'none';
-              });
-          });
-  
-          // Stäng dropdown vid klick utanför
-          document.addEventListener('click', (e) => {
-              if (!select.contains(e.target)) {
-                  select.classList.remove('open');
-                  items.style.display = 'none';
-              }
-          });
-  
-          // Lägg till save-subscription-funktionalitet
-          const saveButton = document.getElementById('save-subscription');
-          saveButton.addEventListener('click', () => {
-              window.location.href = 'register.html'; // Exempel, ändra efter behov
-          });
-  
-          // Intersection Observer för fade-in-animationer
-          const fadeInElements = document.querySelectorAll('.fade-in');
-          const observerOptions = {
-              root: null,
-              rootMargin: '0px',
-              threshold: 0.1
-          };
-  
-          const observer = new IntersectionObserver((entries, observer) => {
-              entries.forEach(entry => {
-                  if (entry.isIntersecting) {
-                      entry.target.classList.add('show');
-                      observer.unobserve(entry.target);
-                  }
-              });
-          }, observerOptions);
-  
-          fadeInElements.forEach(element => {
-              observer.observe(element);
-          });
-  
-          // Funktion för att uppdatera SVG:er baserat på tema
+          // Temahantering
           function updateSVGs(theme) {
               if (theme === 'bright') {
                   if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
@@ -494,7 +449,6 @@
               }
           }
   
-          // Hämta tema från localStorage och tillämpa det vid sidladdning
           const savedTheme = localStorage.getItem('theme');
           if (savedTheme === 'bright') {
               document.documentElement.classList.add('bright-mode');
@@ -503,15 +457,6 @@
               updateSVGs('dark');
           }
   
-          // Lägg till klick-event för Register-knapparna
-          registerButtons.forEach(button => {
-              button.addEventListener('click', () => {
-                  window.location.href = 'register.html';
-              });
-          });
-  
-          // Lägg till klick-event för temaväxlingsknapparna
-          const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
           themeToggleButtons.forEach(button => {
               button.addEventListener('click', () => {
                   const htmlElement = document.documentElement;
@@ -527,13 +472,10 @@
               });
           });
   
-          // Funktion för att uppdatera login-knapparnas text och länk
+          // Hämta och visa profiluppgifter
           async function updateLoginButton() {
               try {
-                  const response = await fetch('/api/users/me', {
-                      method: 'GET',
-                      credentials: 'include'
-                  });
+                  const response = await fetch('/api/users/me', { method: 'GET', credentials: 'include' });
                   const data = await response.json();
                   if (data.error) {
                       loginButtons.forEach(button => {
@@ -561,7 +503,7 @@
               }
           }
   
-          // Funktion för att hämta och visa betalningsdata
+          // Hämta och visa betalningsdata
           async function updatePaymentSettings() {
               try {
                   const response = await fetch('/api/users/payment-methods', { credentials: 'include' });
@@ -571,36 +513,22 @@
                       method: paymentMethodsCount ? `${data.paymentMethods[0].brand} ending in ${data.paymentMethods[0].last4}` : "Not set",
                       nextPayment: paymentMethodsCount ? "2025-07-20 - $14.99" : "Not set"
                   };
-                  const paymentMethod = document.getElementById('payment-method');
-                  const nextPayment = document.getElementById('next-payment');
                   if (paymentMethod) paymentMethod.textContent = paymentData.method;
                   if (nextPayment) nextPayment.textContent = paymentData.nextPayment;
-                  return paymentMethodsCount; // Returnera antalet betalningsmetoder
+                  return paymentMethodsCount;
               } catch (error) {
-                  const paymentMethod = document.getElementById('payment-method');
-                  const nextPayment = document.getElementById('next-payment');
                   if (paymentMethod) paymentMethod.textContent = "Error loading method";
                   if (nextPayment) nextPayment.textContent = "Error loading date";
                   return 0;
               }
           }
   
-          // Funktion för att hantera betalningsåtgärder
+          // Hantera betalningsåtgärder
           async function handlePaymentActions() {
-              const addButton = document.getElementById('add-payment-method');
-              const viewHistoryLink = document.getElementById('view-history-link'); // Fixat ID
-              const errorElement = document.getElementById('payment-error');
-              const paymentFormContainer = document.getElementById('payment-form-container');
-              const paymentForm = document.getElementById('payment-form');
-              const submitPaymentButton = document.getElementById('submit-payment');
-              const cancelPaymentButton = document.getElementById('cancel-payment');
-              const paymentInfoText = document.getElementById('payment-info-text');
               let hasPaymentMethod = false;
               let currentPaymentMethodId = null;
-  
               let stripe = new Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
               let elements = stripe.elements();
-  
               let cardNumber = elements.create('cardNumber');
               let cardExpiry = elements.create('cardExpiry');
               let cardCvc = elements.create('cardCvc');
@@ -613,7 +541,7 @@
                   addButton.addEventListener('click', () => {
                       paymentFormContainer.style.display = 'block';
                       paymentInfoText.style.display = 'block';
-                      errorElement.textContent = '';
+                      paymentError.textContent = '';
                   });
               }
   
@@ -621,13 +549,14 @@
                   paymentForm.addEventListener('submit', async (event) => {
                       event.preventDefault();
                       try {
+                          paymentError.textContent = 'Verifying payment method...';
                           const { paymentMethod, error } = await stripe.createPaymentMethod({
                               type: 'card',
                               card: cardNumber,
                               billing_details: { name: 'Test User' }
                           });
                           if (error) {
-                              errorElement.textContent = error.message;
+                              paymentError.textContent = error.message;
                           } else {
                               currentPaymentMethodId = paymentMethod.id;
                               const paymentIntentResponse = await fetch('/api/create-payment-intent', {
@@ -638,65 +567,49 @@
                               });
                               if (!paymentIntentResponse.ok) {
                                   const text = await paymentIntentResponse.text();
-                                  errorElement.textContent = `HTTP error! status: ${paymentIntentResponse.status}, body: ${text || 'No response body'}`;
+                                  paymentError.textContent = `HTTP error! status: ${paymentIntentResponse.status}, body: ${text || 'No response body'}`;
                                   return;
                               }
                               const paymentIntentData = await paymentIntentResponse.json();
                               if (paymentIntentData.error) {
-                                  errorElement.textContent = paymentIntentData.error;
+                                  paymentError.textContent = paymentIntentData.error;
                               } else {
                                   const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
                                       paymentIntentData.clientSecret,
-                                      {
-                                          payment_method: paymentMethod.id
-                                      }
+                                      { payment_method: paymentMethod.id }
                                   );
                                   if (confirmError) {
-                                      errorElement.textContent = confirmError.message;
-                                  } else if (paymentIntent.status === 'succeeded') {
-                                      // Uppdatera till det nya kortet som standard
-                                      await fetch('/api/users/payment-methods', {
+                                      paymentError.textContent = confirmError.message;
+                                  } else if (paymentIntent.status === 'succeeded' || paymentIntent.status === 'requires_action') {
+                                      const updateResponse = await fetch('/api/users/payment-methods', {
                                           method: 'POST',
                                           credentials: 'include',
                                           headers: { 'Content-Type': 'application/json' },
                                           body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
                                       });
+                                      if (!updateResponse.ok) {
+                                          const updateText = await updateResponse.text();
+                                          paymentError.textContent = `Error updating payment method: ${updateText}`;
+                                          return;
+                                      }
                                       currentPaymentMethodId = paymentMethod.id;
                                       hasPaymentMethod = true;
-                                      errorElement.textContent = 'Payment method added/updated successfully';
-                                      await updatePaymentSettings(); // Omedelbar uppdatering
-                                  } else if (paymentIntent.status === 'requires_action') {
-                                      const { error: authError } = await stripe.handleCardAction(paymentIntent.client_secret);
-                                      if (authError) {
-                                          errorElement.textContent = authError.message;
-                                      } else {
-                                          // Uppdatera till det nya kortet som standard
-                                          await fetch('/api/users/payment-methods', {
-                                              method: 'POST',
-                                              credentials: 'include',
-                                              headers: { 'Content-Type': 'application/json' },
-                                              body: JSON.stringify({ paymentMethodId: paymentMethod.id, makeDefault: true })
-                                          });
-                                          currentPaymentMethodId = paymentMethod.id;
-                                          hasPaymentMethod = true;
-                                          errorElement.textContent = 'Payment method authenticated and added successfully';
-                                          await updatePaymentSettings(); // Omedelbar uppdatering
-                                      }
+                                      paymentError.textContent = 'Payment method added/updated successfully';
+                                      await updatePaymentSettings();
                                   }
                               }
                           }
                       } catch (error) {
-                          errorElement.textContent = 'Error adding payment method: ' + error.message;
+                          paymentError.textContent = 'Error adding payment method: ' + error.message;
                       }
                       setTimeout(() => {
-                          errorElement.textContent = '';
+                          paymentError.textContent = '';
                           paymentFormContainer.style.display = 'none';
                           paymentInfoText.style.display = 'none';
                           cardNumber.clear();
                           cardExpiry.clear();
                           cardCvc.clear();
                       }, 2000);
-                      updatePaymentSettings();
                   });
               }
   
@@ -713,18 +626,18 @@
               if (viewHistoryLink) {
                   viewHistoryLink.addEventListener('click', (event) => {
                       event.preventDefault();
-                      errorElement.textContent = 'Viewing payment history (simulated).';
+                      paymentError.textContent = 'Viewing payment history (simulated)';
                       setTimeout(() => {
-                          errorElement.textContent = 'Payment history: [Simulated data: Transaction on 2025-06-01 - $14.99]';
+                          paymentError.textContent = 'Payment history: [Simulated data: Transaction on 2025-06-01 - $14.99]';
                           setTimeout(() => {
-                              errorElement.textContent = '';
+                              paymentError.textContent = '';
                           }, 3000);
                       }, 500);
                   });
               }
           }
   
-          // Funktion för att öppna profilsidan
+          // Öppna profilmodal
           function openProfileModal(event) {
               event.preventDefault();
               profileModal.style.display = 'flex';
@@ -732,14 +645,30 @@
               header.style.zIndex = '0';
           }
   
-          // Funktion för att stänga profilsidan
+          // Stäng profilmodal
           function closeProfileModalHandler() {
               profileModal.style.display = 'none';
               profileOverlay.style.display = 'none';
               header.style.zIndex = '1';
           }
   
-          // Hantera sidomenyn
+          // Hantera utloggning
+          if (logoutButton) {
+              logoutButton.addEventListener('click', (event) => {
+                  event.preventDefault();
+                  fetch('/api/users/logout', { method: 'POST', credentials: 'include' })
+                      .then(() => {
+                          closeProfileModalHandler();
+                          updateLoginButton();
+                          window.location.replace('/login.html');
+                      })
+                      .catch(() => {
+                          window.location.replace('/login.html');
+                      });
+              });
+          }
+  
+          // Hantera sidomeny
           sidebarLinks.forEach(link => {
               link.addEventListener('click', (event) => {
                   event.preventDefault();
@@ -756,29 +685,12 @@
               });
           });
   
-          // Hantera utloggning
-          if (logoutButton) {
-              logoutButton.addEventListener('click', (event) => {
-                  event.preventDefault();
-                  fetch('/api/users/logout', {
-                      method: 'POST',
-                      credentials: 'include'
-                  })
-                  .then(() => {
-                      closeProfileModalHandler();
-                      updateLoginButton();
-                      window.location.replace('/login.html');
-                  })
-                  .catch(() => {
-                      window.location.replace('/login.html');
-                  });
+          // Hantera registerknappar
+          registerButtons.forEach(button => {
+              button.addEventListener('click', () => {
+                  window.location.href = 'register.html';
               });
-          }
-  
-          // Stäng modalen vid klick på krysset
-          if (closeProfileModal) {
-              closeProfileModal.addEventListener('click', closeProfileModalHandler);
-          }
+          });
   
           // Kör vid sidladdning
           updateLoginButton();
