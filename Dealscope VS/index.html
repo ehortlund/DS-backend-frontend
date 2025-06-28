@@ -416,62 +416,10 @@
           const nextPayment = document.getElementById('next-payment');
           const paymentError = document.getElementById('payment-error');
           const viewHistoryLink = document.getElementById('view-payment-history');
-          const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
-          const contentSections = document.querySelectorAll('.content-section');
-          const registerButtons = document.querySelectorAll('.cta-btn, .register-btn');
-          const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
           const header = document.querySelector('.main-header');
-          const headerLogo = document.getElementById('header-logo');
-          const footerLogo = document.getElementById('footer-logo');
-          const heroCircle = document.getElementById('hero-circle');
-          const desktopMoonIcon = document.getElementById('desktop-moon-icon');
-          const desktopSunIcon = document.getElementById('desktop-sun-icon');
-          const mobileMoonIcon = document.getElementById('mobile-moon-icon');
-          const mobileSunIcon = document.getElementById('mobile-sun-icon');
-  
-          // Temahantering
-          function updateSVGs(theme) {
-              if (theme === 'bright') {
-                  if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
-                  if (footerLogo) footerLogo.src = 'assets/DS LOGO laying bright.svg';
-                  if (heroCircle) heroCircle.src = 'assets/DS CIRCLE bright.svg';
-                  if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon grey.svg';
-                  if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
-                  if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
-                  if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
-              } else {
-                  if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
-                  if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
-                  if (heroCircle) heroCircle.src = 'assets/DS CIRCLE.svg';
-                  if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon red.svg';
-                  if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
-                  if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
-                  if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
-              }
-          }
-  
-          const savedTheme = localStorage.getItem('theme');
-          if (savedTheme === 'bright') {
-              document.documentElement.classList.add('bright-mode');
-              updateSVGs('bright');
-          } else {
-              updateSVGs('dark');
-          }
-  
-          themeToggleButtons.forEach(button => {
-              button.addEventListener('click', () => {
-                  const htmlElement = document.documentElement;
-                  if (htmlElement.classList.contains('bright-mode')) {
-                      htmlElement.classList.remove('bright-mode');
-                      localStorage.setItem('theme', 'dark');
-                      updateSVGs('dark');
-                  } else {
-                      htmlElement.classList.add('bright-mode');
-                      localStorage.setItem('theme', 'bright');
-                      updateSVGs('bright');
-                  }
-              });
-          });
+          const select = document.querySelector('.custom-select');
+          const selected = document.getElementById('selected-plan');
+          const items = document.getElementById('plan-options');
   
           // Hämta och visa profiluppgifter
           async function updateLoginButton() {
@@ -685,28 +633,29 @@
               closeProfileModal.addEventListener('click', closeProfileModalHandler);
           }
   
-          // Hantera sidomeny
-          sidebarLinks.forEach(link => {
-              link.addEventListener('click', (event) => {
-                  event.preventDefault();
-                  const section = link.getAttribute('data-section');
-                  if (section) {
-                      sidebarLinks.forEach(l => l.classList.remove('active'));
-                      contentSections.forEach(s => s.classList.remove('active'));
-                      link.classList.add('active');
-                      document.getElementById(`${section}-section`).classList.add('active');
-                      if (section === 'payment-settings') {
-                          updatePaymentSettings();
-                      }
-                  }
+          // Hantera subscription dropdown
+          let selectedValue = '';
+          if (selected) {
+              selected.addEventListener('click', () => {
+                  select.classList.toggle('open');
+                  items.style.display = select.classList.contains('open') ? 'block' : 'none';
+              });
+          }
+  
+          items.querySelectorAll('.select-item').forEach(item => {
+              item.addEventListener('click', () => {
+                  selectedValue = item.getAttribute('data-value');
+                  selected.textContent = item.textContent;
+                  select.classList.remove('open');
+                  items.style.display = 'none';
               });
           });
   
-          // Hantera registerknappar
-          registerButtons.forEach(button => {
-              button.addEventListener('click', () => {
-                  window.location.href = 'register.html';
-              });
+          document.addEventListener('click', (e) => {
+              if (!select.contains(e.target)) {
+                  select.classList.remove('open');
+                  items.style.display = 'none';
+              }
           });
   
           // Kör vid sidladdning
