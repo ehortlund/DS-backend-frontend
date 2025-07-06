@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware för CORS (tillåt credentials för live-domän)
 app.use(cors({
-    origin: 'https://www.dealscope.io', // Uppdaterad till din live-domän
+    origin: 'https://www.dealscope.io', // Din live-domän
     credentials: true
 }));
 
@@ -147,7 +147,7 @@ app.use(async (req, res, next) => {
             const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
             const customer = await stripe.customers.create({ email: req.user.email });
             req.user.stripeCustomerId = customer.id;
-            await req.user.save(); // Korrekta användning av req.user
+            await req.user.save();
             console.log('Created new Stripe customer:', customer.id);
         }
         next();
@@ -247,8 +247,10 @@ app.post('/api/users/login', async (req, res) => {
         user.lastLogin = new Date();
         await user.save();
         res.cookie('token', token, { httpOnly: true, sameSite: 'strict', maxAge: 3600000 });
+        console.log('Login successful, token set:', token);
         res.status(200).json({ message: 'Inloggning lyckades' });
     } catch (error) {
+        console.error('Login error:', error.message, 'Stack:', error.stack);
         res.status(500).json({ error: `Inloggning misslyckades: ${error.message}` });
     }
 });
@@ -272,20 +274,20 @@ app.get('/deals.html', async (req, res) => {
     const token = req.cookies.token;
     if (!token) {
         res.clearCookie('token');
-        return res.redirect('https://www.dealscope.io/login.html'); // Uppdaterad till .io
+        return res.redirect('https://www.dealscope.io/login.html');
     }
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
         const user = await User.findById(decoded.userId);
         if (!user) {
             res.clearCookie('token');
-            return res.redirect('https://www.dealscope.io/login.html'); // Uppdaterad till .io
+            return res.redirect('https://www.dealscope.io/login.html');
         }
-        if (!user.hasPaid) return res.redirect('https://www.dealscope.io/plans.html'); // Uppdaterad till .io
+        if (!user.hasPaid) return res.redirect('https://www.dealscope.io/plans.html');
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
         res.clearCookie('token');
-        return res.redirect('https://www.dealscope.io/login.html'); // Uppdaterad till .io
+        return res.redirect('https://www.dealscope.io/login.html');
     }
 });
 
@@ -425,21 +427,28 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
     try {
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        // Kontrollera att planName matchar en produkt i live-läge
+        console.log('Checking product:', planName);
+        const products = await stripe.products.list({ limit: 100 });
+        const product = products.data.find(p => p.name === planName);
+        if (!product) {
+            console.error('Product not found for planName:', planName);
+            return res.status(400).json({ error: `Product ${planName} not found in Stripe` });
+        }
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
                 price_data: {
                     currency: 'usd',
-                    product_data: {
-                        name: planName || 'Dealscope Plan',
-                    },
+                    product: product.id, // Använd produkt-ID istället för att skapa en ny
                     unit_amount: Math.round(amount),
                 },
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: 'https://www.dealscope.io/plans.html?success=true', // Uppdaterad till .io
-            cancel_url: 'https://www.dealscope.io/plans.html?cancel=true', // Uppdaterad till .io
+            success_url: 'https://www.dealscope.io/plans.html?success=true',
+            cancel_url: 'https://www.dealscope.io/plans.html?cancel=true',
             customer: req.user.stripeCustomerId,
             metadata: { userId: req.user._id.toString() }
         });
