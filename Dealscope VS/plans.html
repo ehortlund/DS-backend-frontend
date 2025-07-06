@@ -10,6 +10,7 @@
     <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
     <meta name="theme-color" content="#121212">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="stripe-publishable-key" content="">
 </head>
 
 <body>
@@ -205,9 +206,14 @@
 <script src="script.js"></script>
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    const stripe = Stripe('pk_test_51ROfEhH1luVXkHvVAMvbkZvnlRI6gUvPmPBTDyzZ5VRvHnAjKcbbwguHxRvShMZMcHrfYyKpAkGb6uc94fFO7vst00zSorgYA0');
-
     document.addEventListener('DOMContentLoaded', async () => {
+        const stripePublishableKey = document.querySelector('meta[name="stripe-publishable-key"]').content;
+        if (!stripePublishableKey) {
+            console.error('Stripe Publishable Key is missing');
+            return;
+        }
+        const stripe = Stripe(stripePublishableKey);
+
         const planButtons = document.querySelectorAll('.select-plan');
         const loginButtons = document.querySelectorAll('.login-btn');
         const header = document.querySelector('.main-header');

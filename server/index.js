@@ -19,6 +19,24 @@ app.use(cors({
 // Middleware för statiska filer (anpassa sökvägen vid live-deploy)
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
+const fs = require('fs');
+
+app.get('/plans.html', (req, res) => {
+    fs.readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading plans.html:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+        if (!publishableKey) {
+            console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
+            return res.status(500).send('Missing Stripe Publishable Key');
+        }
+        const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
+        res.send(updatedHtml);
+    });
+});
+
 // Specifik middleware för webhook innan andra parsers
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     const sig = req.headers['stripe-signature'];
