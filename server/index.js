@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware för CORS (tillåt credentials för live-domän)
 app.use(cors({
-    origin: 'https://www.dealscope.io', // Din live-domän
+    origin: 'https://www.dealscope.io', // Uppdaterad till din live-domän
     credentials: true
 }));
 
@@ -84,7 +84,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
             const user = await User.findById(userId);
             if (user) {
                 console.log('User found:', user.email, 'with ID:', userId);
-                user.hasPaid = subscription.status === 'active' || subscription.status === 'past_due'; // Anpassa logik efter behov
+                user.hasPaid = subscription.status === 'active' || subscription.status === 'past_due';
                 await user.save();
                 console.log('Updated user hasPaid to', user.hasPaid, 'for user:', user.email, 'ID:', userId);
             } else {
@@ -108,7 +108,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
             const user = await User.findById(userId);
             if (user) {
                 console.log('User found:', user.email, 'with ID:', userId);
-                user.hasPaid = false; // Återställ hasPaid vid avslutad prenumeration
+                user.hasPaid = false;
                 await user.save();
                 console.log('Updated user hasPaid to false for user:', user.email, 'ID:', userId);
             } else {
@@ -128,7 +128,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 app.use(express.json());
 app.use(cookieParser());
 
-// Middleware för autentisering
+// Middleware för autentisering (fixad bugg)
 app.use(async (req, res, next) => {
     const token = req.cookies.token;
     console.log('Auth middleware - Checking token:', token ? 'Found' : 'Not set');
@@ -139,7 +139,7 @@ app.use(async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
-        console.log('Decoded token:', decoded);
+        console.log('Decoded token successfully:', decoded);
         req.user = await User.findById(decoded.userId);
         console.log('Auth middleware - User:', req.user ? req.user._id : 'Not found');
         if (!req.user) throw new Error('User not found');
@@ -147,12 +147,12 @@ app.use(async (req, res, next) => {
             const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
             const customer = await stripe.customers.create({ email: req.user.email });
             req.user.stripeCustomerId = customer.id;
-            await user.save(); // Fixat från await req.user.save() till await user.save()
+            await req.user.save(); // Korrekta användning av req.user
             console.log('Created new Stripe customer:', customer.id);
         }
         next();
     } catch (error) {
-        console.error('Auth middleware error details:', error.message);
+        console.error('Auth middleware error details:', error.message, 'Stack:', error.stack);
         return res.status(401).json({ error: 'Invalid token, redirecting to login' });
     }
 });
@@ -258,11 +258,13 @@ app.get('/api/users/me', async (req, res) => {
     if (!token) return res.status(401).json({ error: 'Ingen token, omdirigerar till login' });
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
+        console.log('Decoded token successfully:', decoded);
         const user = await User.findById(decoded.userId);
         if (!user) return res.status(404).json({ error: 'Användare hittades inte' });
         res.status(200).json({ email: user.email, username: user.username, hasPaid: user.hasPaid });
     } catch (error) {
-        res.status(401).json({ error: 'Ogiltig token, omdirigerar till login' });
+        console.error('Token verification error:', error.message, 'Stack:', error.stack);
+        res.status(401).json({ error: 'Invalid token, redirecting to login' });
     }
 });
 
@@ -270,20 +272,20 @@ app.get('/deals.html', async (req, res) => {
     const token = req.cookies.token;
     if (!token) {
         res.clearCookie('token');
-        return res.redirect('https://www.dealscope.io/login.html');
+        return res.redirect('https://www.dealscope.io/login.html'); // Uppdaterad till .io
     }
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
         const user = await User.findById(decoded.userId);
         if (!user) {
             res.clearCookie('token');
-            return res.redirect('https://www.dealscope.io/login.html');
+            return res.redirect('https://www.dealscope.io/login.html'); // Uppdaterad till .io
         }
-        if (!user.hasPaid) return res.redirect('https://www.dealscope.io/plans.html');
+        if (!user.hasPaid) return res.redirect('https://www.dealscope.io/plans.html'); // Uppdaterad till .io
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
         res.clearCookie('token');
-        return res.redirect('https://www.dealscope.io/login.html');
+        return res.redirect('https://www.dealscope.io/login.html'); // Uppdaterad till .io
     }
 });
 
@@ -436,8 +438,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: 'https://www.dealscope.io/plans.html?success=true',
-            cancel_url: 'https://www.dealscope.io/plans.html?cancel=true',
+            success_url: 'https://www.dealscope.io/plans.html?success=true', // Uppdaterad till .io
+            cancel_url: 'https://www.dealscope.io/plans.html?cancel=true', // Uppdaterad till .io
             customer: req.user.stripeCustomerId,
             metadata: { userId: req.user._id.toString() }
         });
