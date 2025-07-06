@@ -24,8 +24,8 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-    console.log('Received Stripe webhook request');
-    console.log('Webhook Secret:', webhookSecret);
+    console.log('Received Stripe webhook request at https://www.dealscope.io/api/stripe-webhook');
+    console.log('Webhook Secret:', webhookSecret ? 'Set' : 'Not set');
     console.log('Signature:', sig);
     console.log('Raw Request Body:', req.body.toString());
 
@@ -39,38 +39,86 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         if (!stripe) throw new Error('Stripe initialization failed');
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-        console.log('Webhook event constructed:', event.type);
+        console.log('Webhook event constructed:', event.type, 'with ID:', event.id);
     } catch (err) {
         console.error('Webhook Error:', err.message);
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
     if (event.type === 'checkout.session.completed') {
-        console.log('Checkout session completed event received');
+        console.log('Checkout session completed event received, processing...');
         const session = event.data.object;
-        const userId = session.client_reference_id || session.metadata?.userId;
+        const userId = session.metadata?.userId;
         console.log('Checkout session metadata:', session.metadata);
 
         if (!userId) {
-            console.error('No userId found in checkout session metadata');
+            console.error('No userId found in checkout session metadata, session ID:', session.id);
             return res.status(400).send('No userId found in checkout session metadata');
         }
 
         try {
             const user = await User.findById(userId);
             if (user) {
-                console.log('User found:', user.email);
+                console.log('User found:', user.email, 'with ID:', userId);
                 user.hasPaid = true;
                 await user.save();
-                console.log('Updated user hasPaid to true for user:', user.email);
+                console.log('Updated user hasPaid to true for user:', user.email, 'ID:', userId);
             } else {
-                console.error('User not found for userId:', userId);
+                console.error('User not found for userId:', userId, 'in session:', session.id);
             }
         } catch (error) {
-            console.error('Error updating user hasPaid:', error);
+            console.error('Error updating user hasPaid:', error.message, 'for userId:', userId);
+        }
+    } else if (event.type === 'customer.subscription.updated') {
+        console.log('Customer subscription updated event received, processing...');
+        const subscription = event.data.object;
+        const userId = subscription.metadata?.userId || (await stripe.customers.retrieve(subscription.customer)).metadata?.userId;
+        console.log('Subscription metadata:', subscription.metadata);
+
+        if (!userId) {
+            console.error('No userId found in subscription metadata, subscription ID:', subscription.id);
+            return res.status(400).send('No userId found in subscription metadata');
+        }
+
+        try {
+            const user = await User.findById(userId);
+            if (user) {
+                console.log('User found:', user.email, 'with ID:', userId);
+                user.hasPaid = subscription.status === 'active' || subscription.status === 'past_due'; // Anpassa logik efter behov
+                await user.save();
+                console.log('Updated user hasPaid to', user.hasPaid, 'for user:', user.email, 'ID:', userId);
+            } else {
+                console.error('User not found for userId:', userId, 'in subscription:', subscription.id);
+            }
+        } catch (error) {
+            console.error('Error updating user for subscription:', error.message, 'for userId:', userId);
+        }
+    } else if (event.type === 'customer.subscription.deleted') {
+        console.log('Customer subscription deleted event received, processing...');
+        const subscription = event.data.object;
+        const userId = subscription.metadata?.userId || (await stripe.customers.retrieve(subscription.customer)).metadata?.userId;
+        console.log('Subscription metadata:', subscription.metadata);
+
+        if (!userId) {
+            console.error('No userId found in subscription metadata, subscription ID:', subscription.id);
+            return res.status(400).send('No userId found in subscription metadata');
+        }
+
+        try {
+            const user = await User.findById(userId);
+            if (user) {
+                console.log('User found:', user.email, 'with ID:', userId);
+                user.hasPaid = false; // Återställ hasPaid vid avslutad prenumeration
+                await user.save();
+                console.log('Updated user hasPaid to false for user:', user.email, 'ID:', userId);
+            } else {
+                console.error('User not found for userId:', userId, 'in subscription:', subscription.id);
+            }
+        } catch (error) {
+            console.error('Error updating user for subscription deletion:', error.message, 'for userId:', userId);
         }
     } else {
-        console.log('Unhandled event type:', event.type);
+        console.log('Unhandled event type:', event.type, 'with ID:', event.id);
     }
 
     res.json({ received: true });
@@ -83,7 +131,7 @@ app.use(cookieParser());
 // Middleware för autentisering
 app.use(async (req, res, next) => {
     const token = req.cookies.token;
-    console.log('Auth middleware - Checking token:', token ? 'Found' : 'Not found');
+    console.log('Auth middleware - Checking token:', token ? 'Found' : 'Not set');
     if (!token) {
         console.log('No token, skipping authentication');
         return next();
@@ -99,7 +147,7 @@ app.use(async (req, res, next) => {
             const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
             const customer = await stripe.customers.create({ email: req.user.email });
             req.user.stripeCustomerId = customer.id;
-            await req.user.save();
+            await user.save(); // Fixat från await req.user.save() till await user.save()
             console.log('Created new Stripe customer:', customer.id);
         }
         next();
