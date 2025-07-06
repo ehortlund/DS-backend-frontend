@@ -5,11 +5,18 @@ const jwt = require('jsonwebtoken');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const User = require('./User');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 
-// Middleware för statiska filer ska komma först
+// Middleware för CORS (tillåt credentials för live-domän)
+app.use(cors({
+    origin: 'https://www.dealscope.com', // Din live-domän
+    credentials: true
+}));
+
+// Middleware för statiska filer (anpassa sökvägen vid live-deploy)
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 // Specifik middleware för webhook innan andra parsers
@@ -20,7 +27,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     console.log('Received Stripe webhook request');
     console.log('Webhook Secret:', webhookSecret);
     console.log('Signature:', sig);
-    console.log('Raw Request Body:', req.body.toString()); // Konvertera Buffer till sträng för loggning
+    console.log('Raw Request Body:', req.body.toString());
 
     if (!webhookSecret) {
         console.error('Webhook Secret is not set');
@@ -29,7 +36,7 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 
     let event;
     try {
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY); // Initiera stripe lokalt för webhook
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         if (!stripe) throw new Error('Stripe initialization failed');
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
         console.log('Webhook event constructed:', event.type);
@@ -38,15 +45,15 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
 
-    if (event.type === 'payment_intent.succeeded') {
-        console.log('Payment intent succeeded event received');
-        const paymentIntent = event.data.object;
-        const userId = paymentIntent.metadata.userId;
-        console.log('Payment Intent metadata:', paymentIntent.metadata);
+    if (event.type === 'checkout.session.completed') {
+        console.log('Checkout session completed event received');
+        const session = event.data.object;
+        const userId = session.client_reference_id || session.metadata?.userId;
+        console.log('Checkout session metadata:', session.metadata);
 
         if (!userId) {
-            console.error('No userId found in payment intent metadata');
-            return res.status(400).send('No userId found in payment intent metadata');
+            console.error('No userId found in checkout session metadata');
+            return res.status(400).send('No userId found in checkout session metadata');
         }
 
         try {
@@ -73,25 +80,54 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
 app.use(express.json());
 app.use(cookieParser());
 
-// Global Stripe-initiering (för alla andra endpoints)
+// Middleware för autentisering
+app.use(async (req, res, next) => {
+    const token = req.cookies.token;
+    console.log('Auth middleware - Checking token:', token ? 'Found' : 'Not found');
+    if (!token) {
+        console.log('No token, skipping authentication');
+        return next();
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        console.log('Decoded token:', decoded);
+        req.user = await User.findById(decoded.userId);
+        console.log('Auth middleware - User:', req.user ? req.user._id : 'Not found');
+        if (!req.user) throw new Error('User not found');
+        if (!req.user.stripeCustomerId) {
+            const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+            const customer = await stripe.customers.create({ email: req.user.email });
+            req.user.stripeCustomerId = customer.id;
+            await req.user.save();
+            console.log('Created new Stripe customer:', customer.id);
+        }
+        next();
+    } catch (error) {
+        console.error('Auth middleware error details:', error.message);
+        return res.status(401).json({ error: 'Invalid token, redirecting to login' });
+    }
+});
+
+// Global Stripe-initiering
 const stripe = process.env.STRIPE_SECRET_KEY
     ? require('stripe')(process.env.STRIPE_SECRET_KEY)
     : null;
 
 if (!stripe) {
     console.error('Failed to initialize Stripe globally: STRIPE_SECRET_KEY is missing');
-    process.exit(1); // Avsluta om Stripe inte kan initieras
+    process.exit(1);
 }
 
 // Definiera API-endpoints
 app.post('/api/create-payment-intent', async (req, res) => {
-    const token = req.cookies.token;
     const { amount, paymentMethodId } = req.body;
 
-    console.log('Received /api/create-payment-intent request:', { tokenExists: !!token, amount, paymentMethodId });
+    console.log('Received /api/create-payment-intent request:', { user: req.user, amount, paymentMethodId });
 
-    if (!token) {
-        return res.status(401).json({ error: 'No token, redirecting to login' });
+    if (!req.user) {
+        console.error('No authenticated user found');
+        return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
     }
 
     if (!amount || !paymentMethodId) {
@@ -99,20 +135,17 @@ app.post('/api/create-payment-intent', async (req, res) => {
     }
 
     try {
-        const decoded = jwt.verify(token, 'mysecretkey');
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-
-        console.log('Creating payment intent with amount:', amount, 'and paymentMethodId:', paymentMethodId);
+        console.log('Creating payment intent with amount:', amount, 'and customer:', req.user.stripeCustomerId);
         const paymentIntent = await stripe.paymentIntents.create({
             amount: Math.round(amount),
             currency: 'usd',
+            customer: req.user.stripeCustomerId,
             payment_method: paymentMethodId,
-            confirmation_method: 'automatic'
+            confirmation_method: 'manual',
+            metadata: { userId: req.user._id.toString() }
         });
 
+        console.log('Payment intent created, full response:', paymentIntent);
         console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
         if (!paymentIntent.client_secret) {
             throw new Error('No client secret returned from Stripe');
@@ -189,20 +222,20 @@ app.get('/deals.html', async (req, res) => {
     const token = req.cookies.token;
     if (!token) {
         res.clearCookie('token');
-        return res.redirect('/login.html');
+        return res.redirect('https://www.dealscope.com/login.html');
     }
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
         const user = await User.findById(decoded.userId);
         if (!user) {
             res.clearCookie('token');
-            return res.redirect('/login.html');
+            return res.redirect('https://www.dealscope.com/login.html');
         }
-        if (!user.hasPaid) return res.redirect('/plans.html');
+        if (!user.hasPaid) return res.redirect('https://www.dealscope.com/plans.html');
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
         res.clearCookie('token');
-        return res.redirect('/login.html');
+        return res.redirect('https://www.dealscope.com/login.html');
     }
 });
 
@@ -236,31 +269,70 @@ app.get('/api/users/payment-methods', async (req, res) => {
 });
 
 app.post('/api/users/payment-methods', async (req, res) => {
-    const token = req.cookies.token;
-    const { paymentMethodId, makeDefault } = req.body;
-    if (!token) return res.status(401).json({ error: 'No token, redirecting to login' });
-    if (!paymentMethodId) return res.status(400).json({ error: 'Payment method ID is required' });
     try {
-        const decoded = jwt.verify(token, 'mysecretkey');
-        let user = await User.findById(decoded.userId);
-        if (!user) return res.status(404).json({ error: 'User not found' });
-        if (!user.stripeCustomerId) {
-            const customer = await stripe.customers.create({ email: user.email, name: user.username });
-            user.stripeCustomerId = customer.id;
-            await user.save();
+        const { paymentMethodId, makeDefault } = req.body;
+        if (!req.user || !req.user.stripeCustomerId) {
+            console.error('No user or stripeCustomerId in request:', req.user);
+            return res.status(401).json({ error: 'User not authenticated or no Stripe customer ID' });
         }
-        await stripe.paymentMethods.attach(paymentMethodId, { customer: user.stripeCustomerId });
-        if (makeDefault || !user.defaultPaymentMethodId) {
-            await stripe.customers.update(user.stripeCustomerId, { invoice_settings: { default_payment_method: paymentMethodId } });
-            user.defaultPaymentMethodId = paymentMethodId;
-            await user.save();
-            const paymentMethods = await stripe.paymentMethods.list({ customer: user.stripeCustomerId, type: 'card' });
-            const oldMethods = paymentMethods.data.filter(m => m.id !== paymentMethodId);
-            for (const method of oldMethods) await stripe.paymentMethods.detach(method.id);
+
+        // Hämta befintlig kund från Stripe
+        let customer;
+        try {
+            customer = await stripe.customers.retrieve(req.user.stripeCustomerId);
+            console.log('Retrieved customer:', customer.id);
+        } catch (retrieveError) {
+            console.error('Error retrieving customer:', retrieveError);
+            return res.status(500).json({ error: `Error retrieving customer: ${retrieveError.message}` });
         }
-        res.status(200).json({ message: 'Payment method added/updated successfully' });
+
+        // Ta bort den gamla betalningsmetoden om den finns och makeDefault är true
+        if (makeDefault && customer.invoice_settings && customer.invoice_settings.default_payment_method) {
+            console.log('Detaching old payment method:', customer.invoice_settings.default_payment_method);
+            try {
+                await stripe.paymentMethods.detach(customer.invoice_settings.default_payment_method);
+                console.log('Old payment method detached successfully');
+            } catch (detachError) {
+                console.error('Error detaching old payment method:', detachError);
+                return res.status(500).json({ error: `Error detaching old payment method: ${detachError.message}` });
+            }
+        }
+
+        // Bifoga den nya betalningsmetoden till kunden (endast om den inte redan är bifogad)
+        const existingMethods = await stripe.paymentMethods.list({ customer: req.user.stripeCustomerId, type: 'card' });
+        if (!existingMethods.data.some(method => method.id === paymentMethodId)) {
+            console.log('Attaching new payment method:', paymentMethodId);
+            try {
+                await stripe.paymentMethods.attach(paymentMethodId, { customer: req.user.stripeCustomerId });
+                console.log('New payment method attached successfully');
+            } catch (attachError) {
+                console.error('Error attaching new payment method:', attachError);
+                return res.status(500).json({ error: `Error attaching new payment method: ${attachError.message}` });
+            }
+        } else {
+            console.log('PaymentMethod already attached:', paymentMethodId);
+        }
+
+        // Uppdatera standardbetalningsmetod
+        console.log('Updating customer with new default payment method:', paymentMethodId);
+        try {
+            await stripe.customers.update(req.user.stripeCustomerId, {
+                invoice_settings: { default_payment_method: paymentMethodId },
+            });
+            console.log('Customer updated with new default payment method');
+        } catch (updateError) {
+            console.error('Error updating customer:', updateError);
+            return res.status(500).json({ error: `Error updating customer: ${updateError.message}` });
+        }
+
+        // Uppdatera användaren i databasen med defaultPaymentMethodId
+        req.user.defaultPaymentMethodId = paymentMethodId;
+        await req.user.save();
+        console.log('User updated with new defaultPaymentMethodId:', paymentMethodId);
+
+        res.json({ message: 'Payment method updated successfully' });
     } catch (error) {
-        console.error('Error adding/updating payment method:', error);
+        console.error('Error in payment-methods endpoint:', error);
         res.status(500).json({ error: `Error adding/updating payment method: ${error.message}` });
     }
 });
@@ -284,6 +356,49 @@ app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
     } catch (error) {
         console.error('Error removing payment method:', error);
         res.status(400).json({ error: `Error removing payment method: ${error.message}` });
+    }
+});
+
+app.post('/api/create-checkout-session', async (req, res) => {
+    const { amount, planName } = req.body;
+
+    console.log('Received /api/create-checkout-session request:', { user: req.user, amount, planName });
+
+    if (!req.user) {
+        console.error('No authenticated user found');
+        return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
+    }
+
+    if (!amount) {
+        return res.status(400).json({ error: 'Amount is required' });
+    }
+
+    try {
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: planName || 'Dealscope Plan',
+                    },
+                    unit_amount: Math.round(amount),
+                },
+                quantity: 1,
+            }],
+            mode: 'payment',
+            success_url: 'https://www.dealscope.com/plans.html?success=true',
+            cancel_url: 'https://www.dealscope.com/plans.html?cancel=true',
+            customer: req.user.stripeCustomerId,
+            metadata: { userId: req.user._id.toString() }
+        });
+
+        console.log('Checkout session created:', session.id);
+        res.json({ id: session.id });
+    } catch (error) {
+        console.error('Checkout session error:', error);
+        res.status(400).json({ error: error.message });
     }
 });
 

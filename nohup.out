@@ -1,0 +1,431 @@
+(node:29866) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:29866) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+Connected to MongoDB
+Server running on port 3000
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: undefined }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: undefined }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: undefined }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: undefined }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: undefined }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: undefined }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: null }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 1499, paymentMethodId: null }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 1499, paymentMethodId: null }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 1499, paymentMethodId: null }
+Received /api/create-payment-intent request: { tokenExists: true, amount: 14900, paymentMethodId: null }
+Received /api/create-payment-intent request: {
+  tokenExists: true,
+  amount: 14900,
+  paymentMethodId: 'dummy_payment_method'
+}
+Creating payment intent with amount: 14900 and paymentMethodId: dummy_payment_method
+Payment Intent error details: StripeInvalidRequestError: No such PaymentMethod: 'dummy_payment_method'
+    at StripeError.generate (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/stripe/cjs/Error.js:10:20)
+    at res.toJSON.then.Error_js_1.StripeAPIError.message (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/stripe/cjs/RequestSender.js:105:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such PaymentMethod: 'dummy_payment_method'",
+    param: 'payment_method',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_CQrhzV4ISCdkN4?t=1751825641',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 06 Jul 2025 18:14:01 GMT',
+      'content-type': 'application/json',
+      'content-length': '352',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=vuLEWHU2907DahglmSoVL5Gr-QcO0ffPSlO6jARDFYPs7IhHblYCZk1krWUtOm2PCAfASy7yImPCDnxY",
+      'idempotency-key': 'stripe-node-retry-b7e2ee45-2e63-43c5-be6c-7b3449301969',
+      'original-request': 'req_CQrhzV4ISCdkN4',
+      'request-id': 'req_CQrhzV4ISCdkN4',
+      'stripe-version': '2023-10-16',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHI',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_CQrhzV4ISCdkN4'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'payment_method',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 06 Jul 2025 18:14:01 GMT',
+    'content-type': 'application/json',
+    'content-length': '352',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=vuLEWHU2907DahglmSoVL5Gr-QcO0ffPSlO6jARDFYPs7IhHblYCZk1krWUtOm2PCAfASy7yImPCDnxY",
+    'idempotency-key': 'stripe-node-retry-b7e2ee45-2e63-43c5-be6c-7b3449301969',
+    'original-request': 'req_CQrhzV4ISCdkN4',
+    'request-id': 'req_CQrhzV4ISCdkN4',
+    'stripe-version': '2023-10-16',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHI',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_CQrhzV4ISCdkN4',
+  statusCode: 400,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined
+}
+Received /api/create-payment-intent request: {
+  tokenExists: true,
+  amount: 14900,
+  paymentMethodId: 'dummy_payment_method'
+}
+Creating payment intent with amount: 14900 and paymentMethodId: dummy_payment_method
+Payment Intent error details: StripeInvalidRequestError: No such PaymentMethod: 'dummy_payment_method'
+    at StripeError.generate (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/stripe/cjs/Error.js:10:20)
+    at res.toJSON.then.Error_js_1.StripeAPIError.message (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/stripe/cjs/RequestSender.js:105:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such PaymentMethod: 'dummy_payment_method'",
+    param: 'payment_method',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_Ies3zZXfFY7vD4?t=1751825701',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 06 Jul 2025 18:15:01 GMT',
+      'content-type': 'application/json',
+      'content-length': '352',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=vuLEWHU2907DahglmSoVL5Gr-QcO0ffPSlO6jARDFYPs7IhHblYCZk1krWUtOm2PCAfASy7yImPCDnxY",
+      'idempotency-key': 'stripe-node-retry-8101a440-d800-44d0-a605-9d850a5096b1',
+      'original-request': 'req_Ies3zZXfFY7vD4',
+      'request-id': 'req_Ies3zZXfFY7vD4',
+      'stripe-version': '2023-10-16',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHI',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_Ies3zZXfFY7vD4'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'payment_method',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 06 Jul 2025 18:15:01 GMT',
+    'content-type': 'application/json',
+    'content-length': '352',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=vuLEWHU2907DahglmSoVL5Gr-QcO0ffPSlO6jARDFYPs7IhHblYCZk1krWUtOm2PCAfASy7yImPCDnxY",
+    'idempotency-key': 'stripe-node-retry-8101a440-d800-44d0-a605-9d850a5096b1',
+    'original-request': 'req_Ies3zZXfFY7vD4',
+    'request-id': 'req_Ies3zZXfFY7vD4',
+    'stripe-version': '2023-10-16',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHI',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_Ies3zZXfFY7vD4',
+  statusCode: 400,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined
+}
+Received /api/create-payment-intent request: {
+  tokenExists: true,
+  amount: 14900,
+  paymentMethodId: 'dummy_payment_method'
+}
+Creating payment intent with amount: 14900 and paymentMethodId: dummy_payment_method
+Payment Intent error details: StripeInvalidRequestError: No such PaymentMethod: 'dummy_payment_method'
+    at StripeError.generate (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/stripe/cjs/Error.js:10:20)
+    at res.toJSON.then.Error_js_1.StripeAPIError.message (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/stripe/cjs/RequestSender.js:105:54)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  type: 'StripeInvalidRequestError',
+  raw: {
+    code: 'resource_missing',
+    doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+    message: "No such PaymentMethod: 'dummy_payment_method'",
+    param: 'payment_method',
+    request_log_url: 'https://dashboard.stripe.com/test/logs/req_MRweWIZir64ARv?t=1751826196',
+    type: 'invalid_request_error',
+    headers: {
+      server: 'nginx',
+      date: 'Sun, 06 Jul 2025 18:23:17 GMT',
+      'content-type': 'application/json',
+      'content-length': '352',
+      connection: 'keep-alive',
+      'access-control-allow-credentials': 'true',
+      'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+      'access-control-allow-origin': '*',
+      'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+      'access-control-max-age': '300',
+      'cache-control': 'no-cache, no-store',
+      'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=QZev3JSp6Af1_fWO6oleHYOYV_AZZlQkW8WCej_DEReI8sHIHigPXtJu0egaFDHbKR_wJ6bdOFCbu61x",
+      'idempotency-key': 'stripe-node-retry-5d0a2bdf-befa-444d-9302-f303f191511d',
+      'original-request': 'req_MRweWIZir64ARv',
+      'request-id': 'req_MRweWIZir64ARv',
+      'stripe-version': '2023-10-16',
+      vary: 'Origin',
+      'x-stripe-priority-routing-enabled': 'true',
+      'x-stripe-routing-context-priority-tier': 'api-testmode',
+      'x-wc': 'ABGHI',
+      'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+    },
+    statusCode: 400,
+    requestId: 'req_MRweWIZir64ARv'
+  },
+  rawType: 'invalid_request_error',
+  code: 'resource_missing',
+  doc_url: 'https://stripe.com/docs/error-codes/resource-missing',
+  param: 'payment_method',
+  detail: undefined,
+  headers: {
+    server: 'nginx',
+    date: 'Sun, 06 Jul 2025 18:23:17 GMT',
+    'content-type': 'application/json',
+    'content-length': '352',
+    connection: 'keep-alive',
+    'access-control-allow-credentials': 'true',
+    'access-control-allow-methods': 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    'access-control-allow-origin': '*',
+    'access-control-expose-headers': 'Request-Id, Stripe-Manage-Version, Stripe-Should-Retry, X-Stripe-External-Auth-Required, X-Stripe-Privileged-Session-Required',
+    'access-control-max-age': '300',
+    'cache-control': 'no-cache, no-store',
+    'content-security-policy': "base-uri 'none'; default-src 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self'; script-src 'self' 'report-sample'; style-src 'self'; worker-src 'none'; upgrade-insecure-requests; report-uri https://q.stripe.com/csp-violation?q=QZev3JSp6Af1_fWO6oleHYOYV_AZZlQkW8WCej_DEReI8sHIHigPXtJu0egaFDHbKR_wJ6bdOFCbu61x",
+    'idempotency-key': 'stripe-node-retry-5d0a2bdf-befa-444d-9302-f303f191511d',
+    'original-request': 'req_MRweWIZir64ARv',
+    'request-id': 'req_MRweWIZir64ARv',
+    'stripe-version': '2023-10-16',
+    vary: 'Origin',
+    'x-stripe-priority-routing-enabled': 'true',
+    'x-stripe-routing-context-priority-tier': 'api-testmode',
+    'x-wc': 'ABGHI',
+    'strict-transport-security': 'max-age=63072000; includeSubDomains; preload'
+  },
+  requestId: 'req_MRweWIZir64ARv',
+  statusCode: 400,
+  charge: undefined,
+  decline_code: undefined,
+  payment_intent: undefined,
+  payment_method: undefined,
+  payment_method_type: undefined,
+  setup_intent: undefined,
+  source: undefined
+}
+(node:30987) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30987) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+Connected to MongoDB
+node:events:496
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::3000
+    at Server.setupListenHandle [as _listen2] (node:net:1939:16)
+    at listenInCluster (node:net:1996:12)
+    at Server.listen (node:net:2101:7)
+    at Function.listen (/Users/emilhortlund/Desktop/dealscope-backend/node_modules/express/lib/application.js:635:24)
+    at /Users/emilhortlund/Desktop/dealscope-backend/server/index.js:409:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1975:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3000
+}
+
+Node.js v22.15.0
+(node:31055) [MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:31055) [MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+Connected to MongoDB
+Server running on port 3000
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Created new Stripe customer: cus_SdDrLpeTDOCQYy
+Created new Stripe customer: cus_SdDrO43VZOT1zp
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Received /api/create-checkout-session request: {
+  user: {
+    _id: new ObjectId('686ab1c55f881ff9fcdeff61'),
+    email: 'test44@example.com',
+    password: '$2b$10$1y09SWSh6wXRjQavGQsDeudAOStTAv.Pkn3J7H4coRIX4qMkh00r6',
+    hasPaid: false,
+    username: 'jens',
+    stripeCustomerId: 'cus_SdDrO43VZOT1zp',
+    defaultPaymentMethodId: null,
+    lastLogin: 2025-07-06T17:47:59.095Z,
+    __v: 0
+  },
+  amount: 14900,
+  planName: 'Pro Yearly'
+}
+Checkout session created: cs_test_a1hIMd6hzwnhpELbfyNwmJMMtikxGNBl6mGpBDI8crQztTqfddZ0eq0SQo
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
+Auth middleware - Checking token: Found
+Decoded token: {
+  userId: '686ab1c55f881ff9fcdeff61',
+  email: 'test44@example.com',
+  iat: 1751824079,
+  exp: 1751827679
+}
+Auth middleware - User: new ObjectId('686ab1c55f881ff9fcdeff61')
