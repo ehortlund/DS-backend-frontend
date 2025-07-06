@@ -28,6 +28,7 @@ app.get('/plans.html', (req, res) => {
             return res.status(500).send('Internal Server Error');
         }
         const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+        console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey); // Lägg till denna rad för felsökning
         if (!publishableKey) {
             console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
             return res.status(500).send('Missing Stripe Publishable Key');
