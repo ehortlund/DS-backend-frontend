@@ -21,21 +21,39 @@ app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 const fs = require('fs');
 
-app.get('/plans.html', (req, res) => {
-    fs.readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8', (err, data) => {
-        if (err) {
-            console.error('Error reading plans.html:', err);
-            return res.status(500).send('Internal Server Error');
+app.get('/plans.html', async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.redirect('/login.html');
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            res.clearCookie('token');
+            return res.redirect('/login.html');
         }
-        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-        console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey); // Lägg till denna rad för felsökning
-        if (!publishableKey) {
-            console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
-            return res.status(500).send('Missing Stripe Publishable Key');
-        }
-        const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
-        res.send(updatedHtml);
-    });
+        // Fortsätt med att läsa och injicera nyckeln
+        fs.readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading plans.html:', err);
+                return res.status(500).send('Internal Server Error');
+            }
+            const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+            console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey);
+            if (!publishableKey) {
+                console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
+                return res.status(500).send('Missing Stripe Publishable Key');
+            }
+            const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
+            res.send(updatedHtml);
+        });
+    } catch (error) {
+        console.error('Token verification error in plans.html:', error.message);
+        res.clearCookie('token');
+        return res.redirect('/login.html');
+    }
 });
 
 // Specifik middleware för webhook innan andra parsers
