@@ -48,6 +48,7 @@ app.get('/plans.html', async (req, res) => {
             return res.status(500).send('Missing Stripe Publishable Key');
         }
         const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
+        console.log('Generated HTML meta tag:', updatedHtml.match(/<meta name="stripe-publishable-key" content="[^"]*"/)); // Logga den genererade meta-tagg
         res.send(updatedHtml);
     } catch (error) {
         console.error('Error in plans.html route:', error.message);
