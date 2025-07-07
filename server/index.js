@@ -18,7 +18,11 @@ app.use(cors({
 
 // Lägg till cookie-parser före andra middleware
 app.use(cookieParser());
-
+app.use(cors({
+    origin: 'https://dealscope.io',
+    credentials: true,
+    exposedHeaders: ['Set-Cookie'] // Tillåt Set-Cookie i CORS
+}));
 const fs = require('fs');
 const util = require('util');
 const readFile = util.promisify(fs.readFile);

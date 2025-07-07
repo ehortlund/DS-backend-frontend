@@ -182,8 +182,8 @@
             const stripe = Stripe(stripePublishableKey);
     
             const planButtons = document.querySelectorAll('.select-plan');
-            console.log('Found plan buttons:', planButtons.length); // Felsökning
-            const errorElement = document.getElementById('error-message') || document.createElement('div'); // Säkerställ errorElement
+            console.log('Found plan buttons:', planButtons.length);
+            const errorElement = document.getElementById('error-message') || document.createElement('div');
     
             if (planButtons.length === 0) {
                 console.error('No elements with class .select-plan found');
@@ -193,12 +193,12 @@
             }
     
             planButtons.forEach(button => {
-                console.log('Adding event listener to button:', button.textContent, 'with data-price:', button.getAttribute('data-price')); // Felsökning
+                console.log('Adding event listener to button:', button.textContent, 'with data-price:', button.getAttribute('data-price'));
                 button.addEventListener('click', async (e) => {
                     e.preventDefault();
                     const amount = parseInt(button.getAttribute('data-price'));
                     const planName = button.closest('.plan')?.querySelector('h2')?.textContent || 'Unknown Plan';
-                    console.log('Button clicked:', planName, 'Amount:', amount); // Felsökning
+                    console.log('Button clicked:', planName, 'Amount:', amount);
     
                     if (!amount || isNaN(amount)) {
                         console.error('Invalid amount:', button.getAttribute('data-price'));
@@ -242,6 +242,7 @@
                 });
             });
     
+            // Övrig logik (tema, login, etc.)...
             const loginButtons = document.querySelectorAll('.login-btn');
             const header = document.querySelector('.main-header');
             const profileModal = document.getElementById('profile-modal');
