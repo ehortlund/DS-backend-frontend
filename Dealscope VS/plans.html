@@ -432,7 +432,12 @@
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('success')) {
                 alert('Payment successful! You will be redirected.');
-                window.location.replace('/deals.html');
+                updateLoginButton(); // Försök uppdatera inloggningstillstånd
+                if (document.cookie.includes('token')) {
+                    window.location.replace('/deals.html');
+                } else {
+                    window.location.replace('/login.html');
+                }
             } else if (urlParams.get('cancel')) {
                 alert('Payment canceled. Please try again.');
                 window.history.replaceState({}, document.title, '/plans.html');
