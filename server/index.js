@@ -421,32 +421,30 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
     try {
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        // Hämta produkt baserat på planName
-        const products = await stripe.products.list({ limit: 100 });
-        const product = products.data.find(p => p.name === planName);
-        if (!product) {
-            console.error('No product found for planName:', planName);
-            return res.status(400).json({ error: `No such product: '${planName}'` });
+        let priceId;
+        if (planName === 'PRO Monthly') {
+            priceId = 'price_1Ri09GHP6mys9UBu2WfYcSGa'; // Månadsvis pris-ID
+        } else if (planName === 'PRO Yearly') {
+            priceId = 'price_1Ri0RFHP6mys9UBuhFW3N5y9'; // Årsvis pris-ID
+        } else {
+            console.error('Invalid planName:', planName);
+            return res.status(400).json({ error: 'Invalid planName' });
         }
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
-                price_data: {
-                    currency: 'usd',
-                    product: product.id, // Använd produktens faktiska ID
-                    unit_amount: Math.round(amount),
-                },
+                price: priceId, // Använd befintligt pris-ID
                 quantity: 1,
             }],
-            mode: 'payment',
+            mode: 'subscription', // Ändra till subscription för återkommande fakturering
             success_url: 'https://dealscope.io/plans.html?success=true',
             cancel_url: 'https://dealscope.io/plans.html?cancel=true',
             customer: req.user.stripeCustomerId,
             metadata: { userId: req.user._id.toString() }
         });
 
-        console.log('Checkout session created:', session.id);
+        console.log('Checkout subscription session created:', session.id);
         res.json({ id: session.id });
     } catch (error) {
         console.error('Checkout session error:', error);
