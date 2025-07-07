@@ -431,8 +431,8 @@
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('success')) {
-                alert('Payment successful! You will be redirected.');
-                updateLoginButton(); // Försök uppdatera inloggningstillstånd
+                alert('Payment successful! Verifying login...');
+                updateLoginButton(); // Uppdatera inloggningstillstånd
                 if (document.cookie.includes('token')) {
                     window.location.replace('/deals.html');
                 } else {

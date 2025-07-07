@@ -60,7 +60,7 @@ app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 // Specifik middleware för webhook innan andra parsers
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    console.log('Webhook endpoint hit');
+    console.log('Webhook endpoint hit at https://www.dealscope.io/api/stripe-webhook');
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
