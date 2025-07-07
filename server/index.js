@@ -16,6 +16,9 @@ app.use(cors({
     credentials: true
 }));
 
+// Lägg till cookie-parser före andra middleware
+app.use(cookieParser());
+
 const fs = require('fs');
 const util = require('util');
 const readFile = util.promisify(fs.readFile);
