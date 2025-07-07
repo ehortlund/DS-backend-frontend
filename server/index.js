@@ -16,14 +16,15 @@ app.use(cors({
     credentials: true
 }));
 
-// Middleware för statiska filer (anpassa sökvägen vid live-deploy)
-app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
-
 const fs = require('fs');
+const util = require('util');
+const readFile = util.promisify(fs.readFile);
 
 app.get('/plans.html', async (req, res) => {
+    console.log('Serving /plans.html route');
     const token = req.cookies.token;
     if (!token) {
+        console.log('No token found, redirecting to login.html');
         return res.redirect('/login.html');
     }
 
@@ -32,29 +33,26 @@ app.get('/plans.html', async (req, res) => {
         const user = await User.findById(decoded.userId);
         if (!user) {
             res.clearCookie('token');
+            console.log('User not found, redirecting to login.html');
             return res.redirect('/login.html');
         }
-        // Fortsätt med att läsa och injicera nyckeln
-        fs.readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8', (err, data) => {
-            if (err) {
-                console.error('Error reading plans.html:', err);
-                return res.status(500).send('Internal Server Error');
-            }
-            const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-            console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey);
-            if (!publishableKey) {
-                console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
-                return res.status(500).send('Missing Stripe Publishable Key');
-            }
-            const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
-            res.send(updatedHtml);
-        });
+
+        const data = await readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8');
+        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+        console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey);
+        if (!publishableKey) {
+            console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
+            return res.status(500).send('Missing Stripe Publishable Key');
+        }
+        const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
+        res.send(updatedHtml);
     } catch (error) {
-        console.error('Token verification error in plans.html:', error.message);
-        res.clearCookie('token');
-        return res.redirect('/login.html');
+        console.error('Error in plans.html route:', error.message);
+        res.status(500).send('Server Error');
     }
 });
+
+app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 // Specifik middleware för webhook innan andra parsers
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
