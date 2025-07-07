@@ -411,18 +411,26 @@ app.post('/api/create-checkout-session', async (req, res) => {
         return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
     }
 
-    if (!amount) {
-        return res.status(400).json({ error: 'Amount is required' });
+    if (!amount || !planName) {
+        return res.status(400).json({ error: 'Amount and planName are required' });
     }
 
     try {
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        // Hämta produkt baserat på planName
+        const products = await stripe.products.list({ limit: 100 });
+        const product = products.data.find(p => p.name === planName);
+        if (!product) {
+            console.error('No product found for planName:', planName);
+            return res.status(400).json({ error: `No such product: '${planName}'` });
+        }
+
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
                 price_data: {
                     currency: 'usd',
-                    product: 'prod_123456789', // Ersätt med ditt produkt-ID från Stripe
+                    product: product.id, // Använd produktens faktiska ID
                     unit_amount: Math.round(amount),
                 },
                 quantity: 1,
@@ -431,7 +439,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             success_url: 'https://www.dealscope.io/plans.html?success=true',
             cancel_url: 'https://www.dealscope.io/plans.html?cancel=true',
             customer: req.user.stripeCustomerId,
-            metadata: { userId: req.user._id.toString() } // Lägg till detta
+            metadata: { userId: req.user._id.toString() }
         });
 
         console.log('Checkout session created:', session.id);
