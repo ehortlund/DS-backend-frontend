@@ -76,7 +76,6 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     let event;
     try {
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        if (!stripe) throw new Error('Stripe initialization failed');
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
         console.log('Webhook event constructed:', event.type, 'with ID:', event.id);
     } catch (err) {
@@ -107,54 +106,6 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
             }
         } catch (error) {
             console.error('Error updating user hasPaid:', error.message, 'for userId:', userId);
-        }
-    } else if (event.type === 'customer.subscription.updated') {
-        console.log('Customer subscription updated event received, processing...');
-        const subscription = event.data.object;
-        const userId = subscription.metadata?.userId || (await stripe.customers.retrieve(subscription.customer)).metadata?.userId;
-        console.log('Subscription metadata:', subscription.metadata);
-
-        if (!userId) {
-            console.error('No userId found in subscription metadata, subscription ID:', subscription.id);
-            return res.status(400).send('No userId found in subscription metadata');
-        }
-
-        try {
-            const user = await User.findById(userId);
-            if (user) {
-                console.log('User found:', user.email, 'with ID:', userId);
-                user.hasPaid = subscription.status === 'active' || subscription.status === 'past_due';
-                await user.save();
-                console.log('Updated user hasPaid to', user.hasPaid, 'for user:', user.email, 'ID:', userId);
-            } else {
-                console.error('User not found for userId:', userId, 'in subscription:', subscription.id);
-            }
-        } catch (error) {
-            console.error('Error updating user for subscription:', error.message, 'for userId:', userId);
-        }
-    } else if (event.type === 'customer.subscription.deleted') {
-        console.log('Customer subscription deleted event received, processing...');
-        const subscription = event.data.object;
-        const userId = subscription.metadata?.userId || (await stripe.customers.retrieve(subscription.customer)).metadata?.userId;
-        console.log('Subscription metadata:', subscription.metadata);
-
-        if (!userId) {
-            console.error('No userId found in subscription metadata, subscription ID:', subscription.id);
-            return res.status(400).send('No userId found in subscription metadata');
-        }
-
-        try {
-            const user = await User.findById(userId);
-            if (user) {
-                console.log('User found:', user.email, 'with ID:', userId);
-                user.hasPaid = false;
-                await user.save();
-                console.log('Updated user hasPaid to false for user:', user.email, 'ID:', userId);
-            } else {
-                console.error('User not found for userId:', userId, 'in subscription:', subscription.id);
-            }
-        } catch (error) {
-            console.error('Error updating user for subscription deletion:', error.message, 'for userId:', userId);
         }
     } else {
         console.log('Unhandled event type:', event.type, 'with ID:', event.id);
@@ -466,21 +417,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
 
     try {
         const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        // Kontrollera att planName matchar en produkt i live-läge
-        console.log('Checking product:', planName);
-        const products = await stripe.products.list({ limit: 100 });
-        const product = products.data.find(p => p.name === planName);
-        if (!product) {
-            console.error('Product not found for planName:', planName);
-            return res.status(400).json({ error: `Product ${planName} not found in Stripe` });
-        }
-
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [{
                 price_data: {
                     currency: 'usd',
-                    product: product.id, // Använd produkt-ID istället för att skapa en ny
+                    product: 'prod_123456789', // Ersätt med ditt produkt-ID från Stripe
                     unit_amount: Math.round(amount),
                 },
                 quantity: 1,
@@ -489,7 +431,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             success_url: 'https://www.dealscope.io/plans.html?success=true',
             cancel_url: 'https://www.dealscope.io/plans.html?cancel=true',
             customer: req.user.stripeCustomerId,
-            metadata: { userId: req.user._id.toString() }
+            metadata: { userId: req.user._id.toString() } // Lägg till detta
         });
 
         console.log('Checkout session created:', session.id);
