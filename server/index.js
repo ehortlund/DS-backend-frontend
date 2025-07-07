@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware för CORS (tillåt credentials för live-domän)
 app.use(cors({
-    origin: 'https://www.dealscope.io', // Din live-domän
+    origin: 'https://dealscope.io', // Din live-domän
     credentials: true
 }));
 
@@ -60,7 +60,7 @@ app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
 // Specifik middleware för webhook innan andra parsers
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    console.log('Webhook endpoint hit at https://www.dealscope.io/api/stripe-webhook');
+    console.log('Webhook endpoint hit at https://dealscope.io/api/stripe-webhook');
     const sig = req.headers['stripe-signature'];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
@@ -264,20 +264,20 @@ app.get('/deals.html', async (req, res) => {
     const token = req.cookies.token;
     if (!token) {
         res.clearCookie('token');
-        return res.redirect('https://www.dealscope.io/login.html');
+        return res.redirect('https://dealscope.io/login.html');
     }
     try {
         const decoded = jwt.verify(token, 'mysecretkey');
         const user = await User.findById(decoded.userId);
         if (!user) {
             res.clearCookie('token');
-            return res.redirect('https://www.dealscope.io/login.html');
+            return res.redirect('https://dealscope.io/login.html');
         }
-        if (!user.hasPaid) return res.redirect('https://www.dealscope.io/plans.html');
+        if (!user.hasPaid) return res.redirect('https://dealscope.io/plans.html');
         res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
     } catch (error) {
         res.clearCookie('token');
-        return res.redirect('https://www.dealscope.io/login.html');
+        return res.redirect('https://dealscope.io/login.html');
     }
 });
 
@@ -436,8 +436,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
                 quantity: 1,
             }],
             mode: 'payment',
-            success_url: 'https://www.dealscope.io/plans.html?success=true',
-            cancel_url: 'https://www.dealscope.io/plans.html?cancel=true',
+            success_url: 'https://dealscope.io/plans.html?success=true',
+            cancel_url: 'https://dealscope.io/plans.html?cancel=true',
             customer: req.user.stripeCustomerId,
             metadata: { userId: req.user._id.toString() }
         });

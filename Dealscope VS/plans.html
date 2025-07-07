@@ -180,18 +180,18 @@
                 return;
             }
             const stripe = Stripe(stripePublishableKey);
-
+    
             const planButtons = document.querySelectorAll('.select-plan');
             console.log('Found plan buttons:', planButtons.length); // Felsökning
             const errorElement = document.getElementById('error-message') || document.createElement('div'); // Säkerställ errorElement
-
+    
             if (planButtons.length === 0) {
                 console.error('No elements with class .select-plan found');
                 errorElement.textContent = 'No plan buttons found. Check HTML structure.';
                 document.body.appendChild(errorElement);
                 return;
             }
-
+    
             planButtons.forEach(button => {
                 console.log('Adding event listener to button:', button.textContent, 'with data-price:', button.getAttribute('data-price')); // Felsökning
                 button.addEventListener('click', async (e) => {
@@ -199,13 +199,13 @@
                     const amount = parseInt(button.getAttribute('data-price'));
                     const planName = button.closest('.plan')?.querySelector('h2')?.textContent || 'Unknown Plan';
                     console.log('Button clicked:', planName, 'Amount:', amount); // Felsökning
-
+    
                     if (!amount || isNaN(amount)) {
                         console.error('Invalid amount:', button.getAttribute('data-price'));
                         errorElement.textContent = 'Invalid plan amount.';
                         return;
                     }
-
+    
                     try {
                         console.log('Creating checkout session for amount:', amount, 'plan:', planName, 'User authenticated:', !!document.cookie.includes('token'));
                         const response = await fetch('/api/create-checkout-session', {
@@ -216,21 +216,21 @@
                             },
                             body: JSON.stringify({ amount, planName })
                         });
-
+    
                         if (!response.ok) {
                             const text = await response.text();
                             errorElement.textContent = `Error: ${text || 'Server error'}`;
                             console.error('Checkout session error:', text);
                             return;
                         }
-
+    
                         const { id: sessionId } = await response.json();
                         console.log('Checkout session ID:', sessionId);
-
+    
                         const { error } = await stripe.redirectToCheckout({
                             sessionId: sessionId
                         });
-
+    
                         if (error) {
                             errorElement.textContent = `Error redirecting to Checkout: ${error.message}`;
                             console.error('Error redirecting to Checkout:', error);
@@ -241,8 +241,7 @@
                     }
                 });
             });
-
-            // Övrig logik (tema, login, etc.)...
+    
             const loginButtons = document.querySelectorAll('.login-btn');
             const header = document.querySelector('.main-header');
             const profileModal = document.getElementById('profile-modal');
@@ -259,15 +258,14 @@
             const desktopSunIcon = document.getElementById('desktop-sun-icon');
             const mobileMoonIcon = document.getElementById('mobile-moon-icon');
             const mobileSunIcon = document.getElementById('mobile-sun-icon');
-
-            // Intersection Observer för fade-in
+    
             const fadeInElements = document.querySelectorAll('.fade-in');
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
                 threshold: 0.1
             };
-
+    
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -276,12 +274,11 @@
                     }
                 });
             }, observerOptions);
-
+    
             fadeInElements.forEach(element => {
                 observer.observe(element);
             });
-
-            // Funktion för att uppdatera SVG:er baserat på tema
+    
             function updateSVGs(theme) {
                 if (theme === 'bright') {
                     if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
@@ -299,8 +296,7 @@
                     if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
                 }
             }
-
-            // Hämta tema från localStorage och tillämpa det vid sidladdning
+    
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'bright') {
                 document.documentElement.classList.add('bright-mode');
@@ -308,8 +304,7 @@
             } else {
                 updateSVGs('dark');
             }
-
-            // Lägg till klick-event för temaväxlingsknapparna
+    
             const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
             themeToggleButtons.forEach(button => {
                 button.addEventListener('click', () => {
@@ -325,17 +320,16 @@
                     }
                 });
             });
-
-            // Funktion för att uppdatera login-knapparnas text och länk
+    
             async function updateLoginButton() {
                 try {
                     const response = await fetch('/api/users/me', {
                         method: 'GET',
                         credentials: 'include'
                     });
-
+    
                     const data = await response.json();
-
+    
                     if (data.error) {
                         loginButtons.forEach(button => {
                             button.textContent = 'Log in';
@@ -344,18 +338,18 @@
                         });
                         return;
                     }
-
+    
                     loginButtons.forEach(button => {
                         button.textContent = data.username;
                         button.href = '#';
                         button.addEventListener('click', openProfileModal);
                     });
-
+    
                     if (profileUsername && profileEmail) {
                         profileUsername.textContent = data.username;
                         profileEmail.textContent = data.email;
                     }
-
+    
                     if (data.hasPaid) {
                         window.location.replace('/deals.html');
                         return;
@@ -369,23 +363,20 @@
                     });
                 }
             }
-
-            // Funktion för att öppna profilsidan
+    
             function openProfileModal(event) {
                 event.preventDefault();
                 profileModal.style.display = 'flex';
                 profileOverlay.style.display = 'block';
                 header.style.zIndex = '0';
             }
-
-            // Funktion för att stänga profilsidan
+    
             function closeProfileModalHandler() {
                 profileModal.style.display = 'none';
                 profileOverlay.style.display = 'none';
                 header.style.zIndex = '1';
             }
-
-            // Hantera sidomenyn
+    
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
                     event.preventDefault();
@@ -398,8 +389,7 @@
                     }
                 });
             });
-
-            // Hantera utloggning
+    
             if (logoutButton) {
                 logoutButton.addEventListener('click', (event) => {
                     event.preventDefault();
@@ -417,27 +407,26 @@
                     });
                 });
             }
-
-            // Stäng profilsidan vid klick på krysset
+    
             if (closeProfileModal) {
                 closeProfileModal.addEventListener('click', closeProfileModalHandler);
             }
-
-            // Kör vid sidladdning
+    
             updateLoginButton();
         });
-
-        // Hantera framgång eller avbryt efter Checkout
+    
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('success')) {
                 alert('Payment successful! Verifying login...');
                 updateLoginButton(); // Uppdatera inloggningstillstånd
-                if (document.cookie.includes('token')) {
-                    window.location.replace('/deals.html');
-                } else {
-                    window.location.replace('/login.html');
-                }
+                setTimeout(() => { // Försök igen efter kort fördröjning
+                    if (document.cookie.includes('token')) {
+                        window.location.replace('/deals.html');
+                    } else {
+                        window.location.replace('/login.html');
+                    }
+                }, 1000); // 1 sekund fördröjning
             } else if (urlParams.get('cancel')) {
                 alert('Payment canceled. Please try again.');
                 window.history.replaceState({}, document.title, '/plans.html');
