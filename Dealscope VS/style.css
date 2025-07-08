@@ -929,7 +929,7 @@ body {
     left: 0;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(189, 235, 190, 0.483), rgba(201, 220, 202, 0.567), transparent);
+    background: radial-gradient(circle, #e02f2f, #c47d7d, #e02f2f);
     filter: blur(50px);
     animation: floatLayer2 4s ease-in-out infinite;
     z-index: 0;
@@ -980,7 +980,7 @@ body {
 .trusted-title {
     font-weight: 600;
     font-size: 24px;
-    color: var(--container-bg);
+    color: var(--dark-grey);
     margin-bottom: 20px;
 }
 
@@ -1009,7 +1009,7 @@ body {
 .stat .number {
     font-size: 64px;
     font-weight: bold;
-    color: var(--container-bg);
+    color: var(--dark-grey);
     margin-right: 25px;
 }
 
@@ -1017,7 +1017,7 @@ body {
 .stat .text {
     font-weight: bold;
     font-size: 64px;
-    color: var(--container-bg);
+    color: var(--dark-grey);
 }
 
 /* Knappen "Register" */
