@@ -390,6 +390,7 @@
         const logoutButton = document.getElementById('logout-btn-modal');
         const profileUsername = document.getElementById('profile-username');
         const profileEmail = document.getElementById('profile-email');
+        const heroCircle = document.getElementById('hero-circle'); // Lägg till hero circle
         const headerLogo = document.getElementById('header-logo');
         const footerLogo = document.getElementById('footer-logo');
         const desktopMoonIcon = document.getElementById('desktop-moon-icon');
@@ -437,6 +438,7 @@
                 if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
                 if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
                 if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
+                if (heroCircle) heroCircle.src = 'assets/DS CIRCLE bright.svg'; // Lägg till hero circle för bright mode
             } else {
                 if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
                 if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
@@ -444,6 +446,7 @@
                 if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
                 if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
                 if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
+                if (heroCircle) heroCircle.src = 'assets/DS CIRCLE.svg'; // Lägg till hero circle för dark mode
             }
         }
 
