@@ -527,6 +527,10 @@ body {
     padding: 20px 0;
 }
 
+li.fade-in.show {
+    margin-bottom: 35px;
+}
+
 /* Stil för linjerna ovanför och under varje punkt */
 .benefits-list li::before,
 .benefits-list li::after {
@@ -659,7 +663,7 @@ body {
     border: 2px solid var(--highlight-color);
     padding: 20px 30px;
     border-radius: 32px;
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 
 .stock-note {
@@ -813,7 +817,7 @@ body {
 .articles-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 34px;
 }
 
 .article {
@@ -848,7 +852,6 @@ body {
 
 /* Centrera CTA-knappen längst ner */
 .noise-dealscope-section .cta-btn {
-    display: block;
     margin: 0px auto 0;
 }
 
@@ -1537,6 +1540,10 @@ body {
         padding: 10px;
     }
 
+    .articles-container {
+        gap: 15px;
+    }
+
 }
 
 .close-modal {
@@ -1551,6 +1558,13 @@ body {
 @media (max-width: 768px) {
     .profile-modal-inner {
         flex-direction: column;
+    }
+
+    .noise-dealscope-section .cta-btn {
+        display: flex;
+        margin: 0px auto 0;
+        justify-content: space-around;
+        max-width: 80%;
     }
 
     .profile-sidebar {
