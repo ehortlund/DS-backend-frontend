@@ -158,6 +158,101 @@
 }
 
 
+/* nya knappstilar */
+.hero-cta-btn {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px 20px;
+    background-color: var(--highlight-color);
+    color: var(--button-text);
+    border: 1px solid var(--highlight-color);
+    border-radius: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+}
+
+.hero-cta-btn:hover {
+    background-color: transparent;
+    color: var(--highlight-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.insights-cta-btn {
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px 20px;
+    background-color: var(--highlight-color);
+    color: var(--button-text);
+    border: 1px solid var(--highlight-color);
+    border-radius: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px; 
+    display: block;
+    max-width: fit-content;
+    margin-top: 30px;
+   
+}
+
+.insights-cta-btn:hover {
+    background-color: transparent;
+    color: var(--highlight-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .noise-cta-btn {
+        width: auto !important; /* Tar bort fixerad bredd på mobil */
+        height: auto !important; /* Tar bort fixerad höjd på mobil */
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    .noise-cta-btn {
+        width: 300px !important;
+        height: auto !important;
+    }
+}
+
+.noise-cta-btn {
+    display: flex;
+    width: 280px; /* Fixerad bredd baserat på padding och textlängd */
+    height: 40px; /* Fixerad höjd baserat på padding och font-size */
+    margin: 20px auto 0; /* 20px margin-top för att placera under flexbox, auto för horisontell centrering */
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px 20px;
+    background-color: var(--highlight-color);
+    color: var(--button-text);
+    border: 1px solid var(--highlight-color);
+    border-radius: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
+    line-height: 30px; /* Justerar vertikal centrering av text */
+    text-align: center; /* Centrerar texten horisontellt */
+    justify-content: center; /* Centrerar horisontellt */
+    align-items: center; /* Centrerar vertikalt */
+}
+
+.noise-cta-btn:hover {
+    background-color: transparent;
+    color: var(--highlight-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
 
 
 /* Initial tillstånd för elementen */
@@ -527,9 +622,7 @@ body {
     padding: 20px 0;
 }
 
-li.fade-in.show {
-    margin-bottom: 35px;
-}
+
 
 /* Stil för linjerna ovanför och under varje punkt */
 .benefits-list li::before,
@@ -607,8 +700,11 @@ li.fade-in.show {
     color: var(--text-color);
 }
 
+
+
 /* Undersida knapp */
 .cta-btn {
+    display: block;
     font-family: 'Poppins', sans-serif;
     margin-top: 32px;
     font-size: 24px;
