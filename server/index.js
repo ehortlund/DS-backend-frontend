@@ -10,59 +10,20 @@ require('dotenv').config();
 
 const app = express();
 
-// Middleware för CORS (tillåt credentials för live-domän)
-app.use(cors({
-    origin: 'https://dealscope.io', // Din live-domän
-    credentials: true
-}));
-
-// Lägg till cookie-parser före andra middleware
-app.use(cookieParser());
+// Middleware-sektion
+// Konfigurera CORS och cookie-parser
 app.use(cors({
     origin: 'https://dealscope.io',
     credentials: true,
-    exposedHeaders: ['Set-Cookie'] // Tillåt Set-Cookie i CORS
+    exposedHeaders: ['Set-Cookie', 'Authorization'] // Tillåt dessa headers för cookie-hantering
 }));
-const fs = require('fs');
-const util = require('util');
-const readFile = util.promisify(fs.readFile);
+app.use(cookieParser());
 
-app.get('/plans.html', async (req, res) => {
-    console.log('Serving /plans.html route');
-    const token = req.cookies.token;
-    if (!token) {
-        console.log('No token found, redirecting to login.html');
-        return res.redirect('/login.html');
-    }
-
-    try {
-        const decoded = jwt.verify(token, 'mysecretkey');
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            res.clearCookie('token');
-            console.log('User not found, redirecting to login.html');
-            return res.redirect('/login.html');
-        }
-
-        const data = await readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8');
-        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
-        console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey);
-        if (!publishableKey) {
-            console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
-            return res.status(500).send('Missing Stripe Publishable Key');
-        }
-        const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
-        console.log('Generated HTML meta tag:', updatedHtml.match(/<meta name="stripe-publishable-key" content="[^"]*"/)); // Logga den genererade meta-tagg
-        res.send(updatedHtml);
-    } catch (error) {
-        console.error('Error in plans.html route:', error.message);
-        res.status(500).send('Server Error');
-    }
-});
-
+// Rutt-sektion
+// Statisk filservering
 app.use(express.static(path.join(__dirname, '..', 'Dealscope VS')));
 
-// Specifik middleware för webhook innan andra parsers
+// Specifika rutter som kräver rå data (före JSON-parser)
 app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     console.log('Webhook endpoint hit at https://dealscope.io/api/stripe-webhook');
     const sig = req.headers['stripe-signature'];
@@ -134,7 +95,7 @@ app.post('/api/create-customer-portal-session', async (req, res) => {
         }
         const session = await stripe.billingPortal.sessions.create({
             customer: req.user.stripeCustomerId,
-            return_url: 'https://dealscope.io/index.html' // Anpassad för index.html
+            return_url: 'https://dealscope.io/index.html'
         });
         console.log('Customer portal session created:', session.url);
         res.json({ url: session.url });
@@ -144,11 +105,64 @@ app.post('/api/create-customer-portal-session', async (req, res) => {
     }
 });
 
-// Övriga middleware efter webhook
-app.use(express.json());
-app.use(cookieParser());
+app.get('/plans.html', async (req, res) => {
+    console.log('Serving /plans.html route');
+    const token = req.cookies.token;
+    if (!token) {
+        console.log('No token found, redirecting to login.html');
+        return res.redirect('/login.html');
+    }
 
-// Middleware för autentisering (fixad bugg)
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            res.clearCookie('token');
+            console.log('User not found, redirecting to login.html');
+            return res.redirect('/login.html');
+        }
+
+        const data = await readFile(path.join(__dirname, '..', 'Dealscope VS', 'plans.html'), 'utf8');
+        const publishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
+        console.log('STRIPE_PUBLISHABLE_KEY from environment:', publishableKey);
+        if (!publishableKey) {
+            console.error('STRIPE_PUBLISHABLE_KEY is not set in environment');
+            return res.status(500).send('Missing Stripe Publishable Key');
+        }
+        const updatedHtml = data.replace('{{STRIPE_PUBLISHABLE_KEY}}', publishableKey);
+        console.log('Generated HTML meta tag:', updatedHtml.match(/<meta name="stripe-publishable-key" content="[^"]*"/));
+        res.send(updatedHtml);
+    } catch (error) {
+        console.error('Error in plans.html route:', error.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+app.get('/deals.html', async (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        res.clearCookie('token');
+        return res.redirect('https://dealscope.io/login.html');
+    }
+    try {
+        const decoded = jwt.verify(token, 'mysecretkey');
+        const user = await User.findById(decoded.userId);
+        if (!user) {
+            res.clearCookie('token');
+            return res.redirect('https://dealscope.io/login.html');
+        }
+        if (!user.hasPaid) return res.redirect('https://dealscope.io/plans.html');
+        res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
+    } catch (error) {
+        res.clearCookie('token');
+        return res.redirect('https://dealscope.io/login.html');
+    }
+});
+
+// Middleware för JSON-parsing och autentisering
+app.use(express.json());
+
+// Autentiseringsmiddleware
 app.use(async (req, res, next) => {
     const token = req.cookies.token;
     console.log('Auth middleware - Checking token:', token ? 'Found' : 'Not set');
@@ -177,64 +191,7 @@ app.use(async (req, res, next) => {
     }
 });
 
-// Global Stripe-initiering
-const stripe = process.env.STRIPE_SECRET_KEY
-    ? require('stripe')(process.env.STRIPE_SECRET_KEY)
-    : null;
-
-if (!stripe) {
-    console.error('Failed to initialize Stripe globally: STRIPE_SECRET_KEY is missing');
-    process.exit(1);
-}
-
-// Definiera API-endpoints
-app.post('/api/create-payment-intent', async (req, res) => {
-    const { amount, paymentMethodId } = req.body;
-
-    console.log('Received /api/create-payment-intent request:', { user: req.user, amount, paymentMethodId });
-
-    if (!req.user) {
-        console.error('No authenticated user found');
-        return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
-    }
-
-    if (!amount || !paymentMethodId) {
-        return res.status(400).json({ error: 'Amount and payment method ID are required' });
-    }
-
-    try {
-        console.log('Creating payment intent with amount:', amount, 'and customer:', req.user.stripeCustomerId);
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: Math.round(amount),
-            currency: 'usd',
-            customer: req.user.stripeCustomerId,
-            payment_method: paymentMethodId,
-            confirmation_method: 'manual',
-            metadata: { userId: req.user._id.toString() }
-        });
-
-        console.log('Payment intent created, full response:', paymentIntent);
-        console.log('Payment intent created, client_secret:', paymentIntent.client_secret);
-        if (!paymentIntent.client_secret) {
-            throw new Error('No client secret returned from Stripe');
-        }
-
-        res.json({ clientSecret: paymentIntent.client_secret });
-    } catch (error) {
-        console.error('Payment Intent error details:', error);
-        let statusCode = 500;
-        let errorMessage = 'Error creating payment intent';
-        if (error.type === 'StripeInvalidRequestError') {
-            statusCode = 400;
-            errorMessage = `Stripe error: ${error.message}`;
-        } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
-            statusCode = 502;
-            errorMessage = 'Gateway error: Connection to Stripe failed';
-        }
-        res.status(statusCode).json({ error: errorMessage });
-    }
-});
-
+// API-endpoints
 app.post('/api/users/register', async (req, res) => {
     const { email, username, password } = req.body;
     if (!email || !username || !password) {
@@ -290,27 +247,6 @@ app.get('/api/users/me', async (req, res) => {
     }
 });
 
-app.get('/deals.html', async (req, res) => {
-    const token = req.cookies.token;
-    if (!token) {
-        res.clearCookie('token');
-        return res.redirect('https://dealscope.io/login.html');
-    }
-    try {
-        const decoded = jwt.verify(token, 'mysecretkey');
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            res.clearCookie('token');
-            return res.redirect('https://dealscope.io/login.html');
-        }
-        if (!user.hasPaid) return res.redirect('https://dealscope.io/plans.html');
-        res.sendFile(path.join(__dirname, '..', 'Dealscope VS', 'deals.html'));
-    } catch (error) {
-        res.clearCookie('token');
-        return res.redirect('https://dealscope.io/login.html');
-    }
-});
-
 app.post('/api/users/logout', (req, res) => {
     res.clearCookie('token');
     res.status(200).json({ message: 'Utloggning lyckades' });
@@ -324,6 +260,7 @@ app.get('/api/users/payment-methods', async (req, res) => {
         const user = await User.findById(decoded.userId);
         if (!user) return res.status(404).json({ error: 'User not found' });
         if (!user.stripeCustomerId) return res.status(404).json({ error: 'No payment methods associated with this account' });
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         const paymentMethods = await stripe.paymentMethods.list({ customer: user.stripeCustomerId, type: 'card' });
         const formattedMethods = paymentMethods.data.map(method => ({
             id: method.id,
@@ -348,6 +285,7 @@ app.post('/api/users/payment-methods', async (req, res) => {
             return res.status(401).json({ error: 'User not authenticated or no Stripe customer ID' });
         }
 
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
         // Hämta befintlig kund från Stripe
         let customer;
         try {
@@ -428,53 +366,6 @@ app.delete('/api/users/payment-methods/:paymentMethodId', async (req, res) => {
     } catch (error) {
         console.error('Error removing payment method:', error);
         res.status(400).json({ error: `Error removing payment method: ${error.message}` });
-    }
-});
-
-app.post('/api/create-checkout-session', async (req, res) => {
-    const { amount, planName } = req.body;
-
-    console.log('Received /api/create-checkout-session request:', { user: req.user, amount, planName });
-
-    if (!req.user) {
-        console.error('No authenticated user found');
-        return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
-    }
-
-    if (!amount || !planName) {
-        return res.status(400).json({ error: 'Amount and planName are required' });
-    }
-
-    try {
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        let priceId;
-        if (planName === 'PRO Monthly') {
-            priceId = 'price_1Ri09GHP6mys9UBu2WfYcSGa'; // Månadsvis pris-ID
-        } else if (planName === 'PRO Yearly') {
-            priceId = 'price_1Ri0RFHP6mys9UBuhFW3N5y9'; // Årsvis pris-ID
-        } else {
-            console.error('Invalid planName:', planName);
-            return res.status(400).json({ error: 'Invalid planName' });
-        }
-
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: [{
-                price: priceId, // Använd befintligt pris-ID
-                quantity: 1,
-            }],
-            mode: 'subscription', // Ändra till subscription för återkommande fakturering
-            success_url: 'https://dealscope.io/plans.html?success=true',
-            cancel_url: 'https://dealscope.io/plans.html?cancel=true',
-            customer: req.user.stripeCustomerId,
-            metadata: { userId: req.user._id.toString() }
-        });
-
-        console.log('Checkout subscription session created:', session.id);
-        res.json({ id: session.id });
-    } catch (error) {
-        console.error('Checkout session error:', error);
-        res.status(400).json({ error: error.message });
     }
 });
 
