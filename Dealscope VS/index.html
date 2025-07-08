@@ -312,7 +312,6 @@
                       <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
                       <li class="fade-in"><a href="#" data-section="settings">Settings</a></li>
                       <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
-                      <li class="fade-in"><a href="#" data-section="subscription">Subscription</a></li> <!-- Ny sektion -->
                       <li class="fade-in"><a href="#" id="logout-btn-modal">Log out</a></li>
                   </ul>
               </nav>
@@ -326,32 +325,9 @@
                   </div>
                 <!-- Betalningsinställningar -->
                 <div id="payment-settings-section" class="content-section fade-in">
-                  <h2 class="fade-in">Payment Settings</h2>
-                  <p class="fade-in">Payment Method: <span id="payment-method">Not set</span></p>
-                  <p class="fade-in">Next Payment: <span id="next-payment">Not set</span></p>
-                  <a href="#" id="view-payment-history" class="fade-in">View Payment History</a>
-                  <button id="add-payment-method" class="fade-in">Add/Change Payment Method</button>
-                  <p id="payment-info-text" class="fade-in" style="display: none; color: #666;">Note: You can only use one payment method at a time.</p>
-                  <p class="error fade-in" id="payment-error"></p>
-                  <!-- Dolt formulär för Stripe Elements -->
-                  <div id="payment-form-container" style="display: none;">
-                      <form id="payment-form">
-                          <div class="payment-field fade-in">
-                              <label for="card-number">Card Number</label>
-                              <div id="card-number-element"></div>
-                          </div>
-                          <div class="payment-field fade-in">
-                              <label for="card-expiry">Expiry Date</label>
-                              <div id="card-expiry-element"></div>
-                          </div>
-                          <div class="payment-field fade-in">
-                              <label for="card-cvc">CVC</label>
-                              <div id="card-cvc-element"></div>
-                          </div>
-                          <button type="submit" id="submit-payment" class="fade-in">Submit Payment Method</button>
-                          <button type="button" id="cancel-payment" class="fade-in">Cancel</button>
-                      </form>
-                  </div>
+                    <h2 class="fade-in">Payment Settings</h2>
+                    <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    <button class="manage-payment-btn fade-in" onclick="openCustomerPortal()">Manage Payment & Subscription</button>
                 </div>
                   <!-- Profilinställningar -->
                   <div id="profile-settings-section" class="content-section fade-in">
@@ -372,21 +348,6 @@
                   <div id="contact-section" class="content-section fade-in">
                       <h2 class="fade-in">Contact</h2>
                       <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
-                  </div>
-                  <!-- Ny sektion för prenumeration -->
-                  <div id="subscription-section" class="content-section fade-in">
-                    <h2 class="fade-in">Subscription</h2>
-                    <p class="fade-in">Manage plan: <span id="current-plan"></span></p>
-                    <div class="custom-select fade-in">
-                        <div class="select-selected" id="selected-plan">Select a plan</div>
-                        <div class="select-items" id="plan-options">
-                            <div class="select-item" data-value="pro">Pro - $14.99/month</div>
-                            <div class="select-item" data-value="pro_yearly">Pro Yearly - $149/year</div>
-                            <div class="select-item" data-value="cancel">Cancel Subscription</div>
-                        </div>
-                    </div>
-                    <button id="save-subscription" class="fade-in">Save Changes</button>
-                    <p class="error fade-in" id="subscription-error"></p>
                   </div>
               </div>
           </div>
