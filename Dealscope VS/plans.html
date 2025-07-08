@@ -192,6 +192,7 @@
                 return;
             }
     
+            // Uppdaterad loop med unika variabelnamn för response
             planButtons.forEach(button => {
                 console.log('Adding event listener to button:', button.textContent, 'with data-price:', button.getAttribute('data-price'));
                 button.addEventListener('click', async (e) => {
@@ -199,16 +200,30 @@
                     const amount = parseInt(button.getAttribute('data-price'));
                     const planName = button.closest('.plan')?.querySelector('h2')?.textContent || 'Unknown Plan';
                     console.log('Button clicked:', planName, 'Amount:', amount);
-    
+
                     if (!amount || isNaN(amount)) {
                         console.error('Invalid amount:', button.getAttribute('data-price'));
                         errorElement.textContent = 'Invalid plan amount.';
                         return;
                     }
-    
+
+                    // Kontrollera om användaren är inloggad
                     try {
+                        const authResponse = await fetch('/api/users/me', { // Använd authResponse istället för response
+                            method: 'GET',
+                            credentials: 'include'
+                        });
+                        const data = await authResponse.json();
+
+                        if (data.error) {
+                            console.log('User not logged in, redirecting to register.html');
+                            window.location.href = 'register.html';
+                            return;
+                        }
+
+                        // Om inloggad, fortsätt med betalningsflödet
                         console.log('Creating checkout session for amount:', amount, 'plan:', planName, 'User authenticated:', !!document.cookie.includes('token'));
-                        const response = await fetch('/api/create-checkout-session', {
+                        const checkoutResponse = await fetch('/api/create-checkout-session', { // Använd checkoutResponse istället för response
                             method: 'POST',
                             credentials: 'include',
                             headers: {
@@ -216,21 +231,21 @@
                             },
                             body: JSON.stringify({ amount, planName })
                         });
-    
-                        if (!response.ok) {
-                            const text = await response.text();
+
+                        if (!checkoutResponse.ok) {
+                            const text = await checkoutResponse.text();
                             errorElement.textContent = `Error: ${text || 'Server error'}`;
                             console.error('Checkout session error:', text);
                             return;
                         }
-    
-                        const { id: sessionId } = await response.json();
+
+                        const { id: sessionId } = await checkoutResponse.json();
                         console.log('Checkout session ID:', sessionId);
-    
+
                         const { error } = await stripe.redirectToCheckout({
                             sessionId: sessionId
                         });
-    
+
                         if (error) {
                             errorElement.textContent = `Error redirecting to Checkout: ${error.message}`;
                             console.error('Error redirecting to Checkout:', error);
