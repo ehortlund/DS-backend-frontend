@@ -79,32 +79,6 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     res.status(200).json({ received: true });
 });
 
-app.post('/api/create-customer-portal-session', async (req, res) => {
-    console.log('Received /api/create-customer-portal-session request:', { user: req.user, token: req.cookies.token });
-
-    if (!req.user) {
-        console.error('No authenticated user found, token:', req.cookies.token);
-        return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
-    }
-
-    try {
-        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-        if (!req.user.stripeCustomerId) {
-            console.error('No stripeCustomerId for user:', req.user._id);
-            return res.status(400).json({ error: 'No Stripe customer ID associated with user' });
-        }
-        const session = await stripe.billingPortal.sessions.create({
-            customer: req.user.stripeCustomerId,
-            return_url: 'https://dealscope.io/index.html'
-        });
-        console.log('Customer portal session created:', session.url);
-        res.json({ url: session.url });
-    } catch (error) {
-        console.error('Customer portal session error:', error.message, 'Stack:', error.stack);
-        res.status(500).json({ error: error.message });
-    }
-});
-
 app.get('/plans.html', async (req, res) => {
     console.log('Serving /plans.html route');
     const token = req.cookies.token;
