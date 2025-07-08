@@ -1028,9 +1028,9 @@ body {
     font-size: 24px;
     font-weight: 500;
     padding: 10px 20px;
-    background-color: transparent;
+    background-color: #ffffff1f;
     color: var(--background-color);
-    border: 1px solid var(--background-color);
+    border: 1px solid #ffffff1f;
     border-radius: 15px;
     cursor: pointer;
     text-decoration: none;
@@ -1044,9 +1044,36 @@ body {
 
 /* Hover-effekt för knappen */
 .register-btn:hover {
-    border-color: var(--background-color);
     background-color: transparent;
+    color: var(--dark-grey);
+    border: 1px solid var(--dark-grey);
+}
+
+.bright-mode .register-btn:hover {
+    background-color: transparent;
+    color: var(--dark-grey);
+    border: 1px solid var(--dark-grey);
+}
+
+.bright-mode .register-btn {
+    font-family: 'Poppins', sans-serif;
+    margin-right: 10%;
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: 500;
+    padding: 10px 20px;
+    background-color: #ffffff1f;
     color: var(--background-color);
+    border: 1px solid #ffffff1f;
+    border-radius: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: 1.3px;
 }
 
 /* Footer styling */
@@ -1941,6 +1968,13 @@ body {
         cursor: pointer;
         margin-top: 0px;
         margin-right: 0;
+        color: var(--dark-grey);
+    }
+
+    .trusted-section .register-btn:hover {
+        background-color: transparent;
+        color: var(--highlight-color);
+        border: 1px solid var(--highlight-color);
     }
     
     @media (max-width: 768px) {
