@@ -55,45 +55,54 @@
 
     <!-- Modal för profilsidan -->
     <div id="profile-modal" class="profile-modal fade-in">
-        <div class="profile-modal-content fade-in">
-            <span id="close-profile-modal" class="close-modal fade-in">×</span>
-            <div class="profile-modal-inner fade-in">
-                <!-- Sidomeny -->
-                <nav class="profile-sidebar fade-in">
-                    <ul class="fade-in">
-                        <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
-                        <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
-                        <li class="fade-in"><a href="#" data-section="settings">Settings</a></li>
-                        <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
-                        <li class="fade-in"><a href="#" id="logout-btn-modal">Log out</a></li>
-                    </ul>
-                </nav>
-                <!-- Innehållsdel -->
-                <div class="profile-content fade-in">
-                    <!-- Profilsektion -->
-                    <div id="profile-section" class="content-section active fade-in">
-                        <h2 class="fade-in">Profile</h2>
-                        <p class="fade-in">Username: <span id="profile-username"></span></p>
-                        <p class="fade-in">Email: <span id="profile-email"></span></p>
-                    </div>
-                    <!-- Betalningsinställningar -->
-                    <div id="payment-settings-section" class="content-section fade-in">
-                        <h2 class="fade-in">Payment Settings</h2>
-                        <p class="fade-in">Manage your payment methods and subscription details here.</p>
-                    </div>
-                    <!-- Inställningar -->
-                    <div id="settings-section" class="content-section fade-in">
-                        <h2 class="fade-in">Settings</h2>
-                        <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
-                    </div>
-                    <!-- Kontakt -->
-                    <div id="contact-section" class="content-section fade-in">
-                        <h2 class="fade-in">Contact</h2>
-                        <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
-                    </div>
+      <div class="profile-modal-content fade-in">
+          <span id="close-profile-modal" class="close-modal fade-in">×</span>
+          <div class="profile-modal-inner fade-in">
+              <!-- Sidomeny -->
+              <nav class="profile-sidebar fade-in">
+                  <ul class="fade-in">
+                      <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
+                      <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                      <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
+                      <li class="fade-in"><a href="#" id="logout-btn-modal">Log out</a></li>
+                  </ul>
+              </nav>
+              <!-- Innehållsdel -->
+              <div class="profile-content fade-in">
+                  <!-- Profilsektion -->
+                  <div id="profile-section" class="content-section active fade-in">
+                      <h2 class="fade-in">Profile</h2>
+                      <p class="fade-in">Username: <span id="profile-username"></span></p>
+                      <p class="fade-in">Email: <span id="profile-email"></span></p>
+                  </div>
+                <!-- Betalningsinställningar -->
+                <div id="payment-settings-section" class="content-section fade-in">
+                    <h2 class="fade-in">Payment Settings</h2>
+                    <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    <a href="https://billing.stripe.com/p/login/3cI4gzeN17BZgQF63zbsc00" class="manage-payment-btn fade-in" target="_blank">Manage Payment & Subscription</a>                </div>
+                  <!-- Profilinställningar -->
+                  <div id="profile-settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Profile Settings</h2>
+                      <p class="fade-in">Update your profile information and preferences.</p>
+                  </div>
+                  <!-- Utloggning -->
+                  <div class="content-section fade-in">
+                      <button id="logout-btn" class="fade-in">Log out</button>
+
                 </div>
-            </div>
-        </div>
+                  <!-- Inställningar -->
+                  <div id="settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Settings</h2>
+                      <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
+                  </div>
+                  <!-- Kontakt -->
+                  <div id="contact-section" class="content-section fade-in">
+                      <h2 class="fade-in">Contact</h2>
+                      <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
 
     <section class="faq-section fade-in">
@@ -214,7 +223,7 @@
             const desktopSunIcon = document.getElementById('desktop-sun-icon');
             const mobileMoonIcon = document.getElementById('mobile-moon-icon');
             const mobileSunIcon = document.getElementById('mobile-sun-icon');
-
+    
             // Intersection Observer för att trigga fade-in-animationer vid skroll
             const fadeInElements = document.querySelectorAll('.fade-in');
             const observerOptions = {
@@ -222,7 +231,7 @@
                 rootMargin: '0px',
                 threshold: 0.1
             };
-
+    
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -231,11 +240,11 @@
                     }
                 });
             }, observerOptions);
-
+    
             fadeInElements.forEach(element => {
                 observer.observe(element);
             });
-
+    
             // Funktion för att uppdatera SVG:er baserat på tema
             function updateSVGs(theme) {
                 if (theme === 'bright') {
@@ -254,7 +263,7 @@
                     if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
                 }
             }
-
+    
             // Hämta tema från localStorage och tillämpa det vid sidladdning
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'bright') {
@@ -263,7 +272,7 @@
             } else {
                 updateSVGs('dark');
             }
-
+    
             // Lägg till klick-event för temaväxlingsknapparna
             const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
             themeToggleButtons.forEach(button => {
@@ -280,7 +289,7 @@
                     }
                 });
             });
-
+    
             // Funktion för att uppdatera login-knapparnas text och länk
             async function updateLoginButton() {
                 try {
@@ -288,9 +297,9 @@
                         method: 'GET',
                         credentials: 'include'
                     });
-
+    
                     const data = await response.json();
-
+    
                     if (data.error) {
                         loginButtons.forEach(button => {
                             console.log("Användare inte inloggad, sätter 'Log in' på knapp:", button);
@@ -306,7 +315,7 @@
                             button.addEventListener('click', openProfileModal);
                             console.log("Klick-event kopplat till knapp:", button);
                         });
-
+    
                         if (profileUsername && profileEmail) {
                             profileUsername.textContent = data.username;
                             profileEmail.textContent = data.email;
@@ -321,7 +330,7 @@
                     });
                 }
             }
-
+    
             // Funktion för att öppna profilsidan
             function openProfileModal(event) {
                 event.preventDefault();
@@ -334,7 +343,7 @@
                 console.log("profileModal efter:", profileModal.style.display);
                 console.log("profileOverlay efter:", profileOverlay.style.display);
             }
-
+    
             // Funktion för att stänga profilsidan
             function closeProfileModalHandler() {
                 console.log("closeProfileModalHandler kallad");
@@ -342,7 +351,7 @@
                 profileOverlay.style.display = 'none';
                 header.style.zIndex = '1';
             }
-
+    
             // Hantera sidomenyn
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', (event) => {
@@ -356,7 +365,7 @@
                     }
                 });
             });
-
+    
             // Hantera utloggning
             if (logoutButton) {
                 logoutButton.addEventListener('click', (event) => {
@@ -375,12 +384,12 @@
                     });
                 });
             }
-
+    
             // Stäng modalen vid klick på krysset
             if (closeProfileModal) {
                 closeProfileModal.addEventListener('click', closeProfileModalHandler);
             }
-
+    
             // Kör vid sidladdning
             updateLoginButton();
         });

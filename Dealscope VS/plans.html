@@ -97,45 +97,54 @@
 
     <!-- Modal för profilsidan -->
     <div id="profile-modal" class="profile-modal fade-in">
-        <div class="profile-modal-content fade-in">
-            <span id="close-profile-modal" class="close-modal fade-in">×</span>
-            <div class="profile-modal-inner fade-in">
-                <!-- Sidomeny -->
-                <nav class="profile-sidebar fade-in">
-                    <ul class="fade-in">
-                        <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
-                        <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
-                        <li class="fade-in"><a href="#" data-section="settings">Settings</a></li>
-                        <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
-                        <li class="fade-in"><a href="#" id="logout-btn">Log out</a></li>
-                    </ul>
-                </nav>
-                <!-- Innehållsdel -->
-                <div class="profile-content fade-in">
-                    <!-- Profilsektion -->
-                    <div id="profile-section" class="content-section active fade-in">
-                        <h2 class="fade-in">Profile</h2>
-                        <p class="fade-in">Username: <span id="profile-username"></span></p>
-                        <p class="fade-in">Email: <span id="profile-email"></span></p>
-                    </div>
-                    <!-- Betalningsinställningar -->
-                    <div id="payment-settings-section" class="content-section fade-in">
-                        <h2 class="fade-in">Payment Settings</h2>
-                        <p class="fade-in">Manage your payment methods and subscription details here.</p>
-                    </div>
-                    <!-- Inställningar -->
-                    <div id="settings-section" class="content-section fade-in">
-                        <h2 class="fade-in">Settings</h2>
-                        <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
-                    </div>
-                    <!-- Kontakt -->
-                    <div id="contact-section" class="content-section fade-in">
-                        <h2 class="fade-in">Contact</h2>
-                        <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
-                    </div>
+      <div class="profile-modal-content fade-in">
+          <span id="close-profile-modal" class="close-modal fade-in">×</span>
+          <div class="profile-modal-inner fade-in">
+              <!-- Sidomeny -->
+              <nav class="profile-sidebar fade-in">
+                  <ul class="fade-in">
+                      <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
+                      <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                      <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
+                      <li class="fade-in"><a href="#" id="logout-btn-modal">Log out</a></li>
+                  </ul>
+              </nav>
+              <!-- Innehållsdel -->
+              <div class="profile-content fade-in">
+                  <!-- Profilsektion -->
+                  <div id="profile-section" class="content-section active fade-in">
+                      <h2 class="fade-in">Profile</h2>
+                      <p class="fade-in">Username: <span id="profile-username"></span></p>
+                      <p class="fade-in">Email: <span id="profile-email"></span></p>
+                  </div>
+                <!-- Betalningsinställningar -->
+                <div id="payment-settings-section" class="content-section fade-in">
+                    <h2 class="fade-in">Payment Settings</h2>
+                    <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    <a href="https://billing.stripe.com/p/login/3cI4gzeN17BZgQF63zbsc00" class="manage-payment-btn fade-in" target="_blank">Manage Payment & Subscription</a>                </div>
+                  <!-- Profilinställningar -->
+                  <div id="profile-settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Profile Settings</h2>
+                      <p class="fade-in">Update your profile information and preferences.</p>
+                  </div>
+                  <!-- Utloggning -->
+                  <div class="content-section fade-in">
+                      <button id="logout-btn" class="fade-in">Log out</button>
+
                 </div>
-            </div>
-        </div>
+                  <!-- Inställningar -->
+                  <div id="settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Settings</h2>
+                      <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
+                  </div>
+                  <!-- Kontakt -->
+                  <div id="contact-section" class="content-section fade-in">
+                      <h2 class="fade-in">Contact</h2>
+                      <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
 
     <footer class="footer fade-in">
