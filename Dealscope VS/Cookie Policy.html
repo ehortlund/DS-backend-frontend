@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dealscope</title>
+    <link rel="icon" href="/assets/FAVICON.png" type="image/x-icon">
+    <link rel="stylesheet" href="Cookie Policy.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <!-- Klickbar Logotyp -->
+        <a href="index.html">
+            <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+        </a>
+
+        <!-- Mobilmenyn -->
+        <div class="mobile-menu">
+            <!-- Hamburgarikonen -->
+            <button class="menu-btn" aria-label="Open menu"></button>
+
+            <!-- Själva mobilnavigeringen -->
+            <nav class="mobile-nav" id="mobile-nav">
+                <a href="deals.html">Deals</a>
+                <a href="index.html">Home</a>
+                <a href="plans.html">Plans</a>
+                <a href="FAQ.html">FAQ</a>
+                <a class="login-btn" href="login.html">Log in</a>
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <img id="mobile-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                    <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+                </button>
+            </nav>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <a href="deals.html">Deals</a>
+            <a href="index.html">Home</a>
+            <a href="plans.html">Plans</a>
+            <a href="FAQ.html">FAQ</a>
+            <a class="login-btn" href="login.html">Log in</a>
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                <img id="desktop-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+            </button>
+        </nav>
+    </header>
+
+    <!-- Overlay för profilsidan -->
+    <div id="profile-overlay" class="profile-overlay fade-in"></div>
+
+    <!-- Modal för profilsidan -->
+    <div id="profile-modal" class="profile-modal fade-in">
+      <div class="profile-modal-content fade-in">
+          <span id="close-profile-modal" class="close-modal fade-in">×</span>
+          <div class="profile-modal-inner fade-in">
+              <!-- Sidomeny -->
+              <nav class="profile-sidebar fade-in">
+                  <ul class="fade-in">
+                      <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
+                      <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                      <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
+                      <li class="fade-in"><a href="#" id="logout-btn-modal">Log out</a></li>
+                  </ul>
+              </nav>
+              <!-- Innehållsdel -->
+              <div class="profile-content fade-in">
+                  <!-- Profilsektion -->
+                  <div id="profile-section" class="content-section active fade-in">
+                      <h2 class="fade-in">Profile</h2>
+                      <p class="fade-in">Username: <span id="profile-username"></span></p>
+                      <p class="fade-in">Email: <span id="profile-email"></span></p>
+                  </div>
+                <!-- Betalningsinställningar -->
+                <div id="payment-settings-section" class="content-section fade-in">
+                    <h2 class="fade-in">Payment Settings</h2>
+                    <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    <a href="https://billing.stripe.com/p/login/3cI4gzeN17BZgQF63zbsc00" class="manage-payment-btn fade-in" target="_blank">Manage Payment & Subscription</a>                </div>
+                  <!-- Profilinställningar -->
+                  <div id="profile-settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Profile Settings</h2>
+                      <p class="fade-in">Update your profile information and preferences.</p>
+                  </div>
+                  <!-- Utloggning -->
+                  <div class="content-section fade-in">
+                      <button id="logout-btn" class="fade-in">Log out</button>
+
+                </div>
+                  <!-- Inställningar -->
+                  <div id="settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Settings</h2>
+                      <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
+                  </div>
+                  <!-- Kontakt -->
+                  <div id="contact-section" class="content-section fade-in">
+                      <h2 class="fade-in">Contact</h2>
+                      <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <section class="faq-section fade-in">
+        <div class="container fade-in">
+            <h1 class="faq-title fade-in">Cookies & Privacy</h1>
+            <p class="faq-subtitle fade-in">Last updated: July 11, 2025 <br>Please read this policy carefully to understand how we use cookies and your privacy rights.<br></p>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">What are cookies?</h2>
+                <p class="faq-answer fade-in">
+                    Cookies are small data files that are placed on your computer or mobile device when you visit a website. Cookies are widely used by website owners in order to make their websites work, or to work more efficiently, as well as to provide reporting information.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Why do we use cookies?</h2>
+                <p class="faq-answer fade-in">
+                    We use first- and third-party cookies for several reasons. Some cookies are required for technical reasons in order for our Websites to operate, and we refer to these as "essential" or "strictly necessary" cookies. Other cookies also enable us to track and target the interests of our users to enhance the experience on our Online Properties. Third parties serve cookies through our Websites for advertising, analytics, and other purposes.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">How can I control cookies?</h2>
+                <p class="faq-answer fade-in">
+                    You have the right to decide whether to accept or reject cookies. You can exercise your cookie rights by setting your preferences in the Cookie Consent Manager. The Cookie Consent Manager allows you to select which categories of cookies you accept or reject. Essential cookies cannot be rejected as they are strictly necessary to provide you with services. The Cookie Consent Manager can be found in the notification banner and on our website. If you choose to reject cookies, you may still use our website though your access to some functionality and areas of our website may be restricted. You may also set or amend your web browser controls to accept or refuse cookies.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Essential website cookies</h2>
+                <p class="faq-answer fade-in">
+                    These cookies are strictly necessary to provide you with services available through our Websites and to use some of its features, such as access to secure areas.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Performance and functionality cookies</h2>
+                <p class="faq-answer fade-in">
+                    These cookies are used to enhance the performance and functionality of our Websites but are non-essential to their use. However, without these cookies, certain functionality (like videos) may become unavailable.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Analytics and customization cookies</h2>
+                <p class="faq-answer fade-in">
+                    These cookies collect information that is used either in aggregate form to help us understand how our Websites are being used or how effective our marketing campaigns are, or to help us customize our Websites for you.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Advertising cookies</h2>
+                <p class="faq-answer fade-in">
+                    These cookies are used to make advertising messages more relevant to you. They perform functions like preventing the same ad from continuously reappearing, ensuring that ads are properly displayed for advertisers, and in some cases selecting advertisements that are based on your interests. We do not currently use advertising cookies on our Website.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">What about other tracking technologies, like web beacons?</h2>
+                <p class="faq-answer fade-in">
+                    Cookies are not the only way to recognize or track visitors to a website. We may use other, similar technologies from time to time, like web beacons (sometimes called "tracking pixels" or "clear gifs"). These are tiny graphics files that contain a unique identifier that enable us to recognize when someone has visited our Websites or opened an e-mail including them. This allows us, for example, to monitor the traffic patterns of users from one page within a website to another, to deliver or communicate with cookies, to understand whether you have come to the website from an online advertisement displayed on a third-party website, to improve site performance, and to measure the success of e-mail marketing campaigns. In many instances, these technologies are reliant on cookies to function properly, and so declining cookies will impair their functioning.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Do you use Flash cookies or Local Shared Objects?</h2>
+                <p class="faq-answer fade-in">
+                    Websites may also use so-called "Flash Cookies" (also known as Local Shared Objects or "LSOs") to, among other things, collect and store information about your use of our services, fraud prevention and for other site operations. If you do not want Flash Cookies stored on your computer, you can adjust the settings of your Flash player to block Flash Cookies storage using the tools contained in the Website Storage Settings Panel. You can also control Flash Cookies by going to the Global Storage Settings Panel and following the instructions (which may include instructions that explain, for example, how to delete existing Flash Cookies (referred to "information" on the Macromedia site), how to prevent Flash LSOs from being placed on your computer without your being asked, and (for Flash Player 8 and later) how to block Flash Cookies that are not being delivered by the operator of the page you are on at the time). Please note that setting the Flash Player to restrict or limit acceptance of Flash Cookies may reduce or impede the functionality of some Flash applications, including, potentially, Flash applications used in connection with our services or online content.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Do you serve targeted advertising?</h2>
+                <p class="faq-answer fade-in">
+                    Third parties may serve cookies via our Websites. These cookies enable such third parties to serve advertisements to our users based on their visits to our Websites and other websites on the Internet. We do not currently engage in targeted advertising.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">How can I control cookies on my browser?</h2>
+                <p class="faq-answer fade-in">
+                    As the means by which you can refuse cookies through your web browser controls vary from browser-to-browser, you should visit your browser's help menu for more information. The following is information about how to manage cookies on the most popular browsers: Chrome, Internet Explorer, Firefox, Safari, Edge, Opera. In addition, most advertising networks offer you a way to opt out of targeted advertising. If you would like to find out more information, please visit: Digital Advertising Alliance, Digital Advertising Alliance of Canada, European Interactive Digital Advertising Alliance.
+                </p>
+            </div>
+
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">What are Essential Website Cookies?</h2>
+                <p class="faq-answer fade-in">
+                    These cookies are strictly necessary to provide you with services available through our Websites and to use some of its features, such as access to secure areas.<br><br>
+                    <strong>Name:</strong> __cfduid<br>
+                    <strong>Purpose:</strong> Used by the content network, Cloudflare, to identify trusted web traffic.<br>
+                    <strong>Provider:</strong> .dealscope.io<br>
+                    <strong>Service:</strong> Cloudflare<br>
+                    <strong>Country:</strong> United States<br>
+                    <strong>Type:</strong> http_cookie<br>
+                    <strong>Expires in:</strong> 29 days 23 hours 59 minutes
+                </p>
+            </div>
+            
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">What are Performance and Functionality Cookies?</h2>
+                <p class="faq-answer fade-in">
+                    These cookies are used to enhance the performance and functionality of our Websites but are non-essential to their use. However, without these cookies, certain functionality (like videos) may become unavailable.<br><br>
+                    <strong>Name:</strong> _gat<br>
+                    <strong>Purpose:</strong> Used by Google Analytics to throttle request rate.<br>
+                    <strong>Provider:</strong> .dealscope.io<br>
+                    <strong>Service:</strong> Google Analytics<br>
+                    <strong>Country:</strong> United States<br>
+                    <strong>Type:</strong> http_cookie<br>
+                    <strong>Expires in:</strong> 1 minute
+                </p>
+            </div>
+            
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">What are Analytics and Customization Cookies?</h2>
+                <p class="faq-answer fade-in">
+                    These cookies collect information that is used either in aggregate form to help us understand how our Websites are being used or how effective our marketing campaigns are, or to help us customize our Websites for you.<br><br>
+                    <strong>Name:</strong> _ga<br>
+                    <strong>Purpose:</strong> Registers a unique ID that is used to generate statistical data on how the visitor uses the website.<br>
+                    <strong>Provider:</strong> .dealscope.io<br>
+                    <strong>Service:</strong> Google Analytics<br>
+                    <strong>Country:</strong> United States<br>
+                    <strong>Type:</strong> http_cookie<br>
+                    <strong>Expires in:</strong> 2 years<br><br>
+                    <strong>Name:</strong> _gid<br>
+                    <strong>Purpose:</strong> Registers a unique ID that is used to generate statistical data on how the visitor uses the website.<br>
+                    <strong>Provider:</strong> .dealscope.io<br>
+                    <strong>Service:</strong> Google Analytics<br>
+                    <strong>Country:</strong> United States<br>
+                    <strong>Type:</strong> http_cookie<br>
+                    <strong>Expires in:</strong> 1 day
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">How often will you update this Cookie Policy?</h2>
+                <p class="faq-answer fade-in">
+                    We may update this Cookie Policy from time to time in order to reflect, for example, changes to the cookies we use or for other operational, legal or regulatory reasons. Please therefore re-visit this Cookie Policy regularly to stay informed about our use of cookies and related technologies. The date at the top of this Cookie Policy indicates when it was last updated.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Where can I get further information?</h2>
+                <p class="faq-answer fade-in">
+                    If you have any questions about our use of cookies or other technologies, please email us at info@dealscope.io.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Interpretation and Definitions</h2>
+                <p class="faq-answer fade-in">
+                    The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">No Investment Advice Disclaimer</h2>
+                <p class="faq-answer fade-in">
+                    The Service provides transparent insights into business deals and supply chains in real-time for informational purposes only. The information presented on the Service is based on publicly available data and is intended to help users identify potential opportunities without speculation or unnecessary noise. It does not constitute investment advice, financial advice, trading advice, or any recommendation to buy, sell, hold, or otherwise transact in securities, stocks, or any financial instruments. We do not provide personalized investment recommendations, and any decisions made based on the information from the Service are solely Your responsibility. You should consult with a qualified financial advisor before making any investment decisions. The Company disclaims all liability for any losses or damages arising from reliance on the Service's information.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Collecting and Using Your Personal Data</h2>
+                <p class="faq-answer fade-in">
+                    The Company may use Personal Data for the following purposes: To provide and maintain our Service, including to monitor the usage of our Service. To manage Your Account: to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user. For the performance of a contract: the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service. To contact You: To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application's push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation. To provide You with news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information. To manage Your requests: To attend and manage Your requests to Us. For business transfers: We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred. For other purposes: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Retention of Your Personal Data</h2>
+                <p class="faq-answer fade-in">
+                    The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies. The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Transfer of Your Personal Data</h2>
+                <p class="faq-answer fade-in">
+                    Your information, including Personal Data, is processed at the Company's operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction. Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer. The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Disclosure of Your Personal Data</h2>
+                <p class="faq-answer fade-in">
+                    If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy. Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g. a court or a government agency). The Company may disclose Your Personal Data in the good faith belief that such action is necessary to: Comply with a legal obligation, Protect and defend the rights or property of the Company, Prevent or investigate possible wrongdoing in connection with the Service, Protect the personal safety of Users of the Service or the public, Protect against legal liability.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Security of Your Personal Data</h2>
+                <p class="faq-answer fade-in">
+                    The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Detailed Information on the Processing of Your Personal Data</h2>
+                <p class="faq-answer fade-in">
+                    The Service Providers We use may have access to Your Personal Data. These third-party vendors collect, store, use, process and transfer information about Your activity on Our Service in accordance with their Privacy Policies. We may provide paid products and/or services within the Service. In that case, we may use third-party services for payment processing (e.g. Stripe). We will not store or collect Your payment card details. That information is provided directly to Our third-party payment processors whose use of Your personal information is governed by their Privacy Policy. These payment processors adhere to the standards set by PCI-DSS as managed by the PCI Security Standards Council, which is a joint effort of brands like Visa, Mastercard, American Express and Discover. PCI-DSS requirements help ensure the secure handling of payment information. Stripe: Their Privacy Policy can be viewed at https://stripe.com/privacy.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">GDPR Privacy</h2>
+                <p class="faq-answer fade-in">
+                    We may process Personal Data under the following conditions: Consent: You have given Your consent for processing Personal Data for one or more specific purposes. Performance of a contract: Provision of Personal Data is necessary for the performance of an agreement with You and/or for any pre-contractual obligations thereof. Legal obligations: Processing Personal Data is necessary for compliance with a legal obligation to which the Company is subject. Vital interests: Processing Personal Data is necessary in order to protect Your vital interests or of another natural person. Public interests: Processing Personal Data is related to a task that is carried out in the public interest or in the exercise of official authority vested in the Company. Legitimate interests: Processing Personal Data is necessary for the purposes of the legitimate interests pursued by the Company. In any case, the Company will gladly help to clarify the specific legal basis that applies to the processing, and in particular whether the provision of Personal Data is a statutory or contractual requirement, or a requirement necessary to enter into a contract.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Your Rights under the GDPR</h2>
+                <p class="faq-answer fade-in">
+                    The Company undertakes to respect the confidentiality of Your Personal Data and to guarantee You can exercise Your rights. You have the right under this Privacy Policy, and by law if You are within the EU, to: Request access to Your Personal Data. The right to access, update or delete the information We have on You. Whenever made possible, you can access, update or request deletion of Your Personal Data directly within Your account settings section. If you are unable to perform these actions yourself, please contact Us to assist You. This also enables You to receive a copy of the Personal Data We hold about You. Request correction of the Personal Data that We hold about You. You have the right to have any incomplete or inaccurate information We hold about You corrected. Object to processing of Your Personal Data. This right exists where We are relying on a legitimate interest as the legal basis for Our processing and there is something about Your particular situation, which makes You want to object to our processing of Your Personal Data on this ground. You also have the right to object where We are processing Your Personal Data for direct marketing purposes. Request erasure of Your Personal Data. You have the right to ask Us to delete or remove Personal Data when there is no good reason for Us to continue processing it. Request the transfer of Your Personal Data. We will provide to You, or to a third-party You have chosen, Your Personal Data in a structured, commonly used, machine-readable format. Please note that this right only applies to automated information which You initially provided consent for Us to use or where We used the information to perform a contract with You. Withdraw Your consent. You have the right to withdraw Your consent on using your Personal Data. If You withdraw Your consent, We may not be able to provide You with access to certain specific functionalities of the Service.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Exercising of Your GDPR Data Protection Rights</h2>
+                <p class="faq-answer fade-in">
+                    You may exercise Your rights of access, rectification, cancellation and opposition by contacting Us. Please note that we may ask You to verify Your identity before responding to such requests. If You make a request, We will try our best to respond to You as soon as possible. You have the right to complain to a Data Protection Authority about Our collection and use of Your Personal Data. For more information, if You are in the European Economic Area (EEA), please contact Your local data protection authority in the EEA.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Children's Privacy</h2>
+                <p class="faq-answer fade-in">
+                    Our Service does not address anyone under the age of 18. We do not knowingly collect personally identifiable information from anyone under the age of 18. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 18 without verification of parental consent, We take steps to remove that information from Our servers. If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent's consent before We collect and use that information.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Links to Other Websites</h2>
+                <p class="faq-answer fade-in">
+                    Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit. We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Changes to this Privacy Policy</h2>
+                <p class="faq-answer fade-in">
+                    We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page. We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the "Last updated" date at the top of this Privacy Policy. You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Contact Us</h2>
+                <p class="faq-answer fade-in">
+                    If you have any questions about this Privacy Policy, You can contact us: By email: info@dealscope.io
+                </p>
+            </div>
+        </div>
+    </section>
+ 
+    <footer class="footer fade-in">
+      <div class="footer-container fade-in">
+        <!-- Vänster sektion -->
+        <div class="footer-logo-section fade-in">
+            <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo fade-in">
+            <p class="fade-in">© 2025 DealScope. All rights reserved.</p>
+        </div>
+
+        <!-- Mitten sektion -->
+        <div class="footer-links-section fade-in">
+            <ul class="fade-in">
+                <li class="fade-in"><a href="deals.html">Deals</a></li>
+                <li class="fade-in"><a href="index.html">Home</a></li>
+                <li class="fade-in"><a href="plans.html">plans</a></li>
+                <li class="fade-in"><a href="FAQ.html">FAQ</a></li>
+                <li class="fade-in"><a href="login.html">Log in</a></li>
+            </ul>
+        </div>
+
+        <!-- Höger sektion -->
+        <div class="footer-info-section fade-in">
+            <ul class="fade-in">
+                <li class="fade-in"><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
+                <li class="fade-in">SE0206198616</li>
+                <li class="fade-in"><a href="T&C.html">Terms & Conditions</a></li>
+                <li class="fade-in"><a href="Cookie Policy.html">Cookie Policy</a></li>
+            </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loginButtons = document.querySelectorAll('.login-btn');
+            const profileModal = document.getElementById('profile-modal');
+            const profileOverlay = document.getElementById('profile-overlay');
+            const closeProfileModal = document.getElementById('close-profile-modal');
+            const header = document.querySelector('.main-header');
+            const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
+            const contentSections = document.querySelectorAll('.content-section');
+            const logoutButton = document.getElementById('logout-btn-modal');
+            const profileUsername = document.getElementById('profile-username');
+            const profileEmail = document.getElementById('profile-email');
+            const headerLogo = document.getElementById('header-logo');
+            const footerLogo = document.getElementById('footer-logo');
+            const desktopMoonIcon = document.getElementById('desktop-moon-icon');
+            const desktopSunIcon = document.getElementById('desktop-sun-icon');
+            const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+            const mobileSunIcon = document.getElementById('mobile-sun-icon');
+    
+            // Intersection Observer för att trigga fade-in-animationer vid skroll
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+    
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+    
+            fadeInElements.forEach(element => {
+                observer.observe(element);
+            });
+    
+            // Funktion för att uppdatera SVG:er baserat på tema
+            function updateSVGs(theme) {
+                if (theme === 'bright') {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon grey.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
+                } else {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon red.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
+                }
+            }
+    
+            // Hämta tema från localStorage och tillämpa det vid sidladdning
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'bright') {
+                document.documentElement.classList.add('bright-mode');
+                updateSVGs('bright');
+            } else {
+                updateSVGs('dark');
+            }
+    
+            // Lägg till klick-event för temaväxlingsknapparna
+            const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+            themeToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const htmlElement = document.documentElement;
+                    if (htmlElement.classList.contains('bright-mode')) {
+                        htmlElement.classList.remove('bright-mode');
+                        localStorage.setItem('theme', 'dark');
+                        updateSVGs('dark');
+                    } else {
+                        htmlElement.classList.add('bright-mode');
+                        localStorage.setItem('theme', 'bright');
+                        updateSVGs('bright');
+                    }
+                });
+            });
+    
+            // Funktion för att uppdatera login-knapparnas text och länk
+            async function updateLoginButton() {
+                try {
+                    const response = await fetch('/api/users/me', {
+                        method: 'GET',
+                        credentials: 'include'
+                    });
+    
+                    const data = await response.json();
+    
+                    if (data.error) {
+                        loginButtons.forEach(button => {
+                            console.log("Användare inte inloggad, sätter 'Log in' på knapp:", button);
+                            button.textContent = 'Log in';
+                            button.href = '/login.html';
+                            button.removeEventListener('click', openProfileModal);
+                        });
+                    } else {
+                        loginButtons.forEach(button => {
+                            console.log("Användare inloggad, sätter username:", data.username, "på knapp:", button);
+                            button.textContent = data.username;
+                            button.href = '#';
+                            button.addEventListener('click', openProfileModal);
+                            console.log("Klick-event kopplat till knapp:", button);
+                        });
+    
+                        if (profileUsername && profileEmail) {
+                            profileUsername.textContent = data.username;
+                            profileEmail.textContent = data.email;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    loginButtons.forEach(button => {
+                        button.textContent = 'Log in';
+                        button.href = '/login.html';
+                        button.removeEventListener('click', openProfileModal);
+                    });
+                }
+            }
+    
+            // Funktion för att öppna profilsidan
+            function openProfileModal(event) {
+                event.preventDefault();
+                console.log("openProfileModal kallad");
+                console.log("profileModal före:", profileModal.style.display);
+                console.log("profileOverlay före:", profileOverlay.style.display);
+                profileModal.style.display = 'flex';
+                profileOverlay.style.display = 'block';
+                header.style.zIndex = '0';
+                console.log("profileModal efter:", profileModal.style.display);
+                console.log("profileOverlay efter:", profileOverlay.style.display);
+            }
+    
+            // Funktion för att stänga profilsidan
+            function closeProfileModalHandler() {
+                console.log("closeProfileModalHandler kallad");
+                profileModal.style.display = 'none';
+                profileOverlay.style.display = 'none';
+                header.style.zIndex = '1';
+            }
+    
+            // Hantera sidomenyn
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const section = link.getAttribute('data-section');
+                    if (section) {
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        contentSections.forEach(s => s.classList.remove('active'));
+                        link.classList.add('active');
+                        document.getElementById(`${section}-section`).classList.add('active');
+                    }
+                });
+            });
+    
+            // Hantera utloggning
+            if (logoutButton) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    fetch('/api/users/logout', {
+                        method: 'POST',
+                        credentials: 'include'
+                    })
+                    .then(() => {
+                        closeProfileModalHandler();
+                        updateLoginButton();
+                        window.location.replace('/login.html');
+                    })
+                    .catch(() => {
+                        window.location.replace('/login.html');
+                    });
+                });
+            }
+    
+            // Stäng modalen vid klick på krysset
+            if (closeProfileModal) {
+                closeProfileModal.addEventListener('click', closeProfileModalHandler);
+            }
+    
+            // Kör vid sidladdning
+            updateLoginButton();
+        });
+    </script>
+</body>
+</html>

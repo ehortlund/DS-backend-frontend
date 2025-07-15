@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dealscope</title>
+    <link rel="icon" href="/assets/FAVICON.png" type="image/x-icon">
+    <link rel="stylesheet" href="T&C.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <!-- Klickbar Logotyp -->
+        <a href="index.html">
+            <img id="header-logo" class="logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo">
+        </a>
+
+        <!-- Mobilmenyn -->
+        <div class="mobile-menu">
+            <!-- Hamburgarikonen -->
+            <button class="menu-btn" aria-label="Open menu"></button>
+
+            <!-- Själva mobilnavigeringen -->
+            <nav class="mobile-nav" id="mobile-nav">
+                <a href="deals.html">Deals</a>
+                <a href="index.html">Home</a>
+                <a href="plans.html">Plans</a>
+                <a href="FAQ.html">FAQ</a>
+                <a class="login-btn" href="login.html">Log in</a>
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <img id="mobile-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                    <img id="mobile-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+                </button>
+            </nav>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="desktop-nav">
+            <a href="deals.html">Deals</a>
+            <a href="index.html">Home</a>
+            <a href="plans.html">Plans</a>
+            <a href="FAQ.html">FAQ</a>
+            <a class="login-btn" href="login.html">Log in</a>
+            <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                <img id="desktop-moon-icon" class="theme-icon moon-icon" src="assets/Moon red.svg" alt="Moon Icon">
+                <img id="desktop-sun-icon" class="theme-icon sun-icon" src="assets/Sun grey.svg" alt="Sun Icon">
+            </button>
+        </nav>
+    </header>
+
+    <!-- Overlay för profilsidan -->
+    <div id="profile-overlay" class="profile-overlay fade-in"></div>
+
+    <!-- Modal för profilsidan -->
+    <div id="profile-modal" class="profile-modal fade-in">
+      <div class="profile-modal-content fade-in">
+          <span id="close-profile-modal" class="close-modal fade-in">×</span>
+          <div class="profile-modal-inner fade-in">
+              <!-- Sidomeny -->
+              <nav class="profile-sidebar fade-in">
+                  <ul class="fade-in">
+                      <li class="fade-in"><a href="#" class="active" data-section="profile">Profile</a></li>
+                      <li class="fade-in"><a href="#" data-section="payment-settings">Payment Settings</a></li>
+                      <li class="fade-in"><a href="#" data-section="contact">Contact</a></li>
+                      <li class="fade-in"><a href="#" id="logout-btn-modal">Log out</a></li>
+                  </ul>
+              </nav>
+              <!-- Innehållsdel -->
+              <div class="profile-content fade-in">
+                  <!-- Profilsektion -->
+                  <div id="profile-section" class="content-section active fade-in">
+                      <h2 class="fade-in">Profile</h2>
+                      <p class="fade-in">Username: <span id="profile-username"></span></p>
+                      <p class="fade-in">Email: <span id="profile-email"></span></p>
+                  </div>
+                <!-- Betalningsinställningar -->
+                <div id="payment-settings-section" class="content-section fade-in">
+                    <h2 class="fade-in">Payment Settings</h2>
+                    <p class="fade-in">Manage your payment methods and subscription details here.</p>
+                    <a href="https://billing.stripe.com/p/login/3cI4gzeN17BZgQF63zbsc00" class="manage-payment-btn fade-in" target="_blank">Manage Payment & Subscription</a>                </div>
+                  <!-- Profilinställningar -->
+                  <div id="profile-settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Profile Settings</h2>
+                      <p class="fade-in">Update your profile information and preferences.</p>
+                  </div>
+                  <!-- Utloggning -->
+                  <div class="content-section fade-in">
+                      <button id="logout-btn" class="fade-in">Log out</button>
+
+                </div>
+                  <!-- Inställningar -->
+                  <div id="settings-section" class="content-section fade-in">
+                      <h2 class="fade-in">Settings</h2>
+                      <p class="fade-in">Adjust your account settings, notifications, and preferences.</p>
+                  </div>
+                  <!-- Kontakt -->
+                  <div id="contact-section" class="content-section fade-in">
+                      <h2 class="fade-in">Contact</h2>
+                      <p class="fade-in">Need help? Reach out to us at <a href="mailto:info@dealscope.io">info@dealscope.io</a>.</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <section class="faq-section fade-in">
+        <div class="container fade-in">
+            <h1 class="faq-title fade-in">Terms & Conditions</h1>
+            <p class="faq-subtitle fade-in">Last updated: July 11, 2025 <br>Please read these terms and conditions carefully before using Our Service.<br></p>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Interpretation and Definitions</h2>
+                <p class="faq-answer fade-in">
+                    The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural. <br>
+                    <br>Affiliate - means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.<br>
+                    <br>Account - means a unique account created for You to access our Service or parts of our Service.<br>
+                    <br>Company - (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to DealScope AB.<br>
+                    <br>Country - refers to Sweden.<br>
+                    <br>Content - refers to content such as text, images, or other information that can be posted, uploaded, linked to or otherwise made available by You, regardless of the form of that content.</b>
+                    <br>Device - means any device that can access the Service such as a computer, a cellphone or a digital tablet.<br>
+                    <br>Feedback - means feedback, innovations or suggestions sent by You regarding the attributes, performance or features of our Service.<br>
+                    <br>Service - refers to the Website.<br>
+                    <br>Terms and Conditions** (also referred as "Terms" or "Terms of Use") mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service.<br>
+                    <br>Third-party Social Media Service - means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.<br>
+                    <br>Website - refers to DealScope, accessible from https://dealscope.io.<br>
+                    <br>You - means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.<br>
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Acknowledgment</h2>
+                <p class="faq-answer fade-in">
+                    These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service. Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others who access or use the Service. By accessing or using the Service You agree to be bound by these Terms and Conditions. If You disagree with any part of these Terms and Conditions then You may not access the Service. You represent that you are over the age of 18. The Company does not permit those under 18 to use the Service. Your access to and use of the Service is also conditioned on Your acceptance of and compliance with the Privacy Policy of the Company. Our Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your personal information when You use the Application or the Website and tells You about Your privacy rights and how the law protects You. Please read Our Privacy Policy carefully before using Our Service.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">No Investment Advice Disclaimer</h2>
+                <p class="faq-answer fade-in">
+                    The Service provides transparent insights into business deals and supply chains in real-time for informational purposes only. The information presented on the Service is based on publicly available data and is intended to help users identify potential opportunities without speculation or unnecessary noise. It does not constitute investment advice, financial advice, trading advice, or any recommendation to buy, sell, hold, or otherwise transact in securities, stocks, or any financial instruments. We do not provide personalized investment recommendations, and any decisions made based on the information from the Service are solely Your responsibility. You should consult with a qualified financial advisor before making any investment decisions. The Company disclaims all liability for any losses or damages arising from reliance on the Service's information.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">User Accounts</h2>
+                <p class="faq-answer fade-in">
+                    When You create an account with Us, You must provide Us information that is accurate, complete, and current at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of Your account on Our Service. You are responsible for safeguarding the password that You use to access the Service and for any activities or actions that occur under Your password, whether Your password is with Our Service or a Third-party Social Media Service. You agree not to disclose Your password to any third party. You must notify Us immediately upon becoming aware of any breach of security or unauthorized use of Your account. You may not use as a username the name of another person or entity or that is not lawfully available for use, a name or trademark that is subject to any rights of another person or entity other than You without appropriate authorization, or a name that is otherwise offensive, vulgar or obscene.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Subscriptions and Payments</h2>
+                <p class="faq-answer fade-in">
+                    Our Service is subscription-based and payments are processed securely via Stripe, a third-party payment processor. By subscribing, You authorize Us to charge Your payment method on a recurring basis according to the subscription plan You select. Prices for subscriptions may vary over time and depend on the plan chosen. However, We will never increase the price of an ongoing subscription during its active term. Upon renewal, the subscription will be charged at the then-current price unless You cancel beforehand. Promotions, discounts, or campaigns may be offered from time to time. Details of any such offers, including eligibility, duration, and terms, will be clearly stated on the "Plans" page of the Website or during the checkout process. You are responsible for reviewing and understanding these details before initiating or accepting any promotion. We reserve the right to modify or terminate promotions at any time without notice, but this will not affect ongoing subscriptions under existing terms. You may cancel Your subscription at any time through Your account settings or by contacting Us. Cancellations will take effect at the end of the current billing period, and no refunds will be issued for partial periods. For more information on Stripe's terms, please refer to Stripe's Services Agreement.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Intellectual Property</h2>
+                <p class="faq-answer fade-in">
+                    The Service and its original content (excluding Content provided by You or other users), features and functionality are and will remain the exclusive property of the Company and its licensors. The Service is protected by copyright, trademark, and other laws of both the Country and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of the Company.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Feedback</h2>
+                <p class="faq-answer fade-in">
+                    You assign all rights, title and interest in any Feedback You provide the Company. If for any reason such assignment is ineffective, You agree to grant the Company a non-exclusive, perpetual, irrevocable, royalty free, worldwide right and license to use, reproduce, disclose, sub-license, distribute, modify and exploit such Feedback without restriction.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Links to Other Websites</h2>
+                <p class="faq-answer fade-in">
+                    Our Service may contain links to third-party web sites or services that are not owned or controlled by the Company. The Company has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that the Company shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods or services available on or through any such web sites or services. We strongly advise You to read the terms and conditions and privacy policies of any third-party web sites or services that You visit.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Termination</h2>
+                <p class="faq-answer fade-in">
+                    We may terminate or suspend Your Account immediately, without prior notice or liability, for any reason whatsoever, including without limitation if You breach these Terms and Conditions. Upon termination, Your right to use the Service will cease immediately. If You wish to terminate Your Account, You may simply discontinue using the Service.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Limitation of Liability</h2>
+                <p class="faq-answer fade-in">
+                    Notwithstanding any damages that You might incur, the entire liability of the Company and any of its suppliers under any provision of this Terms and Your exclusive remedy for all of the foregoing shall be limited to the amount actually paid by You through the Service or 100 USD if You haven't purchased anything through the Service. To the maximum extent permitted by applicable law, in no event shall the Company or its suppliers be liable for any special, incidental, indirect, or consequential damages whatsoever (including, but not limited to, damages for loss of profits, loss of data or other information, for business interruption, for personal injury, loss of privacy arising out of or in any way related to the use of or inability to use the Service, third-party software and/or third-party hardware used with the Service, or otherwise in connection with any provision of this Terms), even if the Company or any supplier has been advised of the possibility of such damages and even if the remedy fails of its essential purpose. Some states do not allow the exclusion of implied warranties or limitation of liability for incidental or consequential damages, which means that some of the above limitations may not apply. In these states, each party's liability will be limited to the greatest extent permitted by law.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">"AS IS" and "AS AVAILABLE" Disclaimer</h2>
+                <p class="faq-answer fade-in">
+                    The Service is provided to You "AS IS" and "AS AVAILABLE" and with all faults and defects without warranty of any kind. To the maximum extent permitted under applicable law, the Company, on its own behalf and on behalf of its Affiliates and its and their respective licensors and service providers, expressly disclaims all warranties, whether express, implied, statutory or otherwise, with respect to the Service, including all implied warranties of merchantability, fitness for a particular purpose, title and non-infringement, and warranties that may arise out of course of dealing, course of performance, usage or trade practice. Without limitation to the foregoing, the Company provides no warranty or undertaking, and makes no representation of any kind that the Service will meet Your requirements, achieve any intended results, be compatible or work with any other software, applications, systems or services, operate without interruption, meet any performance or reliability standards or be error free or that any errors or defects can or will be corrected. Without limiting the foregoing, neither the Company nor any of the company's provider makes any representation or warranty of any kind, express or implied: (i) as to the operation or availability of the Service, or the information, content, and materials or products included thereon; (ii) that the Service will be uninterrupted or error-free; (iii) as to the accuracy, reliability, or currency of any information or content provided through the Service; or (iv) that the Service, its servers, the content, or e-mails sent from or on behalf of the Company are free of viruses, scripts, trojan horses, worms, malware, timebombs or other harmful components. Some jurisdictions do not allow the exclusion of certain types of warranties or limitations on applicable statutory rights of a consumer, so some or all of the above exclusions and limitations may not apply to You. But in such a case the exclusions and limitations set forth in this section shall be applied to the greatest extent enforceable under applicable law.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Governing Law</h2>
+                <p class="faq-answer fade-in">
+                    The laws of the Country, excluding its conflicts of law rules, shall govern this Terms and Your use of the Service. Your use of the Application may also be subject to other local, state, national, or international laws.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Disputes Resolution</h2>
+                <p class="faq-answer fade-in">
+                    If You have any concern or dispute about the Service, You agree to first try to resolve the dispute informally by contacting the Company.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">For European Union (EU) Users</h2>
+                <p class="faq-answer fade-in">
+                    If You are a European Union consumer, you will benefit from any mandatory provisions of the law of the country in which You are resident.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">United States Legal Compliance</h2>
+                <p class="faq-answer fade-in">
+                    You represent and warrant that (i) You are not located in a country that is subject to a United States government embargo, or that has been designated by the United States government as a "terrorist supporting" country, and (ii) You are not listed on any United States government list of prohibited or restricted parties.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Severability and Waiver</h2>
+                <p class="faq-answer fade-in">
+                    If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law and the remaining provisions will continue in full force and effect. Except as provided herein, the failure to exercise a right or to require performance of an obligation under these Terms shall not affect a party's ability to exercise such right or require such performance at any time thereafter nor shall the waiver of a breach constitute a waiver of any subsequent breach.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Translation Interpretation</h2>
+                <p class="faq-answer fade-in">
+                    These Terms and Conditions may have been translated if We have made them available to You on our Service. You agree that the original English text shall prevail in the case of a dispute.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Changes to These Terms and Conditions</h2>
+                <p class="faq-answer fade-in">
+                    We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion. By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.
+                </p>
+            </div>
+    
+            <div class="faq-item fade-in">
+                <h2 class="faq-question fade-in">Contact Us</h2>
+                <p class="faq-answer fade-in">
+                    If you have any questions about these Terms and Conditions, You can contact us: By email: <a href="mailto:info@dealscope.io">info@dealscope.io</a>
+                </p>
+            </div>
+        </div>
+    </section>   
+ 
+    <footer class="footer fade-in">
+      <div class="footer-container fade-in">
+        <!-- Vänster sektion -->
+        <div class="footer-logo-section fade-in">
+            <img id="footer-logo" src="assets/DS LOGO laying.svg" alt="DealScope Logo" class="footer-logo fade-in">
+            <p class="fade-in">© 2025 DealScope. All rights reserved.</p>
+        </div>
+
+        <!-- Mitten sektion -->
+        <div class="footer-links-section fade-in">
+            <ul class="fade-in">
+                <li class="fade-in"><a href="deals.html">Deals</a></li>
+                <li class="fade-in"><a href="index.html">Home</a></li>
+                <li class="fade-in"><a href="plans.html">plans</a></li>
+                <li class="fade-in"><a href="FAQ.html">FAQ</a></li>
+                <li class="fade-in"><a href="login.html">Log in</a></li>
+            </ul>
+        </div>
+
+        <!-- Höger sektion -->
+        <div class="footer-info-section fade-in">
+            <ul class="fade-in">
+                <li class="fade-in"><a href="mailto:info@dealscope.io">info@dealscope.io</a></li>
+                <li class="fade-in">SE0206198616</li>
+                <li class="fade-in"><a href="#privacy-policy">Privacy policy</a></li>
+                <li class="fade-in"><a href="#cookies">Cookies</a></li>
+            </ul>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loginButtons = document.querySelectorAll('.login-btn');
+            const profileModal = document.getElementById('profile-modal');
+            const profileOverlay = document.getElementById('profile-overlay');
+            const closeProfileModal = document.getElementById('close-profile-modal');
+            const header = document.querySelector('.main-header');
+            const sidebarLinks = document.querySelectorAll('.profile-sidebar a');
+            const contentSections = document.querySelectorAll('.content-section');
+            const logoutButton = document.getElementById('logout-btn-modal');
+            const profileUsername = document.getElementById('profile-username');
+            const profileEmail = document.getElementById('profile-email');
+            const headerLogo = document.getElementById('header-logo');
+            const footerLogo = document.getElementById('footer-logo');
+            const desktopMoonIcon = document.getElementById('desktop-moon-icon');
+            const desktopSunIcon = document.getElementById('desktop-sun-icon');
+            const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+            const mobileSunIcon = document.getElementById('mobile-sun-icon');
+    
+            // Intersection Observer för att trigga fade-in-animationer vid skroll
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+    
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+    
+            fadeInElements.forEach(element => {
+                observer.observe(element);
+            });
+    
+            // Funktion för att uppdatera SVG:er baserat på tema
+            function updateSVGs(theme) {
+                if (theme === 'bright') {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying bright.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon grey.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun red.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon grey.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun red.svg';
+                } else {
+                    if (headerLogo) headerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (footerLogo) footerLogo.src = 'assets/DS LOGO laying.svg';
+                    if (desktopMoonIcon) desktopMoonIcon.src = 'assets/Moon red.svg';
+                    if (desktopSunIcon) desktopSunIcon.src = 'assets/Sun grey.svg';
+                    if (mobileMoonIcon) mobileMoonIcon.src = 'assets/Moon red.svg';
+                    if (mobileSunIcon) mobileSunIcon.src = 'assets/Sun grey.svg';
+                }
+            }
+    
+            // Hämta tema från localStorage och tillämpa det vid sidladdning
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'bright') {
+                document.documentElement.classList.add('bright-mode');
+                updateSVGs('bright');
+            } else {
+                updateSVGs('dark');
+            }
+    
+            // Lägg till klick-event för temaväxlingsknapparna
+            const themeToggleButtons = document.querySelectorAll('.theme-toggle-btn');
+            themeToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const htmlElement = document.documentElement;
+                    if (htmlElement.classList.contains('bright-mode')) {
+                        htmlElement.classList.remove('bright-mode');
+                        localStorage.setItem('theme', 'dark');
+                        updateSVGs('dark');
+                    } else {
+                        htmlElement.classList.add('bright-mode');
+                        localStorage.setItem('theme', 'bright');
+                        updateSVGs('bright');
+                    }
+                });
+            });
+    
+            // Funktion för att uppdatera login-knapparnas text och länk
+            async function updateLoginButton() {
+                try {
+                    const response = await fetch('/api/users/me', {
+                        method: 'GET',
+                        credentials: 'include'
+                    });
+    
+                    const data = await response.json();
+    
+                    if (data.error) {
+                        loginButtons.forEach(button => {
+                            console.log("Användare inte inloggad, sätter 'Log in' på knapp:", button);
+                            button.textContent = 'Log in';
+                            button.href = '/login.html';
+                            button.removeEventListener('click', openProfileModal);
+                        });
+                    } else {
+                        loginButtons.forEach(button => {
+                            console.log("Användare inloggad, sätter username:", data.username, "på knapp:", button);
+                            button.textContent = data.username;
+                            button.href = '#';
+                            button.addEventListener('click', openProfileModal);
+                            console.log("Klick-event kopplat till knapp:", button);
+                        });
+    
+                        if (profileUsername && profileEmail) {
+                            profileUsername.textContent = data.username;
+                            profileEmail.textContent = data.email;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                    loginButtons.forEach(button => {
+                        button.textContent = 'Log in';
+                        button.href = '/login.html';
+                        button.removeEventListener('click', openProfileModal);
+                    });
+                }
+            }
+    
+            // Funktion för att öppna profilsidan
+            function openProfileModal(event) {
+                event.preventDefault();
+                console.log("openProfileModal kallad");
+                console.log("profileModal före:", profileModal.style.display);
+                console.log("profileOverlay före:", profileOverlay.style.display);
+                profileModal.style.display = 'flex';
+                profileOverlay.style.display = 'block';
+                header.style.zIndex = '0';
+                console.log("profileModal efter:", profileModal.style.display);
+                console.log("profileOverlay efter:", profileOverlay.style.display);
+            }
+    
+            // Funktion för att stänga profilsidan
+            function closeProfileModalHandler() {
+                console.log("closeProfileModalHandler kallad");
+                profileModal.style.display = 'none';
+                profileOverlay.style.display = 'none';
+                header.style.zIndex = '1';
+            }
+    
+            // Hantera sidomenyn
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const section = link.getAttribute('data-section');
+                    if (section) {
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        contentSections.forEach(s => s.classList.remove('active'));
+                        link.classList.add('active');
+                        document.getElementById(`${section}-section`).classList.add('active');
+                    }
+                });
+            });
+    
+            // Hantera utloggning
+            if (logoutButton) {
+                logoutButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    fetch('/api/users/logout', {
+                        method: 'POST',
+                        credentials: 'include'
+                    })
+                    .then(() => {
+                        closeProfileModalHandler();
+                        updateLoginButton();
+                        window.location.replace('/login.html');
+                    })
+                    .catch(() => {
+                        window.location.replace('/login.html');
+                    });
+                });
+            }
+    
+            // Stäng modalen vid klick på krysset
+            if (closeProfileModal) {
+                closeProfileModal.addEventListener('click', closeProfileModalHandler);
+            }
+    
+            // Kör vid sidladdning
+            updateLoginButton();
+        });
+    </script>
+</body>
+</html>
