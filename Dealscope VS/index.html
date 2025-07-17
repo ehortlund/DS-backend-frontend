@@ -13,6 +13,13 @@
 </head>
 
   <body>
+
+    <div id="cookie-popup" style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--black); color: var(--medium-white); padding: 20px; text-align: center; z-index: 1001; display: none;">
+        We use cookies to enhance your experience. <a href="Cookie Policy.html" style="color: var(--highlight-color); text-decoration: underline;">Learn more</a>.
+        <button id="accept-cookies" style="margin-left: 20px; padding: 10px 20px; background-color: var(--green); color: var(--white); border: none; border-radius: 5px; cursor: pointer;">Accept</button>
+    </div>
+
+
     <!-- Header -->
     <header class="main-header">
         <!-- Klickbar Logotyp -->
@@ -407,6 +414,19 @@
         const nextPayment = document.getElementById('next-payment');
         const paymentError = document.getElementById('payment-error');
         const viewHistoryLink = document.getElementById('view-payment-history');
+
+        const cookiePopup = document.getElementById('cookie-popup');
+        const acceptCookies = document.getElementById('accept-cookies');
+
+        // Kontrollera om användaren har accepterat cookies
+        if (!localStorage.getItem('cookiesAccepted')) {
+            cookiePopup.style.display = 'block';
+        }
+
+        acceptCookies.addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            cookiePopup.style.display = 'none';
+        });
 
         // Intersection Observer för fade-in
         const fadeInElements = document.querySelectorAll('.fade-in');
