@@ -78,7 +78,7 @@
                 <div class="badge fade-in">Two months free</div>
                 <h2 class="fade-in">PRO Yearly</h2>
                 <div class="price-container fade-in">
-                    <span class="price fade-in">0,5</span>
+                    <span class="price fade-in">149</span>
                     <span class="price-label fade-in">$ / year</span>
                 </div>
                 <ul class="fade-in">
@@ -87,7 +87,7 @@
                     <li class="fade-in">100+ deals per month</li>
                     <li class="fade-in">Live notifications</li>
                 </ul>
-                <button class="select-plan fade-in" data-price="50">Choose</button>
+                <button class="select-plan fade-in" data-price="14900">Choose</button>
             </div>
         </div>
     </section>
@@ -209,30 +209,30 @@
                     const amount = parseInt(button.getAttribute('data-price'));
                     const planName = button.closest('.plan')?.querySelector('h2')?.textContent || 'Unknown Plan';
                     console.log('Button clicked:', planName, 'Amount:', amount);
-
+    
                     if (!amount || isNaN(amount)) {
                         console.error('Invalid amount:', button.getAttribute('data-price'));
                         errorElement.textContent = 'Invalid plan amount.';
                         return;
                     }
-
+    
                     // Kontrollera om användaren är inloggad
                     try {
-                        const authResponse = await fetch('/api/users/me', { // Använd authResponse istället för response
+                        const authResponse = await fetch('/api/users/me', {
                             method: 'GET',
                             credentials: 'include'
                         });
                         const data = await authResponse.json();
-
+    
                         if (data.error) {
                             console.log('User not logged in, redirecting to register.html');
                             window.location.href = 'register.html';
                             return;
                         }
-
+    
                         // Om inloggad, fortsätt med betalningsflödet
                         console.log('Creating checkout session for amount:', amount, 'plan:', planName, 'User authenticated:', !!document.cookie.includes('token'));
-                        const checkoutResponse = await fetch('/api/create-checkout-session', { // Använd checkoutResponse istället för response
+                        const checkoutResponse = await fetch('/api/create-checkout-session', {
                             method: 'POST',
                             credentials: 'include',
                             headers: {
@@ -240,21 +240,21 @@
                             },
                             body: JSON.stringify({ amount, planName })
                         });
-
+    
                         if (!checkoutResponse.ok) {
                             const text = await checkoutResponse.text();
                             errorElement.textContent = `Error: ${text || 'Server error'}`;
                             console.error('Checkout session error:', text);
                             return;
                         }
-
+    
                         const { id: sessionId } = await checkoutResponse.json();
                         console.log('Checkout session ID:', sessionId);
-
+    
                         const { error } = await stripe.redirectToCheckout({
                             sessionId: sessionId
                         });
-
+    
                         if (error) {
                             errorElement.textContent = `Error redirecting to Checkout: ${error.message}`;
                             console.error('Error redirecting to Checkout:', error);
@@ -435,6 +435,34 @@
     
             if (closeProfileModal) {
                 closeProfileModal.addEventListener('click', closeProfileModalHandler);
+            }
+    
+            // Lägg till utloggningslogik från modal
+            const logoutButtonModal = document.getElementById('logout-btn-modal');
+            if (logoutButtonModal) {
+                logoutButtonModal.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    fetch('/api/users/logout', {
+                        method: 'POST',
+                        credentials: 'include'
+                    })
+                    .then(() => {
+                        closeProfileModalHandler();
+                        updateLoginButton();
+                        window.location.replace('/login.html');
+                    })
+                    .catch(() => {
+                        window.location.replace('/login.html');
+                    });
+                });
+            }
+    
+            // Lägg till hantering av betalningsinställningar (om modalen har en länk)
+            const paymentSettingsLink = document.querySelector('#payment-settings-section a');
+            if (paymentSettingsLink) {
+                paymentSettingsLink.addEventListener('click', (e) => {
+                    console.log('Payment settings link clicked');
+                });
             }
     
             updateLoginButton();

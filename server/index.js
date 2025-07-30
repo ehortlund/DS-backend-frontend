@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const User = require('./User');
 const cors = require('cors');
 require('dotenv').config();
+const { readFile } = require('fs').promises;
 
 const app = express();
 
@@ -77,6 +78,55 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     }
 
     res.status(200).json({ received: true });
+});
+
+// Lägg till detta efter app.post('/api/stripe-webhook', ...) och före app.use(express.json())
+app.post('/api/create-checkout-session', async (req, res) => {
+    const { amount, planName } = req.body;
+
+    console.log('Received /api/create-checkout-session request:', { user: req.user, amount, planName });
+
+    if (!req.user) {
+        console.error('No authenticated user found');
+        return res.status(401).json({ error: 'No authenticated user, redirecting to login' });
+    }
+
+    if (!amount || !planName) {
+        return res.status(400).json({ error: 'Amount and planName are required' });
+    }
+
+    try {
+        const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+        let priceId;
+        if (planName === 'PRO Monthly') {
+            priceId = 'price_1Ri09GHP6mys9UBu2WfYcSGa'; // Kontrollera detta ID i Stripe Dashboard
+        } else if (planName === 'PRO Yearly') {
+            priceId = 'price_1Rqd4cHP6mys9UBuUeRrE6os'; // Kontrollera detta ID i Stripe Dashboard
+        } else {
+            console.error('Invalid planName:', planName);
+            return res.status(400).json({ error: 'Invalid planName' });
+        }
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [{
+                price: priceId,
+                quantity: 1,
+            }],
+            mode: 'subscription',
+            success_url: 'https://dealscope.io/plans.html?success=true',
+            cancel_url: 'https://dealscope.io/plans.html?cancel=true',
+            customer: req.user.stripeCustomerId,
+            metadata: { userId: req.user._id.toString() },
+            allow_promotion_codes: true // Aktiverar rabattkodfältet för DEALSCOPEFREE2025
+        });
+
+        console.log('Checkout subscription session created:', session.id);
+        res.json({ id: session.id });
+    } catch (error) {
+        console.error('Checkout session error:', error);
+        res.status(500).json({ error: error.message });
+    }
 });
 
 app.get('/plans.html', async (req, res) => {
