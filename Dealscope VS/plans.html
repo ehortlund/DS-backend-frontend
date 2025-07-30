@@ -71,7 +71,7 @@
                     <li class="fade-in">100+ deals per month</li>
                     <li class="fade-in">Live notifications</li>
                 </ul>
-                <button class="select-plan fade-in" data-price="1490">Start Free Trial</button>
+                <a href="https://buy.stripe.com/3cI8wP20f09xbwl2Rnbsc01" class="select-plan fade-in" target="_blank">Start Free Trial</a>
             </div>
             
             <div class="plan yearly fade-in">
@@ -87,7 +87,7 @@
                     <li class="fade-in">100+ deals per month</li>
                     <li class="fade-in">Live notifications</li>
                 </ul>
-                <button class="select-plan fade-in" data-price="14900">Choose</button>
+                <a href="https://buy.stripe.com/3cI4gzeN17BZgQF63zbsc00" class="select-plan fade-in" target="_blank">Choose</a>
             </div>
         </div>
     </section>
@@ -183,89 +183,6 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const stripePublishableKey = document.querySelector('meta[name="stripe-publishable-key"]').content;
-            if (!stripePublishableKey) {
-                console.error('Stripe Publishable Key is missing');
-                return;
-            }
-            const stripe = Stripe(stripePublishableKey);
-    
-            const planButtons = document.querySelectorAll('.select-plan');
-            console.log('Found plan buttons:', planButtons.length);
-            const errorElement = document.getElementById('error-message') || document.createElement('div');
-    
-            if (planButtons.length === 0) {
-                console.error('No elements with class .select-plan found');
-                errorElement.textContent = 'No plan buttons found. Check HTML structure.';
-                document.body.appendChild(errorElement);
-                return;
-            }
-    
-            // Uppdaterad loop med unika variabelnamn för response
-            planButtons.forEach(button => {
-                console.log('Adding event listener to button:', button.textContent, 'with data-price:', button.getAttribute('data-price'));
-                button.addEventListener('click', async (e) => {
-                    e.preventDefault();
-                    const amount = parseInt(button.getAttribute('data-price'));
-                    const planName = button.closest('.plan')?.querySelector('h2')?.textContent || 'Unknown Plan';
-                    console.log('Button clicked:', planName, 'Amount:', amount);
-    
-                    if (!amount || isNaN(amount)) {
-                        console.error('Invalid amount:', button.getAttribute('data-price'));
-                        errorElement.textContent = 'Invalid plan amount.';
-                        return;
-                    }
-    
-                    // Kontrollera om användaren är inloggad
-                    try {
-                        const authResponse = await fetch('/api/users/me', {
-                            method: 'GET',
-                            credentials: 'include'
-                        });
-                        const data = await authResponse.json();
-    
-                        if (data.error) {
-                            console.log('User not logged in, redirecting to register.html');
-                            window.location.href = 'register.html';
-                            return;
-                        }
-    
-                        // Om inloggad, fortsätt med betalningsflödet
-                        console.log('Creating checkout session for amount:', amount, 'plan:', planName, 'User authenticated:', !!document.cookie.includes('token'));
-                        const checkoutResponse = await fetch('/api/create-checkout-session', {
-                            method: 'POST',
-                            credentials: 'include',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({ amount, planName })
-                        });
-    
-                        if (!checkoutResponse.ok) {
-                            const text = await checkoutResponse.text();
-                            errorElement.textContent = `Error: ${text || 'Server error'}`;
-                            console.error('Checkout session error:', text);
-                            return;
-                        }
-    
-                        const { id: sessionId } = await checkoutResponse.json();
-                        console.log('Checkout session ID:', sessionId);
-    
-                        const { error } = await stripe.redirectToCheckout({
-                            sessionId: sessionId
-                        });
-    
-                        if (error) {
-                            errorElement.textContent = `Error redirecting to Checkout: ${error.message}`;
-                            console.error('Error redirecting to Checkout:', error);
-                        }
-                    } catch (error) {
-                        errorElement.textContent = `Error creating checkout session: ${error.message}`;
-                        console.error('Error creating checkout session:', error);
-                    }
-                });
-            });
-    
             // Övrig logik (tema, login, etc.)...
             const loginButtons = document.querySelectorAll('.login-btn');
             const header = document.querySelector('.main-header');
