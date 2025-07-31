@@ -52,26 +52,85 @@ app.post('/api/stripe-webhook', express.raw({ type: 'application/json' }), async
     if (event.type === 'checkout.session.completed') {
         console.log('Checkout session completed event received, processing...');
         const session = event.data.object;
-        const userId = session.metadata?.userId;
-        console.log('Checkout session metadata:', session.metadata);
-
-        if (!userId) {
-            console.error('No userId found in checkout session metadata, session ID:', session.id);
-            return res.status(400).send('No userId found in checkout session metadata');
-        }
-
-        try {
-            const user = await User.findById(userId);
-            if (user) {
-                console.log('User found:', user.email, 'with ID:', userId);
-                user.hasPaid = true;
-                await user.save();
-                console.log('Updated user hasPaid to true for user:', user.email, 'ID:', userId);
+        const customerId = session.customer; // Hämta customer ID från sessionen
+        if (customerId) {
+            const customer = await stripe.customers.retrieve(customerId);
+            const customerEmail = customer.email;
+            if (customerEmail) {
+                const user = await User.findOne({ email: customerEmail });
+                if (user) {
+                    user.hasPaid = true; // Sätt hasPaid till true vid lyckad betalning
+                    await user.save();
+                    console.log('Updated user hasPaid to true for email:', customerEmail);
+                } else {
+                    console.error('User not found for email:', customerEmail);
+                }
             } else {
-                console.error('User not found for userId:', userId, 'in session:', session.id);
+                console.error('No email found for customer:', customerId);
             }
-        } catch (error) {
-            console.error('Error updating user hasPaid:', error.message, 'for userId:', userId);
+        }
+    } else if (event.type === 'customer.subscription.created') {
+        console.log('Subscription created event received');
+        const subscription = event.data.object;
+        const customerId = subscription.customer;
+        const customer = await stripe.customers.retrieve(customerId);
+        const customerEmail = customer.email;
+
+        if (customerEmail) {
+            const user = await User.findOne({ email: customerEmail });
+            if (user) {
+                user.hasPaid = true; // Sätt hasPaid till true vid prenumerationsstart
+                await user.save();
+                console.log('Updated user hasPaid to true for email:', customerEmail);
+            } else {
+                console.error('User not found for email:', customerEmail);
+            }
+        } else {
+            console.error('No email found for customer:', customerId);
+        }
+    } else if (event.type === 'customer.subscription.updated') {
+        console.log('Subscription updated event received');
+        const subscription = event.data.object;
+        const customerId = subscription.customer;
+        const customer = await stripe.customers.retrieve(customerId);
+        const customerEmail = customer.email;
+
+        if (customerEmail) {
+            const user = await User.findOne({ email: customerEmail });
+            if (user) {
+                // Kontrollera om prenumerationen fortfarande är aktiv (status: active)
+                const active = subscription.status === 'active';
+                if (user.hasPaid !== active) {
+                    user.hasPaid = active;
+                    await user.save();
+                    console.log('Updated user hasPaid to', active, 'for email:', customerEmail);
+                } else {
+                    console.log('No change in hasPaid for email:', customerEmail);
+                }
+            } else {
+                console.error('User not found for email:', customerEmail);
+            }
+        } else {
+            console.error('No email found for customer:', customerId);
+        }
+    } else if (event.type === 'customer.subscription.deleted') {
+        console.log('Subscription deleted event received');
+        const subscription = event.data.object;
+        const customerId = subscription.customer;
+        const customer = await stripe.customers.retrieve(customerId);
+        const customerEmail = customer.email;
+
+        if (customerEmail) {
+            const user = await User.findOne({ email: customerEmail });
+            if (user) {
+                user.hasPaid = false; // Sätt hasPaid till false vid prenumerationsavslut
+                await user.save();
+                console.log('Updated user hasPaid to false for email:', customerEmail);
+            } else {
+                console.error('User not found for email:', customerEmail);
+            }
+        } else {
+            console.error('No email found for customer:', customerId);
         }
     } else {
         console.log('Unhandled event type:', event.type, 'with ID:', event.id);
