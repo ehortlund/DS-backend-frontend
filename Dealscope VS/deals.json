@@ -295,6 +295,25 @@
         "Vertiv Holdings Co (<span class=\"stock-symbol\">NYSE: VRT</span>): Power and thermal management for data centers.",
         "Equinix, Inc. (<span class=\"stock-symbol\">NASDAQ: EQIX</span>): Data center colocation and interconnection services."
       ]
+    },
+    {
+      "title": "Raytheon-Kongsberg Egypt NASAMS Defense Contract",
+      "description": "The U.S. State Department has approved a $4.7 billion deal for Egypt to procure National Advanced Surface-to-Air Missile Systems (NASAMS) from Raytheon Technologies and Kongsberg Defence & Aerospace.",
+      "link": "https://www.defensenews.com/global/mideast-africa/2025/05/15/egypt-nasams-deal",
+      "category": "Military",
+      "date": "2025-05-15",
+      "dealValue": "$4.7 Billion",
+      "industry": "Defense and Aerospace",
+      "buyer": "Egyptian Ministry of Defence",
+      "seller": "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>), Kongsberg Defence & Aerospace (<span class=\"stock-symbol\">OSE: KOG</span>)",
+      "impact": "This deal enhances Egypt’s air defense capabilities, deploying NASAMS to protect critical infrastructure and counter regional aerial threats. It includes training, technology transfer, and local maintenance support, strengthening Egypt’s defense posture and U.S.-Egypt military cooperation.",
+      "subcontractors": [
+        "Lockheed Martin Corporation (<span class=\"stock-symbol\">NYSE: LMT</span>): Integration of command and control systems.",
+        "Northrop Grumman Corporation (<span class=\"stock-symbol\">NYSE: NOC</span>): Radar and sensor systems for target acquisition.",
+        "Thales Group (<span class=\"stock-symbol\">EPA: HO</span>): Communication and fire control systems.",
+        "MBDA (Private): Missile components and guidance systems.",
+        "Egyptian Aerospace Manufacturing Company (Private): Local assembly and maintenance support."
+      ]
     }
 
   ]
