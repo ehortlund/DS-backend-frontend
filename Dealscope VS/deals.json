@@ -553,7 +553,86 @@
         "Kratos Defense & Security Solutions, Inc. (<span class=\"stock-symbol\">NASDAQ: KTOS</span>): Target drones for testing.",
         "Aerojet Rocketdyne (Part of L3Harris, <span class=\"stock-symbol\">NYSE: LHX</span>): Rocket motors."
       ]
-    }
+    },
+    [
+      {
+        "title": "Poland-Hyundai Rotem K2 Tank Deal",
+        "description": "Poland has signed a contract with Hyundai Rotem to acquire 180 K2 Black Panther tanks, with local production involved to bolster its armored forces.",
+        "link": "https://www.defensenews.com/global/europe/2025/08/01/poland-k2-tank-deal",
+        "category": "Military",
+        "date": "2025-08-01",
+        "dealValue": "$6.5 Billion",
+        "industry": "Defense and Aerospace",
+        "buyer": "Polish Ministry of Defence",
+        "seller": "Hyundai Rotem (<span class=\"stock-symbol\">KRX: 064350</span>)",
+        "impact": "This deal significantly enhances Poland's tank fleet, positioning it as one of Europe's leading armored powers amid regional security concerns, with local manufacturing boosting domestic industry.",
+        "subcontractors": [
+          "Polish Armaments Group (PGZ, Private): Local production, assembly, and customization of K2PL variant tanks."
+        ]
+      },
+      {
+        "title": "Palo Alto Networks-CyberArk Acquisition",
+        "description": "Palo Alto Networks has acquired CyberArk to strengthen its identity security and cloud protection capabilities in the cybersecurity sector.",
+        "link": "https://intellizence.com/insights/merger-and-acquisition/top-10-largest-merger-acquisition-deals-july-2025/",
+        "category": "Tech",
+        "date": "2025-07-30",
+        "dealValue": "$25 Billion",
+        "industry": "Cybersecurity",
+        "buyer": "Palo Alto Networks, Inc. (<span class=\"stock-symbol\">NASDAQ: PANW</span>)",
+        "seller": "CyberArk Software Ltd. (<span class=\"stock-symbol\">NASDAQ: CYBR</span>)",
+        "impact": "The acquisition integrates CyberArk's identity management solutions into Palo Alto's platform, addressing rising cloud and AI threats, and accelerating enterprise security innovation.",
+        "subcontractors": [
+          "Goldman Sachs Group, Inc. (<span class=\"stock-symbol\">NYSE: GS</span>): Financial advisor and merger integration support."
+        ]
+      },
+      {
+        "title": "UnitedHealth-Amedisys Home Health Acquisition",
+        "description": "UnitedHealth has completed the acquisition of Amedisys following a DOJ settlement, expanding its home health services with divestitures to other providers.",
+        "link": "https://www.statnews.com/2025/08/07/doj-unitedhealth-agreement-amedisys-deal-divestitures/",
+        "category": "Healthcare",
+        "date": "2025-08-07",
+        "dealValue": "$3.3 Billion",
+        "industry": "Healthcare Services",
+        "buyer": "UnitedHealth Group Incorporated (<span class=\"stock-symbol\">NYSE: UNH</span>)",
+        "seller": "Amedisys, Inc. (<span class=\"stock-symbol\">NASDAQ: AMED</span>)",
+        "impact": "This deal bolsters UnitedHealth's Optum division in home-based care, improving patient access and reducing costs, while divestitures ensure competition in the market.",
+        "subcontractors": [
+          "Pennant Group, Inc. (<span class=\"stock-symbol\">NASDAQ: PNTG</span>): Acquisition of divested facilities for home health operations.",
+          "BrightSpring Health Services (<span class=\"stock-symbol\">NASDAQ: BTSG</span>): Takeover of certain Amedisys assets as part of DOJ-mandated divestitures.",
+          "VitalCaring Group (Private): Management and operation of divested home health centers."
+        ]
+      },
+      {
+        "title": "Global Payments-Worldpay Acquisition",
+        "description": "Global Payments has acquired Worldpay to create a leading global payments technology company, enhancing transaction processing capabilities.",
+        "link": "https://www.pwc.com/gx/en/services/deals/trends/financial-services.html",
+        "category": "Finance",
+        "date": "2025-06-30",
+        "dealValue": "$24.25 Billion",
+        "industry": "Financial Technology",
+        "buyer": "Global Payments Inc. (<span class=\"stock-symbol\">NYSE: GPN</span>)",
+        "seller": "Worldpay (Private)",
+        "impact": "The merger positions the combined entity as a dominant player in payments, improving cross-border services and fintech innovation for merchants and consumers.",
+        "subcontractors": [
+          "FIS (Fidelity National Information Services, Inc.) (<span class=\"stock-symbol\">NYSE: FIS</span>): Integration of banking software and legacy systems support."
+        ]
+      },
+      {
+        "title": "Neurolov-Gujarat Government AI Compute Deal",
+        "description": "Neurolov has secured a deal with the Gujarat government to supply decentralized AI compute for smart cities and healthcare applications.",
+        "link": "https://twitter.com/neurolov/status/1953407067756081162",
+        "category": "Tech",
+        "date": "2025-08-07",
+        "dealValue": "$12 Million",
+        "industry": "Artificial Intelligence",
+        "buyer": "Gujarat Government",
+        "seller": "Neurolov (Private)",
+        "impact": "This government-backed deal marks a milestone for Web3 compute networks, promoting AI adoption in public sectors and enhancing institutional trust in decentralized technologies.",
+        "subcontractors": [
+          "Victus Global (Private): Backing and strategic partnership for compute infrastructure development."
+        ]
+      }
+    ]
 
   ]
   
