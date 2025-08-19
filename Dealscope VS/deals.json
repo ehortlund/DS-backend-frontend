@@ -632,7 +632,57 @@
           "Victus Global (Private): Backing and strategic partnership for compute infrastructure development."
         ]
       }
-    ]
+    ],
+    {
+      "title": "US Navy Multiple Award Contract for Submarine Valve and Actuator Repair",
+      "description": "The US Navy has awarded multiple indefinite-delivery/indefinite-quantity contracts for the repair of valves and actuators within the corporate component repair program for Virginia-class and Los Angeles-class submarines.",
+      "link": "https://www.defense.gov/News/Contracts/Contract/Article/4271589/",
+      "category": "Military",
+      "date": "2025-08-11",
+      "dealValue": "$86 Million",
+      "industry": "Defense and Aerospace",
+      "buyer": "Naval Supply Systems Command Weapon Systems Support",
+      "seller": "Delphinus (Private), Epsilon (Private), Oceaneering (<span class=\"stock-symbol\">NYSE: OII</span>)",
+      "impact": "This contract supports the maintenance and sustainment of US Navy submarines, ensuring operational readiness and enhancing the component repair program through multiple specialized providers.",
+      "subcontractors": [
+        "Delphinus (Private): Repair of valves and actuators.",
+        "Epsilon (Private): Repair of valves and actuators.",
+        "Oceaneering (<span class=\"stock-symbol\">NYSE: OII</span>): Repair of valves and actuators."
+      ]
+    },
+    {
+      "title": "US Navy Multiple Award Contract for Shipboard Habitability Improvement",
+      "description": "The US Navy has awarded multiple indefinite-delivery/indefinite-quantity contracts to provide lightweight modular berths, related materials, and replacement parts in support of the Shipboard Habitability Improvement Program.",
+      "link": "https://www.defense.gov/News/Contracts/Contract/Article/4271589/",
+      "category": "Military",
+      "date": "2025-08-11",
+      "dealValue": "$13 Million",
+      "industry": "Defense and Aerospace",
+      "buyer": "Naval Supply Systems Command Fleet Logistics Center Norfolk",
+      "seller": "Pacific Maritime Industries Corp. (Private), Quality Metal Works Inc. (Private), Atlantic Fabrication & Boiler Services (Private)",
+      "impact": "This deal improves living conditions on US Navy ships by providing advanced berthing solutions, supporting sailor welfare and operational efficiency through diversified suppliers.",
+      "subcontractors": [
+        "Pacific Maritime Industries Corp. (Private): Provision of lightweight modular berths and parts.",
+        "Quality Metal Works Inc. (Private): Provision of lightweight modular berths and parts.",
+        "Atlantic Fabrication & Boiler Services (Private): Provision of lightweight modular berths and parts."
+      ]
+    },
+    {
+      "title": "UnitedHealth-Amedisys Home Health Acquisition Settlement",
+      "description": "UnitedHealth Group has reached a settlement with the DOJ to acquire Amedisys, involving the divestiture of 164 home health and hospice locations to maintain competition.",
+      "link": "https://www.statnews.com/2025/08/07/doj-unitedhealth-agreement-amedisys-deal-divestitures/",
+      "category": "Healthcare",
+      "date": "2025-08-07",
+      "dealValue": "$3.3 Billion",
+      "industry": "Healthcare Services",
+      "buyer": "UnitedHealth Group Incorporated (<span class=\"stock-symbol\">NYSE: UNH</span>)",
+      "seller": "Amedisys, Inc. (<span class=\"stock-symbol\">NASDAQ: AMED</span>)",
+      "impact": "The settlement resolves antitrust concerns, allowing the merger to proceed while preserving market competition through divestitures, ultimately expanding home-based care options.",
+      "subcontractors": [
+        "BrightSpring Health Services (<span class=\"stock-symbol\">NASDAQ: BTSG</span>): Acquisition of divested home health and hospice locations.",
+        "The Pennant Group, Inc. (<span class=\"stock-symbol\">NASDAQ: PNTG</span>): Acquisition of divested home health and hospice locations."
+      ]
+    }
 
   ]
   
