@@ -186,22 +186,25 @@ const dealScope = {
     updateSearchSuggestions: function (searchTerm) {
         const searchSuggestions = document.querySelector('#deal-suggestions');
         searchSuggestions.innerHTML = '';
-
+    
         if (searchTerm.trim() === '') {
             searchSuggestions.style.display = 'none';
             return;
         }
-
+    
         const suggestions = new Set();
         this.allDeals.forEach(deal => {
-            if (deal.title.toLowerCase().includes(searchTerm.toLowerCase())) {
+            // Kontrollera om title eller description finns innan toLowerCase
+            const title = deal.title ? deal.title.toLowerCase() : '';
+            const description = deal.description ? deal.description.toLowerCase() : '';
+            if (title.includes(searchTerm.toLowerCase())) {
                 suggestions.add(deal.title);
             }
-            if (deal.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+            if (description.includes(searchTerm.toLowerCase())) {
                 suggestions.add(deal.title);
             }
         });
-
+    
         suggestions.forEach(suggestion => {
             const option = document.createElement('div');
             option.className = 'suggestion-item';
@@ -213,7 +216,7 @@ const dealScope = {
             });
             searchSuggestions.appendChild(option);
         });
-
+    
         if (suggestions.size > 0) {
             searchSuggestions.style.display = 'block';
         } else {
@@ -224,9 +227,11 @@ const dealScope = {
     filterDeals: function (searchTerm, category) {
         console.log(`Filtrerar deals med searchTerm: ${searchTerm}, category: ${category}`);
         this.currentDeals = this.allDeals.filter(deal => {
+            const title = deal.title ? deal.title.toLowerCase() : '';
+            const description = deal.description ? deal.description.toLowerCase() : '';
             const matchesSearch = searchTerm === '' || 
-                deal.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                deal.description.toLowerCase().includes(searchTerm.toLowerCase());
+                title.includes(searchTerm.toLowerCase()) || 
+                description.includes(searchTerm.toLowerCase());
             const matchesCategory = category === '' || 
                 (deal.category && deal.category.toLowerCase() === category);
             return matchesSearch && matchesCategory;
