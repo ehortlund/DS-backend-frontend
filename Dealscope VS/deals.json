@@ -683,67 +683,65 @@
         "The Pennant Group, Inc. (<span class=\"stock-symbol\">NASDAQ: PNTG</span>): Acquisition of divested home health and hospice locations."
       ]
     },
-    [
-      {
-        "title": "US Air Force F-35 Sustainment Contract",
-        "description": "Lockheed Martin has been awarded a $1.1 billion contract modification by the US Air Force for sustainment services of the F-35 Lightning II program, including maintenance, logistics, and upgrades for global operators.",
-        "link": "https://www.defense.gov/News/Contracts/Contract/Article/4271589/",
-        "category": "Military",
-        "date": "2025-08-11",
-        "dealValue": "$1.1 Billion",
-        "industry": "Defense and Aerospace",
-        "buyer": "US Air Force",
-        "seller": "Lockheed Martin Corporation (<span class=\"stock-symbol\">NYSE: LMT</span>)",
-        "impact": "This contract ensures continued operational readiness of the F-35 fleet, supporting global air forces with enhanced logistics, training, and sustainment capabilities, while fostering international defense collaboration.",
-        "subcontractors": [
-          "Pratt & Whitney (Part of RTX Corporation, <span class=\"stock-symbol\">NYSE: RTX</span>): Engine maintenance and support for F135 engines.",
-          "BAE Systems PLC (<span class=\"stock-symbol\">LSE: BA</span>): Electronic warfare systems and avionics support.",
-          "Northrop Grumman Corporation (<span class=\"stock-symbol\">NYSE: NOC</span>): Radar and sensor sustainment services.",
-          "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Missile integration and weapon systems support.",
-          "L3Harris Technologies, Inc. (<span class=\"stock-symbol\">NYSE: LHX</span>): Communication systems maintenance.",
-          "Honeywell International Inc. (<span class=\"stock-symbol\">NASDAQ: HON</span>): Navigation and control systems support.",
-          "Collins Aerospace (Part of RTX Corporation, <span class=\"stock-symbol\">NYSE: RTX</span>): Avionics and cockpit systems sustainment."
-        ]
-      },
-      {
-        "title": "Microsoft-xAI AI Infrastructure Partnership",
-        "description": "Microsoft has entered a $10 billion partnership with xAI to provide Azure cloud infrastructure for training and deploying Grok AI models, enhancing AI capabilities for enterprise and research applications.",
-        "link": "https://www.reuters.com/technology/microsoft-xai-ai-infrastructure-partnership-2025-08-15",
-        "category": "Tech",
-        "date": "2025-08-15",
-        "dealValue": "$10 Billion",
-        "industry": "Artificial Intelligence and Cloud Computing",
-        "buyer": "xAI (Private)",
-        "seller": "Microsoft Corporation (<span class=\"stock-symbol\">NASDAQ: MSFT</span>)",
-        "impact": "This partnership accelerates xAI’s mission to advance AI-driven scientific discovery, leveraging Microsoft’s Azure platform to scale Grok’s deployment, benefiting industries like healthcare, finance, and energy.",
-        "subcontractors": [
-          "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): GPU supply for AI training and inference.",
-          "Advanced Micro Devices, Inc. (<span class=\"stock-symbol\">NASDAQ: AMD</span>): Server processors and AI accelerators.",
-          "Intel Corporation (<span class=\"stock-symbol\">NASDAQ: INTC</span>): Xeon processors and AI hardware optimization.",
-          "Ciena Corporation (<span class=\"stock-symbol\">NYSE: CIEN</span>): Optical networking for data center connectivity.",
-          "Supermicro (<span class=\"stock-symbol\">NASDAQ: SMCI</span>): Server and rack-scale solutions for Azure data centers."
-        ]
-      },
-      {
-        "title": "Johnson & Johnson-Intra-Cellular Therapies Acquisition",
-        "description": "Johnson & Johnson completed the acquisition of Intra-Cellular Therapies for $14.6 billion to bolster its neuroscience portfolio with treatments for schizophrenia and bipolar disorder.",
-        "link": "https://intellizence.com/insights/merger-and-acquisition/top-10-largest-merger-acquisition-deals-july-2025/",
-        "category": "Healthcare",
-        "date": "2025-08-02",
-        "dealValue": "$14.6 Billion",
-        "industry": "Pharmaceuticals",
-        "buyer": "Johnson & Johnson (<span class=\"stock-symbol\">NYSE: JNJ</span>)",
-        "seller": "Intra-Cellular Therapies, Inc. (<span class=\"stock-symbol\">NASDAQ: ITCI</span>)",
-        "impact": "The acquisition strengthens J&J’s mental health drug pipeline, adding CAPLYTA to its portfolio and addressing growing demand for CNS disorder treatments, with potential for expanded market reach.",
-        "subcontractors": [
-          "Pfizer Inc. (<span class=\"stock-symbol\">NYSE: PFE</span>): Clinical trial support and drug formulation collaboration.",
-          "Lonza Group AG (<span class=\"stock-symbol\">SIX: LONN</span>): Active pharmaceutical ingredient (API) manufacturing.",
-          "Catalent, Inc. (<span class=\"stock-symbol\">NYSE: CTLT</span>): Drug delivery systems and packaging services.",
-          "Parexel International (Private): Regulatory affairs and clinical trial management.",
-          "IQVIA Holdings Inc. (<span class=\"stock-symbol\">NYSE: IQV</span>): Real-world evidence and data analytics."
-        ]
-      }
-    ]
+    {
+      "title": "US Air Force F-35 Sustainment Contract",
+      "description": "Lockheed Martin has been awarded a $1.1 billion contract modification by the US Air Force for sustainment services of the F-35 Lightning II program, including maintenance, logistics, and upgrades for global operators.",
+      "link": "https://www.defense.gov/News/Contracts/Contract/Article/4271589/",
+      "category": "Military",
+      "date": "2025-08-11",
+      "dealValue": "$1.1 Billion",
+      "industry": "Defense and Aerospace",
+      "buyer": "US Air Force",
+      "seller": "Lockheed Martin Corporation (<span class=\"stock-symbol\">NYSE: LMT</span>)",
+      "impact": "This contract ensures continued operational readiness of the F-35 fleet, supporting global air forces with enhanced logistics, training, and sustainment capabilities, while fostering international defense collaboration.",
+      "subcontractors": [
+        "Pratt & Whitney (Part of RTX Corporation, <span class=\"stock-symbol\">NYSE: RTX</span>): Engine maintenance and support for F135 engines.",
+        "BAE Systems PLC (<span class=\"stock-symbol\">LSE: BA</span>): Electronic warfare systems and avionics support.",
+        "Northrop Grumman Corporation (<span class=\"stock-symbol\">NYSE: NOC</span>): Radar and sensor sustainment services.",
+        "Raytheon Technologies Corporation (<span class=\"stock-symbol\">NYSE: RTX</span>): Missile integration and weapon systems support.",
+        "L3Harris Technologies, Inc. (<span class=\"stock-symbol\">NYSE: LHX</span>): Communication systems maintenance.",
+        "Honeywell International Inc. (<span class=\"stock-symbol\">NASDAQ: HON</span>): Navigation and control systems support.",
+        "Collins Aerospace (Part of RTX Corporation, <span class=\"stock-symbol\">NYSE: RTX</span>): Avionics and cockpit systems sustainment."
+      ]
+    },
+    {
+      "title": "Microsoft-xAI AI Infrastructure Partnership",
+      "description": "Microsoft has entered a $10 billion partnership with xAI to provide Azure cloud infrastructure for training and deploying Grok AI models, enhancing AI capabilities for enterprise and research applications.",
+      "link": "https://www.reuters.com/technology/microsoft-xai-ai-infrastructure-partnership-2025-08-15",
+      "category": "Tech",
+      "date": "2025-08-15",
+      "dealValue": "$10 Billion",
+      "industry": "Artificial Intelligence and Cloud Computing",
+      "buyer": "xAI (Private)",
+      "seller": "Microsoft Corporation (<span class=\"stock-symbol\">NASDAQ: MSFT</span>)",
+      "impact": "This partnership accelerates xAI’s mission to advance AI-driven scientific discovery, leveraging Microsoft’s Azure platform to scale Grok’s deployment, benefiting industries like healthcare, finance, and energy.",
+      "subcontractors": [
+        "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): GPU supply for AI training and inference.",
+        "Advanced Micro Devices, Inc. (<span class=\"stock-symbol\">NASDAQ: AMD</span>): Server processors and AI accelerators.",
+        "Intel Corporation (<span class=\"stock-symbol\">NASDAQ: INTC</span>): Xeon processors and AI hardware optimization.",
+        "Ciena Corporation (<span class=\"stock-symbol\">NYSE: CIEN</span>): Optical networking for data center connectivity.",
+        "Supermicro (<span class=\"stock-symbol\">NASDAQ: SMCI</span>): Server and rack-scale solutions for Azure data centers."
+      ]
+    },
+    {
+      "title": "Johnson & Johnson-Intra-Cellular Therapies Acquisition",
+      "description": "Johnson & Johnson completed the acquisition of Intra-Cellular Therapies for $14.6 billion to bolster its neuroscience portfolio with treatments for schizophrenia and bipolar disorder.",
+      "link": "https://intellizence.com/insights/merger-and-acquisition/top-10-largest-merger-acquisition-deals-july-2025/",
+      "category": "Healthcare",
+      "date": "2025-08-02",
+      "dealValue": "$14.6 Billion",
+      "industry": "Pharmaceuticals",
+      "buyer": "Johnson & Johnson (<span class=\"stock-symbol\">NYSE: JNJ</span>)",
+      "seller": "Intra-Cellular Therapies, Inc. (<span class=\"stock-symbol\">NASDAQ: ITCI</span>)",
+      "impact": "The acquisition strengthens J&J’s mental health drug pipeline, adding CAPLYTA to its portfolio and addressing growing demand for CNS disorder treatments, with potential for expanded market reach.",
+      "subcontractors": [
+        "Pfizer Inc. (<span class=\"stock-symbol\">NYSE: PFE</span>): Clinical trial support and drug formulation collaboration.",
+        "Lonza Group AG (<span class=\"stock-symbol\">SIX: LONN</span>): Active pharmaceutical ingredient (API) manufacturing.",
+        "Catalent, Inc. (<span class=\"stock-symbol\">NYSE: CTLT</span>): Drug delivery systems and packaging services.",
+        "Parexel International (Private): Regulatory affairs and clinical trial management.",
+        "IQVIA Holdings Inc. (<span class=\"stock-symbol\">NYSE: IQV</span>): Real-world evidence and data analytics."
+      ]
+    }
 
   ]
   
