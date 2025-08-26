@@ -1,3 +1,11 @@
+function parseDealValue(value) {
+    if (!value) return -Infinity; // Om dealValue saknas, placera längst ner
+    const num = parseFloat(value.replace(/[^0-9.-]+/g, '')); // Extrahera siffror
+    const unit = value.toLowerCase().includes('billion') ? 1000000000 : // 10⁹
+                 value.toLowerCase().includes('million') ? 1000000 : 1; // 10⁶ eller 1 om ingen enhet
+    return num * unit;
+}
+
 const dealScope = {
     init: async function () {
         console.log("DealScope JavaScript is running!");
@@ -5,15 +13,17 @@ const dealScope = {
         console.log("Hämtar deals.json...");
         try {
             const response = await fetch('deals.json');
-            const deals = await response.json();
-            console.log("Data:", deals);
-
-            // Spara deals för filtrering och sortering
-            this.allDeals = deals;
-            this.currentDeals = [...deals];
+            const rawDeals = await response.json();
+            console.log("Raw Data:", rawDeals);
+    
+            // Platta till datan och filtrera bort ogiltiga poster
+            this.allDeals = rawDeals
+                .flat() // Hanterar den inbäddade arrayen
+                .filter(deal => deal && typeof deal === 'object' && deal.title && deal.dealValue);
+            this.currentDeals = [...this.allDeals];
             this.generateDealCards(this.currentDeals, ".deals-container");
             console.log("generateDealCards anropad");
-
+    
             // Sätt upp dropdowns och händelser
             this.setupControls();
         } catch (error) {
@@ -254,15 +264,15 @@ const dealScope = {
                 break;
             case 'Deal size ↑':
                 sortedDeals.sort((a, b) => {
-                    const valueA = parseFloat(a.dealValue ? a.dealValue.replace(/[^0-9.-]+/g, '') : -Infinity);
-                    const valueB = parseFloat(b.dealValue ? b.dealValue.replace(/[^0-9.-]+/g, '') : -Infinity);
+                    const valueA = parseDealValue(a.dealValue);
+                    const valueB = parseDealValue(b.dealValue);
                     return valueA - valueB;
                 });
                 break;
             case 'Deal size ↓':
                 sortedDeals.sort((a, b) => {
-                    const valueA = parseFloat(a.dealValue ? a.dealValue.replace(/[^0-9.-]+/g, '') : Infinity);
-                    const valueB = parseFloat(b.dealValue ? b.dealValue.replace(/[^0-9.-]+/g, '') : Infinity);
+                    const valueA = parseDealValue(a.dealValue);
+                    const valueB = parseDealValue(b.dealValue);
                     return valueB - valueA;
                 });
                 break;
@@ -274,6 +284,7 @@ const dealScope = {
     },
 
     createDealCard: function (deal) {
+        if (!deal.title || !deal.description || !deal.dealValue) return ''; // Hoppa över ogiltiga deals
         var cardTemplate =
             '<article class="deal-example-card" data-state="closed">' +
             '<h2 class="deal-section-heading">' +
@@ -283,11 +294,11 @@ const dealScope = {
             deal.description +
             '</p>' +
             '<ul class="deal-details">' +
-            '<li>Category: ' + deal.category + '</li>' +
-            '<li>Date: ' + deal.date + '</li>' +
-            (deal.dealValue ? '<li>Deal Value: ' + deal.dealValue + '</li>' : '') +
+            '<li>Category: ' + (deal.category || 'N/A') + '</li>' +
+            '<li>Date: ' + (deal.date || 'N/A') + '</li>' +
+            '<li>Deal Value: ' + deal.dealValue + '</li>' +
             '</ul>' +
-            '<button class="deal-link-button" data-link="' + deal.link + '">Read More</button>' +
+            '<button class="deal-link-button" data-link="' + (deal.link || '#') + '">Read More</button>' +
             '</article>';
         return cardTemplate;
     },
@@ -312,17 +323,22 @@ const dealScope = {
         dealsContainer.removeEventListener("click", this.handleCardClick);
         this.handleCardClick = (event) => {
             const card = event.target.closest(".deal-example-card");
-            const readMoreButton = event.target.classList.contains("deal-link-button");
-
-            console.log("Klick på kort registrerat");
-
+            const readMoreButton = event.target.closest(".deal-link-button");
+    
+            console.log("Klick på kort registrerat, target:", event.target);
+    
             if (readMoreButton) {
                 event.preventDefault();
                 const dealTitle = card.querySelector(".deal-section-heading").textContent;
-                this.showDealDetails(dealTitle);
+                console.log(`Försöker visa detaljer för: ${dealTitle}`);
+                if (dealTitle) {
+                    this.showDealDetails(dealTitle);
+                } else {
+                    console.error("Ingen dealTitle hittades i kortet!");
+                }
                 return;
             }
-
+    
             if (card && !event.target.closest('#category-suggestions')) {
                 const state = card.getAttribute("data-state");
                 console.log(`Togglar kortstate: ${state} -> ${state === "closed" ? "open" : "closed"}`);
@@ -336,15 +352,16 @@ const dealScope = {
         fetch("deals.json")
             .then(response => response.json())
             .then(data => {
-                const deal = data.find(d => d.title === dealTitle);
+                const deal = data.flat().find(d => d.title === dealTitle); // Använder flat() för att hantera inbäddad array
                 if (deal) {
+                    console.log(`Hittade deal: ${deal.title}`);
                     const dealDetailsHeader = document.querySelector(".deal-details-header");
                     const dealDetailsContainer = document.querySelector(".deal-details-container");
                     const dealRecommendations = document.querySelector(".deal-recommendations") || document.createElement("div");
                     const dealsContainer = document.querySelector(".deals-container");
                     const dealSectionTitle = document.querySelector(".deal-section-title");
                     const dealControls = document.querySelector(".deal-controls");
-
+    
                     dealDetailsHeader.innerHTML = `<h2>${deal.title}</h2><p>${deal.description}</p>`;
                     dealDetailsContainer.innerHTML = this.generateDealDetails(deal);
                     dealRecommendations.className = "deal-recommendations";
@@ -353,21 +370,24 @@ const dealScope = {
                     if (!dealRecommendations.parentNode) {
                         dealDetailsContainer.parentNode.insertBefore(dealRecommendations, dealDetailsContainer.nextSibling);
                     }
-
+    
                     dealDetailsHeader.style.display = "block";
                     dealDetailsContainer.style.display = "block";
                     dealRecommendations.style.display = "block";
                     dealsContainer.style.display = "none";
                     if (dealSectionTitle) dealSectionTitle.style.display = "none";
                     if (dealControls) dealControls.style.display = "none";
-
+    
                     history.pushState({ page: 'details' }, '', window.location.href);
-
+    
                     window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    console.error(`Ingen deal hittades med titeln: ${dealTitle}`);
                 }
-            });
+            })
+            .catch(error => console.error("Fel vid hämtning av deal detaljer:", error));
     },
-
+    
     generateDealDetails: function (deal) {
         return `
             <div class="deal-details-content">

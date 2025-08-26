@@ -459,30 +459,6 @@
       ]
     },
     {
-      "title": "Global Payments-Worldpay Payment Processing Acquisition",
-      "description": "Global Payments has acquired Worldpay in a $24.25 billion deal to dominate the global payments landscape.",
-      "link": "https://www.pwc.com/gx/en/services/deals/trends/financial-services.html",
-      "category": "Finance",
-      "date": "2025-06-30",
-      "dealValue": "$24.25 Billion",
-      "industry": "Financial Technology",
-      "buyer": "Global Payments Inc. (<span class=\"stock-symbol\">NYSE: GPN</span>)",
-      "seller": "Worldpay (Private)",
-      "impact": "This mega-deal creates a payments powerhouse, enhancing cross-border transaction capabilities and fintech innovation for merchants worldwide.",
-      "subcontractors": [
-        "Visa Inc. (<span class=\"stock-symbol\">NYSE: V</span>): Card network integration.",
-        "Mastercard Incorporated (<span class=\"stock-symbol\">NYSE: MA</span>): Payment gateway enhancements.",
-        "Stripe, Inc. (Private): API and developer tools.",
-        "PayPal Holdings, Inc. (<span class=\"stock-symbol\">NASDAQ: PYPL</span>): Digital wallet interoperability.",
-        "Square, Inc. (Part of Block, <span class=\"stock-symbol\">NYSE: SQ</span>): Point-of-sale systems.",
-        "Adyen N.V. (<span class=\"stock-symbol\">AMS: ADYEN</span>): E-commerce payment solutions.",
-        "FIS (Fidelity National Information Services, Inc.) (<span class=\"stock-symbol\">NYSE: FIS</span>): Banking software integration.",
-        "Fiserv, Inc. (<span class=\"stock-symbol\">NYSE: FI</span>): Core processing services.",
-        "ACI Worldwide, Inc. (<span class=\"stock-symbol\">NASDAQ: ACIW</span>): Fraud detection and prevention.",
-        "Worldline SA (<span class=\"stock-symbol\">EPA: WLN</span>): European payment processing."
-      ]
-    },
-    {
       "title": "BlackRock-Saudi Arabia Natural Gas Deal",
       "description": "BlackRock has secured an $11 billion deal with Saudi Arabia for natural gas infrastructure development.",
       "link": "https://www.wsj.com/business/deals",
@@ -568,21 +544,6 @@
         "impact": "This deal significantly enhances Poland's tank fleet, positioning it as one of Europe's leading armored powers amid regional security concerns, with local manufacturing boosting domestic industry.",
         "subcontractors": [
           "Polish Armaments Group (PGZ, Private): Local production, assembly, and customization of K2PL variant tanks."
-        ]
-      },
-      {
-        "title": "Palo Alto Networks-CyberArk Acquisition",
-        "description": "Palo Alto Networks has acquired CyberArk to strengthen its identity security and cloud protection capabilities in the cybersecurity sector.",
-        "link": "https://intellizence.com/insights/merger-and-acquisition/top-10-largest-merger-acquisition-deals-july-2025/",
-        "category": "Tech",
-        "date": "2025-07-30",
-        "dealValue": "$25 Billion",
-        "industry": "Cybersecurity",
-        "buyer": "Palo Alto Networks, Inc. (<span class=\"stock-symbol\">NASDAQ: PANW</span>)",
-        "seller": "CyberArk Software Ltd. (<span class=\"stock-symbol\">NASDAQ: CYBR</span>)",
-        "impact": "The acquisition integrates CyberArk's identity management solutions into Palo Alto's platform, addressing rising cloud and AI threats, and accelerating enterprise security innovation.",
-        "subcontractors": [
-          "Goldman Sachs Group, Inc. (<span class=\"stock-symbol\">NYSE: GS</span>): Financial advisor and merger integration support."
         ]
       },
       {
