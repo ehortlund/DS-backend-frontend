@@ -26,10 +26,13 @@ const dealScope = {
     
             // Sätt upp dropdowns och händelser
             this.setupControls();
+    
+            // Hantera URL för att dölja .html och visa vänligare namn
+            this.updateUrl();
         } catch (error) {
             console.error("Fel vid hämtning av deals:", error);
         }
-
+    
         // Back-button-händelse
         const dealDetailsContainer = document.querySelector(".deal-details-container");
         if (dealDetailsContainer) {
@@ -39,7 +42,7 @@ const dealScope = {
                 }
             });
         }
-
+    
         // Händelselyssnare för "View Deal"-knappar på dokumentnivå
         document.addEventListener("click", (event) => {
             if (event.target.classList.contains("deal-recommendation-button")) {
@@ -48,7 +51,7 @@ const dealScope = {
                 this.showDealDetails(dealTitle);
             }
         });
-
+    
         // Hantera bakåtnavigering med webbläsarens bakåtknapp
         window.onpopstate = (event) => {
             console.log("Bakåtnavigering detekterad", event.state);
@@ -57,9 +60,26 @@ const dealScope = {
                 this.handleGoBack();
             }
         };
-
+    
         // Sätt initialt tillstånd för deals-vyn
         history.replaceState({ page: 'deals' }, '', window.location.href);
+    },
+
+    updateUrl: function () {
+        const path = window.location.pathname;
+        let newPath = path;
+    
+        // Hantera olika sidor
+        if (path.endsWith('index.html')) {
+            newPath = '/home';
+        } else if (path.endsWith('.html')) {
+            newPath = path.replace('.html', '');
+        }
+    
+        // Uppdatera URL utan att ladda om sidan
+        if (newPath !== path) {
+            window.history.replaceState({}, document.title, newPath);
+        }
     },
 
     handleGoBack: function () {
@@ -387,7 +407,7 @@ const dealScope = {
             })
             .catch(error => console.error("Fel vid hämtning av deal detaljer:", error));
     },
-    
+
     generateDealDetails: function (deal) {
         return `
             <div class="deal-details-content">
