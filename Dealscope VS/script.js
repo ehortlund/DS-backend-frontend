@@ -69,15 +69,18 @@ const dealScope = {
         const path = window.location.pathname;
         let newPath = path;
     
+        // Normalisera sökvägen genom att ta bort ledande och avslutande snedstreck
+        const normalizedPath = path.replace(/^\/|\/$/g, '');
+    
         // Hantera olika sidor
-        if (path.endsWith('index.html')) {
+        if (normalizedPath === 'index.html') {
             newPath = '/home';
-        } else if (path.endsWith('login.html')) {
-            newPath = '/login'; // Eller '/sign-in' om du vill ha ett annat namn
-        } else if (path.endsWith('register.html')) {
-            newPath = '/register'; // Eller '/sign-up' om du vill ha ett annat namn
-        } else if (path.endsWith('.html')) {
-            newPath = path.replace('.html', '');
+        } else if (normalizedPath === 'login.html') {
+            newPath = '/login';
+        } else if (normalizedPath === 'register.html') {
+            newPath = '/register';
+        } else if (normalizedPath.endsWith('.html')) {
+            newPath = '/' + normalizedPath.replace('.html', '');
         }
     
         // Uppdatera URL utan att ladda om sidan
