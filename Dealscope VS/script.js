@@ -72,6 +72,10 @@ const dealScope = {
         // Hantera olika sidor
         if (path.endsWith('index.html')) {
             newPath = '/home';
+        } else if (path.endsWith('login.html')) {
+            newPath = '/login'; // Eller '/sign-in' om du vill ha ett annat namn
+        } else if (path.endsWith('register.html')) {
+            newPath = '/register'; // Eller '/sign-up' om du vill ha ett annat namn
         } else if (path.endsWith('.html')) {
             newPath = path.replace('.html', '');
         }
@@ -487,8 +491,10 @@ document.addEventListener('DOMContentLoaded', () => {
     dealScope.handleMobileNav();
     // Kör handleFadeInAnimations på alla sidor
     dealScope.handleFadeInAnimations('.fade-in');
-    // Kör init bara på /deals.html
-    if (window.location.pathname === '/deals.html') {
+    // Kör init bara på /deals.html eller /deals
+    if (window.location.pathname === '/deals.html' || window.location.pathname === '/deals') {
         dealScope.init();
     }
+    // Kör URL-uppdatering på alla sidor
+    dealScope.updateUrl();
 });
