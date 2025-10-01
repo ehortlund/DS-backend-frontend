@@ -702,7 +702,87 @@
         "Parexel International (Private): Regulatory affairs and clinical trial management.",
         "IQVIA Holdings Inc. (<span class=\"stock-symbol\">NYSE: IQV</span>): Real-world evidence and data analytics."
       ]
-    }
+     },
+      {
+        "title": "Electronic Arts Take-Private Deal",
+        "description": "Video game publisher Electronic Arts is nearing a $50 billion deal to go private, led by a consortium of private equity investors.",
+        "link": "https://www.reuters.com/business/electronic-arts-nears-roughly-50-billion-deal-go-private-wsj-reports-2025-09-26/",
+        "category": "Tech",
+        "date": "2025-09-26",
+        "dealValue": "$50 Billion",
+        "industry": "Gaming and Software",
+        "buyer": "Private Equity Consortium",
+        "seller": "Electronic Arts Inc. (<span class=\"stock-symbol\">NASDAQ: EA</span>)",
+        "impact": "This transaction would allow Electronic Arts to operate with greater strategic flexibility outside public market pressures, accelerating investments in live services, esports, and next-generation gaming technologies amid industry consolidation.",
+        "subcontractors": [
+          "Unity Technologies Inc. (<span class=\"stock-symbol\">NYSE: U</span>): Game engine and development tools integration.",
+          "NVIDIA Corporation (<span class=\"stock-symbol\">NASDAQ: NVDA</span>): GPU technology for graphics and AI in game development."
+        ]
+      },
+      {
+        "title": "Constellation Energy-Calpine Acquisition",
+        "description": "Constellation Energy has agreed to acquire Calpine in a $26.6 billion deal to create the largest clean energy provider in the United States.",
+        "link": "https://www.pwc.com/gx/en/services/deals/trends/energy-utilities-resources.html",
+        "category": "Energy",
+        "date": "2025-06-01",
+        "dealValue": "$26.6 Billion",
+        "industry": "Renewable Energy and Utilities",
+        "buyer": "Constellation Energy Corporation (<span class=\"stock-symbol\">NASDAQ: CEG</span>)",
+        "seller": "Calpine Corporation (Private)",
+        "impact": "The acquisition combines Constellation's nuclear and renewable assets with Calpine's natural gas fleet, enhancing capacity for grid stability and supporting the U.S. energy transition to low-carbon sources.",
+        "subcontractors": [
+          "Siemens Energy AG (<span class=\"stock-symbol\">ETR: ENR</span>): Turbine and renewable energy equipment supply.",
+          "GE Vernova Inc. (<span class=\"stock-symbol\">NYSE: GEV</span>): Gas turbine integration and power generation systems."
+        ]
+      },
+      {
+        "title": "Palo Alto Networks-CyberArk Acquisition",
+        "description": "Palo Alto Networks has agreed to acquire CyberArk for $25 billion to enhance its identity security and cloud protection offerings.",
+        "link": "https://www.crn.com/news/channel-news/2025/the-10-biggest-tech-m-a-deals-of-2025-so-far",
+        "category": "Tech",
+        "date": "2025-07-30",
+        "dealValue": "$25 Billion",
+        "industry": "Cybersecurity",
+        "buyer": "Palo Alto Networks, Inc. (<span class=\"stock-symbol\">NASDAQ: PANW</span>)",
+        "seller": "CyberArk Software Ltd. (<span class=\"stock-symbol\">NASDAQ: CYBR</span>)",
+        "impact": "This deal integrates CyberArk's privileged access management into Palo Alto's platform, strengthening defenses against AI-driven threats and expanding enterprise security solutions globally.",
+        "subcontractors": [
+          "CrowdStrike Holdings, Inc. (<span class=\"stock-symbol\">NASDAQ: CRWD</span>): Endpoint protection and threat detection integration.",
+          "Okta, Inc. (<span class=\"stock-symbol\">NASDAQ: OKTA</span>): Identity federation and access management collaboration."
+        ]
+      },
+      {
+        "title": "Union Pacific-Norfolk Southern Merger",
+        "description": "Union Pacific has agreed to acquire Norfolk Southern in an $80 billion deal, reshaping the U.S. rail industry.",
+        "link": "https://fortune.com/2025/09/29/dealmakers-1-trillion-third-quarter-wall-street-bankers-mergers-acquisitions/",
+        "category": "Energy",
+        "date": "2025-08-01",
+        "dealValue": "$80 Billion",
+        "industry": "Transportation and Logistics",
+        "buyer": "Union Pacific Corporation (<span class=\"stock-symbol\">NYSE: UNP</span>)",
+        "seller": "Norfolk Southern Corporation (<span class=\"stock-symbol\">NYSE: NSC</span>)",
+        "impact": "The merger creates the largest U.S. railroad network, improving efficiency in freight transport for energy commodities and supporting supply chain resilience amid growing demand.",
+        "subcontractors": [
+          "CSX Corporation (<span class=\"stock-symbol\">NASDAQ: CSX</span>): Interline rail operations and shared infrastructure.",
+          "BNSF Railway (Part of Berkshire Hathaway, <span class=\"stock-symbol\">NYSE: BRK.B</span>): Freight routing and logistics coordination."
+        ]
+      },
+      {
+        "title": "Google-Wiz Acquisition",
+        "description": "Google has agreed to acquire cybersecurity firm Wiz for $32 billion to bolster its cloud security offerings.",
+        "link": "https://www.pwc.com/gx/en/services/deals/trends.html",
+        "category": "Tech",
+        "date": "2025-01-15",
+        "dealValue": "$32 Billion",
+        "industry": "Cloud Computing and Cybersecurity",
+        "buyer": "Alphabet Inc. (<span class=\"stock-symbol\">NASDAQ: GOOGL</span>)",
+        "seller": "Wiz, Inc. (Private)",
+        "impact": "This acquisition enhances Google's cybersecurity portfolio with Wiz's cloud-native security platform, addressing rising threats in multi-cloud environments and accelerating AI-integrated defenses.",
+        "subcontractors": [
+          "CrowdStrike Holdings, Inc. (<span class=\"stock-symbol\">NASDAQ: CRWD</span>): Threat intelligence and endpoint security integration.",
+          "Zscaler, Inc. (<span class=\"stock-symbol\">NASDAQ: ZS</span>): Zero-trust architecture and cloud access support."
+        ]
+      }
 
   ]
   
