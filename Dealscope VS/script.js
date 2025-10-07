@@ -65,30 +65,6 @@ const dealScope = {
         history.replaceState({ page: 'deals' }, '', window.location.href);
     },
 
-    updateUrl: function () {
-        const path = window.location.pathname;
-        let newPath = path;
-    
-        // Normalisera sökvägen genom att ta bort ledande och avslutande snedstreck
-        const normalizedPath = path.replace(/^\/|\/$/g, '');
-    
-        // Hantera olika sidor
-        if (normalizedPath === 'index.html') {
-            newPath = '/home';
-        } else if (normalizedPath === 'login.html') {
-            newPath = '/login';
-        } else if (normalizedPath === 'register.html') {
-            newPath = '/register';
-        } else if (normalizedPath.endsWith('.html')) {
-            newPath = '/' + normalizedPath.replace('.html', '');
-        }
-    
-        // Uppdatera URL utan att ladda om sidan
-        if (newPath !== path) {
-            window.history.replaceState({}, document.title, newPath);
-        }
-    },
-
     handleGoBack: function () {
         const dealDetailsHeader = document.querySelector(".deal-details-header");
         const dealDetailsContainer = document.querySelector(".deal-details-container");
@@ -498,6 +474,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname === '/deals.html' || window.location.pathname === '/deals') {
         dealScope.init();
     }
-    // Kör URL-uppdatering på alla sidor
-    dealScope.updateUrl();
+
 });
